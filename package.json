@@ -1,0 +1,8 @@
+{
+  "name": "marieta-vola-vola",
+  "version": "1.0.0",
+  "description": "Web de Marieta Vola Vola — Talleres de bordado",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}

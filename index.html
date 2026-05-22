@@ -3,190 +3,309 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marieta Vola Vola — Talleres de bordado y manualidades</title>
-  <meta name="description" content="Talleres online de bordado, costura y acuarelas. Aprende a tu ritmo con videos tutoriales nuevos cada 15 días." />
+  <title>Marieta Vola Vola — Talleres de Bordado Creativo</title>
+  <meta name="description" content="Aprende a bordar con Marieta. Talleres presenciales de bordado creativo, bastidor y sashiko en un ambiente cálido y personal." />
+  <link rel="icon" href="images/logo.png" type="image/png" />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- NAVEGACIÓN -->
-  <header class="navbar">
-    <div class="navbar__logo">
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="navbar__logo">
       <img src="images/logo.png" alt="Marieta Vola Vola" class="navbar__logo-img" />
       <span class="navbar__logo-text">Marieta Vola Vola</span>
-    </div>
+    </a>
     <nav class="navbar__nav">
-      <a href="#inicio" class="navbar__link">Inicio</a>
-      <a href="#cursos" class="navbar__link">Cursos</a>
-      <a href="#contacto" class="navbar__link">Contacto</a>
+      <a href="index.html" class="navbar__link active">Inicio</a>
+      <a href="cursos.html" class="navbar__link">Cursos</a>
+      <a href="galeria.html" class="navbar__link">Galería</a>
+      <a href="contacto.html" class="navbar__link">Contacto</a>
+      <a href="portal/index.html" class="navbar__portal-btn">Mis cursos →</a>
     </nav>
-    <button class="navbar__menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+    <button class="navbar__menu-btn" id="menuBtn" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
   </header>
 
   <!-- MENÚ MÓVIL -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#inicio" class="mobile-menu__link">Inicio</a>
-    <a href="#cursos" class="mobile-menu__link">Cursos</a>
-    <a href="#contacto" class="mobile-menu__link">Contacto</a>
+    <a href="index.html" class="mobile-menu__link">Inicio</a>
+    <a href="cursos.html" class="mobile-menu__link">Cursos</a>
+    <a href="galeria.html" class="mobile-menu__link">Galería</a>
+    <a href="contacto.html" class="mobile-menu__link">Contacto</a>
+    <a href="portal/index.html" class="mobile-menu__link mobile-menu__link--portal">🔑 Mis cursos</a>
+    <div class="mobile-menu__cta">
+      <a href="https://wa.me/34605073702?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="btn btn--whatsapp btn--full">
+        💬 WhatsApp
+      </a>
+    </div>
   </div>
 
   <main>
 
-    <!-- SECCIÓN INICIO / HERO -->
-    <section id="inicio" class="hero">
-      <div class="hero__content">
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+      <div class="hero__inner">
         <img src="images/logo.png" alt="Marieta Vola Vola" class="hero__logo" />
-        <h1 class="hero__title">Hola, soy Marieta</h1>
+        <p class="hero__label">Talleres de bordado creativo</p>
+        <h1 class="hero__title">
+          Bordar es pintar<br />con <em>hilo y aguja</em>
+        </h1>
         <p class="hero__subtitle">
-          Te enseño a bordar, coser y pintar acuarelas desde casa,<br />
-          a tu ritmo y con mucho cariño.
+          Aprende las técnicas del bordado artesanal en un ambiente cálido,
+          sin prisas y con mucho cariño. Para todos los niveles.
         </p>
-        <a href="#cursos" class="btn btn--primary">Ver cursos</a>
-      </div>
-    </section>
-
-    <!-- SECCIÓN SOBRE MÍ -->
-    <section id="sobre-mi" class="about">
-      <div class="container">
-        <h2 class="section-title">¿Quién soy?</h2>
-        <div class="about__content">
-          <div class="about__text">
-            <p>
-              Soy Marieta, apasionada de las manualidades y el bordado creativo.
-              Llevo años disfrutando de estas técnicas y ahora quiero compartirlas contigo
-              de una forma sencilla y accesible, desde donde estés.
-            </p>
-            <p>
-              Mis talleres son para todas las edades y niveles — no hace falta
-              experiencia previa, solo ganas de aprender y disfrutar.
-            </p>
-            <div class="about__social">
-              <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="btn btn--social btn--instagram">
-                📷 Instagram
-              </a>
-              <a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank" class="btn btn--social btn--facebook">
-                👍 Facebook
-              </a>
-            </div>
-          </div>
-          <div class="about__image-placeholder">
-            <p>📸 Foto de Marieta</p>
-            <span>(próximamente)</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECCIÓN CURSOS -->
-    <section id="cursos" class="courses">
-      <div class="container">
-        <h2 class="section-title">Mis cursos</h2>
-        <p class="section-subtitle">
-          Cada curso incluye acceso a los videos y un tutorial nuevo cada 15 días.
-          ¡Aprende cuando quieras y desde donde quieras!
-        </p>
-        <div class="courses__grid">
-
-          <div class="course-card">
-            <div class="course-card__icon">🧵</div>
-            <h3 class="course-card__title">Bordado creativo</h3>
-            <p class="course-card__desc">
-              Aprende las técnicas básicas y avanzadas del bordado a mano.
-              Puntos, colores y diseños para todos los niveles.
-            </p>
-            <div class="course-card__price">20 €</div>
-            <a href="#contacto" class="btn btn--primary btn--full">Reservar plaza</a>
-          </div>
-
-          <div class="course-card">
-            <div class="course-card__icon">✂️</div>
-            <h3 class="course-card__title">Costura</h3>
-            <p class="course-card__desc">
-              Desde coser un botón hasta crear tus propias prendas.
-              Tutoriales paso a paso para aprender a tu ritmo.
-            </p>
-            <div class="course-card__price">20 €</div>
-            <a href="#contacto" class="btn btn--primary btn--full">Reservar plaza</a>
-          </div>
-
-          <div class="course-card">
-            <div class="course-card__icon">🎨</div>
-            <h3 class="course-card__title">Acuarelas</h3>
-            <p class="course-card__desc">
-              Descubre el mundo de la pintura con acuarelas.
-              Técnicas básicas, mezclas de colores y proyectos creativos.
-            </p>
-            <div class="course-card__price">20 €</div>
-            <a href="#contacto" class="btn btn--primary btn--full">Reservar plaza</a>
-          </div>
-
-        </div>
-
-        <div class="courses__presential">
-          <p>
-            ¿Prefieres una clase presencial personalizada?
-            <a href="#contacto" class="link">Consúltame sin compromiso</a>
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECCIÓN CONTACTO -->
-    <section id="contacto" class="contact">
-      <div class="container">
-        <h2 class="section-title">Contáctame</h2>
-        <p class="section-subtitle">
-          ¿Tienes dudas o quieres reservar un curso? Escríbeme, te respondo enseguida.
-        </p>
-
-        <div class="contact__options">
-
-          <!-- WhatsApp -->
-          <a href="https://wa.me/34XXXXXXXXX" target="_blank" class="contact__whatsapp">
-            <span class="contact__whatsapp-icon">💬</span>
-            <div>
-              <strong>Escríbeme por WhatsApp</strong>
-              <p>La forma más rápida de contactarme</p>
-            </div>
+        <div class="hero__actions">
+          <a href="cursos.html" class="btn btn--primary btn--lg">Ver talleres</a>
+          <a href="https://wa.me/34605073702?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="btn btn--outline btn--lg">
+            💬 Escríbeme
           </a>
+        </div>
+      </div>
+    </section>
 
-          <!-- Formulario -->
-          <div class="contact__form-wrapper">
-            <h3>O déjame un mensaje</h3>
-            <form class="contact__form" id="contactForm">
-              <div class="form-group">
-                <label for="nombre">Tu nombre</label>
-                <input type="text" id="nombre" name="nombre" placeholder="¿Cómo te llamas?" required />
-              </div>
-              <div class="form-group">
-                <label for="telefono">Tu teléfono o email</label>
-                <input type="text" id="telefono" name="telefono" placeholder="Para que pueda responderte" required />
-              </div>
-              <div class="form-group">
-                <label for="mensaje">¿En qué curso estás interesada?</label>
-                <select id="mensaje" name="mensaje">
-                  <option value="">Selecciona un curso</option>
-                  <option value="bordado">Bordado creativo</option>
-                  <option value="costura">Costura</option>
-                  <option value="acuarelas">Acuarelas</option>
-                  <option value="presencial">Clase presencial</option>
-                  <option value="otro">Otro / tengo una pregunta</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="comentario">Mensaje (opcional)</label>
-                <textarea id="comentario" name="comentario" rows="3" placeholder="Escribe aquí tu pregunta o comentario..."></textarea>
-              </div>
-              <button type="submit" class="btn btn--primary btn--full">Enviar mensaje</button>
-            </form>
-            <div class="contact__form-success" id="formSuccess">
-              ✅ ¡Mensaje enviado! Te responderé lo antes posible.
+    <!-- FEATURES STRIP -->
+    <section class="features">
+      <div class="features__grid">
+        <div class="feature">
+          <span class="feature__icon">🧵</span>
+          <h3 class="feature__title">Grupos pequeños</h3>
+          <p class="feature__desc">Máximo 8 personas por taller para una atención cercana y personalizada.</p>
+        </div>
+        <div class="feature">
+          <span class="feature__icon">✂️</span>
+          <h3 class="feature__title">Materiales incluidos</h3>
+          <p class="feature__desc">Bastidor, tela, hilos DMC y todos los materiales necesarios ya incluidos en el precio.</p>
+        </div>
+        <div class="feature">
+          <span class="feature__icon">🌿</span>
+          <h3 class="feature__title">Todos los niveles</h3>
+          <p class="feature__desc">Sin experiencia previa — desde principiantes hasta quienes quieren perfeccionar técnica.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE MÍ -->
+    <section class="about" id="sobre-mi">
+      <div class="about__grid">
+        <div class="about__img-wrap">
+          <div class="about__img-placeholder">
+            <span>Foto de Marieta<br />(próximamente)</span>
+          </div>
+          <div class="about__img-corner"></div>
+        </div>
+        <div class="about__text">
+          <span class="label">Sobre mí</span>
+          <h2 class="section-title">Hola, soy Marieta</h2>
+          <div class="divider"></div>
+          <p>
+            Llevo toda la vida rodeada de telas, hilos y agujas. Para mí el bordado no es solo una
+            técnica — es una forma de crear, de calmar la mente y de hacer algo hermoso con las manos.
+          </p>
+          <p>
+            Empecé a dar talleres porque quería compartir esta pasión con otras personas, y desde
+            entonces he descubierto que enseñar es tan bonito como bordar. Me encanta ver cómo
+            cada alumna encuentra su propio estilo.
+          </p>
+          <p>
+            Mis talleres son tranquilos, con buena música, buena compañía, y siempre con café o té
+            de por medio. Ven como eres y sal con algo hecho con tus propias manos.
+          </p>
+          <div class="about__social">
+            <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="btn btn--instagram">
+              📷 Instagram
+            </a>
+            <a href="cursos.html" class="btn btn--outline">Ver talleres</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PREVIEW CURSOS -->
+    <section class="courses-preview" id="cursos">
+      <div class="courses-preview__header container--narrow">
+        <span class="label">Talleres</span>
+        <h2 class="section-title section-title--center">Los cursos</h2>
+        <div class="divider divider--center"></div>
+        <p class="section-subtitle section-subtitle--center">
+          Tres talleres distintos para descubrir el bordado desde diferentes ángulos.
+          Cada uno con su ritmo, su técnica y su magia.
+        </p>
+      </div>
+      <div class="courses-grid">
+
+        <!-- Curso 1 -->
+        <article class="course-card">
+          <div class="course-card__image course-card__image--1">
+            <div class="course-card__img-label">
+              <span>🌸</span>
+              Foto del taller
+            </div>
+            <div class="course-card__badge">Más popular</div>
+          </div>
+          <div class="course-card__body">
+            <h3 class="course-card__title">Bordado Floral para Principiantes</h3>
+            <p class="course-card__desc">
+              Aprende los puntos esenciales del bordado — punto de tallo, nudo francés, punto raso —
+              bordando un ramo de flores silvestres. El taller perfecto para empezar desde cero.
+            </p>
+            <div class="course-card__meta">
+              <span class="course-card__meta-item">⏱ 2 sesiones de 3h</span>
+              <span class="course-card__meta-item">📍 Presencial</span>
+              <span class="course-card__meta-item">✅ Materiales incluidos</span>
+            </div>
+            <div class="course-card__price">65 € <small>por persona</small></div>
+            <a href="https://wa.me/34605073702?text=Hola%20Marieta%21%20Estoy%20interesada%20en%20el%20taller%20de%20Bordado%20Floral%20para%20Principiantes.%20%C2%BFPuedes%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" class="btn btn--primary btn--full">
+              💬 Quiero más información
+            </a>
+          </div>
+        </article>
+
+        <!-- Curso 2 -->
+        <article class="course-card">
+          <div class="course-card__image course-card__image--2">
+            <div class="course-card__img-label">
+              <span>🪡</span>
+              Foto del taller
+            </div>
+            <div class="course-card__badge">Nivel medio</div>
+          </div>
+          <div class="course-card__body">
+            <h3 class="course-card__title">Bastidor Decorativo</h3>
+            <p class="course-card__desc">
+              Crea un cuadro de bordado en bastidor para decorar tu hogar. Diseños botánicos y
+              geométricos combinados con técnicas libres. Ideal si ya tienes nociones básicas.
+            </p>
+            <div class="course-card__meta">
+              <span class="course-card__meta-item">⏱ 1 jornada de 5h</span>
+              <span class="course-card__meta-item">📍 Presencial</span>
+              <span class="course-card__meta-item">✅ Materiales incluidos</span>
+            </div>
+            <div class="course-card__price">55 € <small>por persona</small></div>
+            <a href="https://wa.me/34605073702?text=Hola%20Marieta%21%20Estoy%20interesada%20en%20el%20taller%20de%20Bastidor%20Decorativo.%20%C2%BFPuedes%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" class="btn btn--primary btn--full">
+              💬 Quiero más información
+            </a>
+          </div>
+        </article>
+
+        <!-- Curso 3 -->
+        <article class="course-card">
+          <div class="course-card__image course-card__image--3">
+            <div class="course-card__img-label">
+              <span>🔵</span>
+              Foto del taller
+            </div>
+            <div class="course-card__badge">Todos los niveles</div>
+          </div>
+          <div class="course-card__body">
+            <h3 class="course-card__title">Sashiko: Bordado Japonés</h3>
+            <p class="course-card__desc">
+              Descubre el arte del bordado geométrico japonés sobre tela índigo. Una técnica
+              meditativa, hipnótica y muy gratificante — perfecta incluso para quienes nunca han
+              bordado.
+            </p>
+            <div class="course-card__meta">
+              <span class="course-card__meta-item">⏱ 1 tarde de 3h</span>
+              <span class="course-card__meta-item">📍 Presencial</span>
+              <span class="course-card__meta-item">✅ Materiales incluidos</span>
+            </div>
+            <div class="course-card__price">40 € <small>por persona</small></div>
+            <a href="https://wa.me/34605073702?text=Hola%20Marieta%21%20Estoy%20interesada%20en%20el%20taller%20de%20Sashiko%20%28bordado%20japon%C3%A9s%29.%20%C2%BFPuedes%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" class="btn btn--primary btn--full">
+              💬 Quiero más información
+            </a>
+          </div>
+        </article>
+
+      </div>
+      <div class="courses-preview__footer">
+        <a href="cursos.html" class="btn btn--outline btn--lg">Ver todos los talleres →</a>
+      </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section class="testimonials">
+      <div class="testimonials__header container--narrow">
+        <span class="label">Lo que dicen</span>
+        <h2 class="section-title section-title--center">Alumnas que ya bordaron</h2>
+        <div class="divider divider--center"></div>
+      </div>
+      <div class="testimonials__grid">
+
+        <div class="testimonial-card">
+          <span class="testimonial-card__quote-mark">"</span>
+          <p class="testimonial-card__text">
+            Nunca pensé que podría bordar, y en un solo fin de semana ya tenía mi primer bastidor
+            terminado. Marieta lo hace todo muy fácil y el ambiente del taller es una maravilla.
+          </p>
+          <div class="testimonial-card__footer">
+            <div class="testimonial-card__avatar testimonial-card__avatar--1">
+              <!-- Aquí irá foto de alumna -->
+              🙋
+            </div>
+            <div class="testimonial-card__author">
+              <strong>María José</strong>
+              <span>48 años · Bordado Floral</span>
+              <div class="testimonial-card__stars">★★★★★</div>
             </div>
           </div>
+        </div>
 
+        <div class="testimonial-card">
+          <span class="testimonial-card__quote-mark">"</span>
+          <p class="testimonial-card__text">
+            El taller de sashiko fue una experiencia increíble. Es meditativo, casi zen. Marieta
+            explica con una paciencia infinita y el resultado quedó precioso. Ya he reservado otro.
+          </p>
+          <div class="testimonial-card__footer">
+            <div class="testimonial-card__avatar testimonial-card__avatar--2">
+              🙋
+            </div>
+            <div class="testimonial-card__author">
+              <strong>Carmen</strong>
+              <span>52 años · Sashiko</span>
+              <div class="testimonial-card__stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <span class="testimonial-card__quote-mark">"</span>
+          <p class="testimonial-card__text">
+            Llevaba años queriendo aprender bordado y no me decidía. El curso de bastidor superó
+            todas mis expectativas — volví a casa con algo hermoso hecho con mis propias manos.
+          </p>
+          <div class="testimonial-card__footer">
+            <div class="testimonial-card__avatar testimonial-card__avatar--3">
+              🙋
+            </div>
+            <div class="testimonial-card__author">
+              <strong>Lucía</strong>
+              <span>44 años · Bastidor Decorativo</span>
+              <div class="testimonial-card__stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <section class="cta-banner">
+      <div class="cta-banner__inner container--narrow">
+        <h2 class="cta-banner__title">¿Te animas a<br /><em>aprender a bordar?</em></h2>
+        <p class="cta-banner__text">
+          Escríbeme por WhatsApp y te cuento todo sobre el próximo taller.
+          Sin compromiso, con mucho gusto.
+        </p>
+        <div class="cta-banner__actions">
+          <a href="https://wa.me/34605073702?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="btn btn--whatsapp btn--lg">
+            💬 Escríbeme por WhatsApp
+          </a>
+          <a href="cursos.html" class="btn btn--outline-blanco btn--lg">Ver talleres</a>
         </div>
       </div>
     </section>
@@ -195,15 +314,56 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="container">
-      <p class="footer__name">Marieta Vola Vola</p>
-      <div class="footer__social">
-        <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank">📷 Instagram</a>
-        <a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank">👍 Facebook</a>
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <p class="footer__brand-name">Marieta Vola Vola</p>
+        <p class="footer__brand-desc">
+          Talleres de bordado creativo en un ambiente cálido y personal.
+          Aprende, crea y disfruta con las manos.
+        </p>
+        <div class="footer__social-links">
+          <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="footer__social-link">
+            📷 Instagram
+          </a>
+        </div>
       </div>
-      <p class="footer__copy">© 2025 Marieta Vola Vola. Hecho con ❤️</p>
+      <div class="footer__col">
+        <p class="footer__col-heading">Navegación</p>
+        <ul class="footer__links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="cursos.html">Cursos</a></li>
+          <li><a href="galeria.html">Galería</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="portal/index.html">🔑 Acceso alumnos</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-heading">Contacto</p>
+        <ul class="footer__links">
+          <li>
+            <a href="https://wa.me/34605073702?text=Hola%20Marieta%21" target="_blank">
+              💬 WhatsApp
+            </a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank">
+              📷 Instagram
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2025 Marieta Vola Vola · Hecho con hilo, aguja y mucho amor 🧵 &nbsp;·&nbsp; <a href="admin/index.html" style="opacity:0.35;font-size:0.75rem;text-decoration:none;color:inherit;">admin</a></p>
     </div>
   </footer>
+
+  <!-- WHATSAPP FLOTANTE -->
+  <a href="https://wa.me/34605073702?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="whatsapp-float" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+  </a>
 
   <script src="js/main.js"></script>
 </body>

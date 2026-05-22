@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galería — Marieta Vola Vola</title>
+  <meta name="description" content="Galería de trabajos y resultados de los talleres de bordado de Marieta Vola Vola." />
+  <link rel="icon" href="images/logo.png" type="image/png" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .gallery-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .gallery-item {
+      border-radius: 6px;
+      overflow: hidden;
+      background: linear-gradient(145deg, var(--crema-2), var(--rosa-cl), var(--crema-3));
+      position: relative;
+      box-shadow: 0 4px 16px var(--shadow);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px var(--shadow-md);
+    }
+
+    .gallery-item:nth-child(3n+1) {
+      background: linear-gradient(145deg, var(--crema-2), var(--rosa-cl), var(--arena));
+    }
+
+    .gallery-item:nth-child(3n+2) {
+      background: linear-gradient(145deg, var(--salvia-cl), var(--crema-2), var(--salvia));
+    }
+
+    .gallery-item:nth-child(3n+3) {
+      background: linear-gradient(145deg, var(--crema-2), var(--arena), var(--tierra) 200%);
+    }
+
+    .gallery-item__inner {
+      padding-top: 100%;
+      position: relative;
+    }
+
+    .gallery-item__label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--texto-suave);
+      font-size: 0.8rem;
+      text-align: center;
+      gap: 8px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .gallery-item__label span {
+      font-size: 1.8rem;
+    }
+
+    .gallery-item img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-item--wide {
+      grid-column: span 2;
+    }
+
+    .gallery-item--wide .gallery-item__inner {
+      padding-top: 45%;
+    }
+
+    @media (min-width: 640px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .gallery-item--wide {
+        grid-column: span 1;
+      }
+      .gallery-item--wide .gallery-item__inner {
+        padding-top: 100%;
+      }
+    }
+
+    @media (min-width: 960px) {
+      .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="navbar__logo">
+      <img src="images/logo.png" alt="Marieta Vola Vola" class="navbar__logo-img" />
+      <span class="navbar__logo-text">Marieta Vola Vola</span>
+    </a>
+    <nav class="navbar__nav">
+      <a href="index.html" class="navbar__link">Inicio</a>
+      <a href="cursos.html" class="navbar__link">Cursos</a>
+      <a href="galeria.html" class="navbar__link active">Galería</a>
+      <a href="contacto.html" class="navbar__link">Contacto</a>
+      <a href="portal/index.html" class="navbar__portal-btn">Mis cursos →</a>
+    </nav>
+    <button class="navbar__menu-btn" id="menuBtn" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- MENÚ MÓVIL -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="mobile-menu__link">Inicio</a>
+    <a href="cursos.html" class="mobile-menu__link">Cursos</a>
+    <a href="galeria.html" class="mobile-menu__link">Galería</a>
+    <a href="contacto.html" class="mobile-menu__link">Contacto</a>
+    <a href="portal/index.html" class="mobile-menu__link mobile-menu__link--portal">🔑 Mis cursos</a>
+    <div class="mobile-menu__cta">
+      <a href="https://wa.me/34605073702?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="btn btn--whatsapp btn--full">
+        💬 WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+      <span class="label">Trabajos y resultados</span>
+      <h1 class="section-title">Galería</h1>
+      <div class="divider divider--center"></div>
+      <p class="section-subtitle">
+        Lo que crean las alumnas en los talleres. Cada pieza, única.
+        Próximamente aquí encontrarás fotos de los bordados y los momentos del taller.
+      </p>
+    </section>
+
+    <!-- GALLERY GRID -->
+    <section class="gallery-page">
+      <div class="gallery-grid">
+
+        <!-- Aquí van las fotos de los trabajos. Sustituir el contenido de cada gallery-item: -->
+        <!-- <img src="images/trabajo-1.jpg" alt="Bordado floral alumna" /> -->
+
+        <div class="gallery-item gallery-item--wide">
+          <div class="gallery-item__inner">
+            <div class="gallery-item__label">
+              <span>🌸</span>
+              Foto de trabajo de alumna<br />(próximamente)
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="gallery-item__inner">
+            <div class="gallery-item__label">
+              <span>🪡</span>
+              Foto de taller
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="gallery-item__inner">
+            <div class="gallery-item__label">
+              <span>🧵</span>
+              Foto de trabajo
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="gallery-item__inner">
+            <div class="gallery-item__label">
+              <span>🌿</span>
+              Foto de taller
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="gallery-item__inner">
+            <div class="gallery-item__label">
+              <span>🔵</span>
+              Sashiko
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="gallery-item__inner">
+            <div class="gallery-item__label">
+              <span>🌸</span>
+              Bordado floral
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="gallery-item__inner">
+            <div class="gallery-item__label">
+              <span>🪡</span>
+              Bastidor
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="gallery-item__inner">
+            <div class="gallery-item__label">
+              <span>✂️</span>
+              Detalle de hilo
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="text-align: center; margin-top: 48px;">
+        <p style="color: var(--texto-suave); font-size: 0.95rem; margin-bottom: 20px;">
+          Mientras tanto, mira los trabajos en Instagram
+        </p>
+        <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="btn btn--instagram btn--lg">
+          📷 Ver en Instagram
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-banner">
+      <div class="cta-banner__inner container--narrow">
+        <h2 class="cta-banner__title">¿Quieres crear algo<br /><em>así de bonito?</em></h2>
+        <p class="cta-banner__text">
+          Apúntate a un taller y en pocas horas tendrás tu propia pieza bordada.
+        </p>
+        <div class="cta-banner__actions">
+          <a href="cursos.html" class="btn btn--primary btn--lg">Ver talleres</a>
+          <a href="https://wa.me/34605073702?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="btn btn--outline-blanco btn--lg">
+            💬 WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <p class="footer__brand-name">Marieta Vola Vola</p>
+        <p class="footer__brand-desc">
+          Talleres de bordado creativo en un ambiente cálido y personal.
+        </p>
+        <div class="footer__social-links">
+          <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="footer__social-link">
+            📷 Instagram
+          </a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-heading">Navegación</p>
+        <ul class="footer__links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="cursos.html">Cursos</a></li>
+          <li><a href="galeria.html">Galería</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="portal/index.html">🔑 Acceso alumnos</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-heading">Contacto</p>
+        <ul class="footer__links">
+          <li><a href="https://wa.me/34605073702?text=Hola%20Marieta%21" target="_blank">💬 WhatsApp</a></li>
+          <li><a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank">📷 Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2025 Marieta Vola Vola · Hecho con hilo, aguja y mucho amor 🧵 &nbsp;·&nbsp; <a href="admin/index.html" style="opacity:0.35;font-size:0.75rem;text-decoration:none;color:inherit;">admin</a></p>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOTANTE -->
+  <a href="https://wa.me/34605073702?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="whatsapp-float" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Admin — Marieta Vola Vola</title>
+  <link rel="icon" href="../images/logo.png" type="image/png" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/portal.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="portal-body" style="overflow-x:hidden;">
+
+  <!-- NAVBAR -->
+  <header class="portal-navbar">
+    <a href="../index.html" class="portal-navbar__brand">
+      <img src="../images/logo.png" alt="Logo" class="portal-navbar__logo" />
+      <span class="portal-navbar__name">Marieta Vola Vola</span>
+    </a>
+    <div class="portal-navbar__right">
+      <span class="portal-navbar__badge">Admin</span>
+      <button class="portal-navbar__logout" id="logoutBtn">Salir</button>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <p class="admin-sidebar__section-title">Menú</p>
+      <button class="admin-nav-link active" data-panel="inicio">
+        <span class="icon">🏠</span> Inicio
+      </button>
+      <button class="admin-nav-link" data-panel="alumnos">
+        <span class="icon">👩</span> Alumnos
+      </button>
+      <button class="admin-nav-link" data-panel="cursos">
+        <span class="icon">🧵</span> Cursos
+      </button>
+      <button class="admin-nav-link" data-panel="videos">
+        <span class="icon">🎬</span> Añadir video
+      </button>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <div class="admin-content">
+
+      <!-- PANEL: INICIO -->
+      <div class="admin-panel active" id="panel-inicio">
+        <h2 class="admin-panel__title">Bienvenida, Marieta 👋</h2>
+        <div class="admin-stats" id="statsGrid">
+          <div class="stat-card"><div class="stat-card__number" id="statAlumnos">—</div><div class="stat-card__label">Alumnos</div></div>
+          <div class="stat-card"><div class="stat-card__number" id="statCursos">—</div><div class="stat-card__label">Cursos</div></div>
+          <div class="stat-card"><div class="stat-card__number" id="statVideos">—</div><div class="stat-card__label">Videos</div></div>
+          <div class="stat-card"><div class="stat-card__number" id="statMatriculas">—</div><div class="stat-card__label">Matrículas</div></div>
+        </div>
+        <div class="admin-form-card">
+          <h3 class="admin-form-card__title">¿Qué puedes hacer aquí?</h3>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:12px;">
+            <li style="display:flex;gap:12px;align-items:flex-start;font-size:0.95rem;color:var(--texto-suave);">
+              <span style="font-size:1.2rem; flex-shrink:0;">👩</span>
+              <span><strong>Alumnos</strong> — Crear nueva cuenta para una alumna que ha pagado, asignarle cursos y gestionarla.</span>
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;font-size:0.95rem;color:var(--texto-suave);">
+              <span style="font-size:1.2rem; flex-shrink:0;">🧵</span>
+              <span><strong>Cursos</strong> — Ver y crear cursos. Asignar o retirar acceso a una alumna.</span>
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;font-size:0.95rem;color:var(--texto-suave);">
+              <span style="font-size:1.2rem; flex-shrink:0;">🎬</span>
+              <span><strong>Añadir video</strong> — Sube el video a YouTube como "No listado" y pega aquí el enlace para que aparezca en el curso.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PANEL: ALUMNOS -->
+      <div class="admin-panel" id="panel-alumnos">
+        <h2 class="admin-panel__title">Alumnos</h2>
+
+        <!-- Formulario crear alumna -->
+        <div class="admin-form-card">
+          <h3 class="admin-form-card__title">➕ Crear nueva alumna</h3>
+          <div class="alert" id="alumnaAlert"></div>
+          <form id="createUserForm">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div class="form-field">
+                <label>Nombre completo</label>
+                <input type="text" id="nuNombre" placeholder="María García" required />
+              </div>
+              <div class="form-field">
+                <label>Email</label>
+                <input type="email" id="nuEmail" placeholder="maria@email.com" required />
+              </div>
+              <div class="form-field">
+                <label>Contraseña temporal</label>
+                <input type="text" id="nuPassword" placeholder="Marieta2025" required />
+              </div>
+            </div>
+            <div class="form-field">
+              <label>Cursos a los que tendrá acceso</label>
+              <div class="courses-check-list" id="cursosCheckList">
+                <div class="loading" style="padding:20px 0;"><div class="spinner"></div></div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn--primary" id="createUserBtn">
+              Crear alumna y asignar cursos
+            </button>
+          </form>
+        </div>
+
+        <!-- Lista de alumnas -->
+        <div class="admin-form-card">
+          <h3 class="admin-form-card__title">Alumnas registradas</h3>
+          <div id="alumnasList">
+            <div class="loading"><div class="spinner"></div>Cargando...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL: CURSOS -->
+      <div class="admin-panel" id="panel-cursos">
+        <h2 class="admin-panel__title">Cursos</h2>
+
+        <!-- Crear curso -->
+        <div class="admin-form-card">
+          <h3 class="admin-form-card__title">➕ Crear nuevo curso</h3>
+          <div class="alert" id="cursoAlert"></div>
+          <form id="createCursoForm">
+            <div class="form-field">
+              <label>Nombre del curso</label>
+              <input type="text" id="cursoNombre" placeholder="Ej: Bordado en Punto de Cruz" required />
+            </div>
+            <div class="form-field">
+              <label>Descripción breve</label>
+              <textarea id="cursoDesc" placeholder="¿De qué trata este curso?"></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary" id="createCursoBtn">
+              Crear curso
+            </button>
+          </form>
+        </div>
+
+        <!-- Lista cursos -->
+        <div class="admin-form-card">
+          <h3 class="admin-form-card__title">Cursos activos</h3>
+          <div id="cursosList">
+            <div class="loading"><div class="spinner"></div>Cargando...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL: AÑADIR VIDEO -->
+      <div class="admin-panel" id="panel-videos">
+        <h2 class="admin-panel__title">Añadir video a un curso</h2>
+
+        <div class="admin-form-card" style="background: var(--rosa-cl); border:1px solid var(--rosa);">
+          <h3 class="admin-form-card__title" style="border-color:var(--rosa);">📋 Cómo funciona</h3>
+          <ol style="padding-left:20px; display:flex; flex-direction:column; gap:10px; font-size:0.9rem; color:var(--texto-suave);">
+            <li>Graba o ten listo el video de este mes</li>
+            <li>Entra a <strong>YouTube</strong> → "Subir video"</li>
+            <li>Pon visibilidad <strong>"No listado"</strong> (no aparece en búsquedas)</li>
+            <li>Copia la URL del video (ej: https://youtu.be/XXXXXX)</li>
+            <li>Rellena el formulario de abajo y dale a "Guardar"</li>
+            <li>¡El video aparecerá al instante para las alumnas!</li>
+          </ol>
+        </div>
+
+        <div class="admin-form-card">
+          <h3 class="admin-form-card__title">➕ Subir nuevo video</h3>
+          <div class="alert" id="videoAlert"></div>
+          <form id="createVideoForm">
+            <div class="form-field">
+              <label>Curso</label>
+              <select id="videoCursoId" required>
+                <option value="">Selecciona el curso...</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Título del video</label>
+              <input type="text" id="videoTitulo" placeholder="Ej: Clase de mayo — Bordado floral" required />
+            </div>
+            <div class="form-field">
+              <label>Enlace de YouTube (URL del video)</label>
+              <input type="url" id="videoUrl" placeholder="https://youtu.be/XXXXXXXXXXX" required />
+            </div>
+            <div class="form-field">
+              <label>Descripción (opcional)</label>
+              <textarea id="videoDesc" placeholder="¿Qué aprenden en este video? ¿Qué materiales necesitan?"></textarea>
+            </div>
+            <div class="form-field">
+              <label>Orden (número)</label>
+              <input type="number" id="videoOrden" value="1" min="1" />
+            </div>
+            <button type="submit" class="btn btn--primary" id="createVideoBtn">
+              🎬 Guardar video
+            </button>
+          </form>
+        </div>
+
+        <!-- Videos existentes -->
+        <div class="admin-form-card">
+          <h3 class="admin-form-card__title">Videos publicados</h3>
+          <div class="form-field" style="margin-bottom:20px;">
+            <label>Filtrar por curso</label>
+            <select id="filterVideoCurso">
+              <option value="">Todos los cursos</option>
+            </select>
+          </div>
+          <div id="videosList">
+            <div class="loading"><div class="spinner"></div>Cargando...</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </div><!-- /admin-layout -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script>
+    // ============================================================
+    // ESTADO
+    // ============================================================
+    let adminSession = null;
+    let allCursos    = [];
+    let allProfiles  = [];
+
+    function getYoutubeId(url) {
+      const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      return m ? m[1] : null;
+    }
+
+    function formatDate(iso) {
+      return new Date(iso).toLocaleDateString('es-ES', { day:'numeric', month:'short', year:'numeric' });
+    }
+
+    function showAlert(elId, msg, type = 'error') {
+      const el = document.getElementById(elId);
+      el.textContent = msg;
+      el.className = `alert alert--${type} visible`;
+      setTimeout(() => el.classList.remove('visible'), 5000);
+    }
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    async function init() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { window.location.href = 'index.html'; return; }
+
+      const { data: profile } = await supabase
+        .from('profiles').select('es_admin').eq('id', session.user.id).single();
+
+      if (!profile?.es_admin) { window.location.href = '../portal/dashboard.html'; return; }
+
+      adminSession = session;
+
+      await loadCursos();
+      await loadStats();
+      await loadAlumnas();
+      await loadVideos();
+    }
+
+    // ============================================================
+    // CURSOS
+    // ============================================================
+    async function loadCursos() {
+      const { data } = await supabase.from('cursos').select('*').order('created_at');
+      allCursos = data || [];
+      renderCursosList();
+      populateCursoSelects();
+      populateCursosCheckList();
+    }
+
+    function renderCursosList() {
+      const el = document.getElementById('cursosList');
+      if (!allCursos.length) { el.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">Aún no hay cursos.</p>'; return; }
+      el.innerHTML = `
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Nombre</th><th>Descripción</th><th>Creado</th><th>Acción</th></tr></thead>
+            <tbody>${allCursos.map(c => `
+              <tr>
+                <td><strong>${c.nombre}</strong></td>
+                <td style="max-width:280px;color:var(--texto-suave);">${c.descripcion || '—'}</td>
+                <td>${formatDate(c.created_at)}</td>
+                <td>
+                  <button class="btn btn-sm btn-danger" onclick="deleteCurso('${c.id}','${c.nombre}')">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+    }
+
+    function populateCursoSelects() {
+      const opts = allCursos.map(c => `<option value="${c.id}">${c.nombre}</option>`).join('');
+      document.getElementById('videoCursoId').innerHTML = '<option value="">Selecciona el curso...</option>' + opts;
+      document.getElementById('filterVideoCurso').innerHTML = '<option value="">Todos los cursos</option>' + opts;
+    }
+
+    function populateCursosCheckList() {
+      const el = document.getElementById('cursosCheckList');
+      if (!allCursos.length) { el.innerHTML = '<p style="font-size:0.85rem;color:var(--texto-suave);">No hay cursos. Crea uno primero.</p>'; return; }
+      el.innerHTML = allCursos.map(c => `
+        <label>
+          <input type="checkbox" name="curso" value="${c.id}" />
+          ${c.nombre}
+        </label>`).join('');
+    }
+
+    document.getElementById('createCursoForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('createCursoBtn');
+      btn.textContent = 'Guardando...'; btn.disabled = true;
+
+      const { error } = await supabase.from('cursos').insert({
+        nombre:      document.getElementById('cursoNombre').value.trim(),
+        descripcion: document.getElementById('cursoDesc').value.trim() || null
+      });
+
+      if (error) {
+        showAlert('cursoAlert', 'Error: ' + error.message);
+      } else {
+        showAlert('cursoAlert', '✅ Curso creado correctamente.', 'success');
+        e.target.reset();
+        await loadCursos();
+        await loadStats();
+      }
+      btn.textContent = 'Crear curso'; btn.disabled = false;
+    });
+
+    async function deleteCurso(id, nombre) {
+      if (!confirm(`¿Eliminar el curso "${nombre}"?\nSe borrarán también todos sus videos y matrículas.`)) return;
+      const { error } = await supabase.from('cursos').delete().eq('id', id);
+      if (error) alert('Error: ' + error.message);
+      else { await loadCursos(); await loadStats(); await loadVideos(); }
+    }
+
+    // ============================================================
+    // ESTADÍSTICAS
+    // ============================================================
+    async function loadStats() {
+      const [
+        { count: cAlumnos },
+        { count: cCursos },
+        { count: cVideos },
+        { count: cMatriculas }
+      ] = await Promise.all([
+        supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('es_admin', false),
+        supabase.from('cursos').select('id', { count: 'exact', head: true }),
+        supabase.from('videos').select('id', { count: 'exact', head: true }),
+        supabase.from('matriculas').select('id', { count: 'exact', head: true })
+      ]);
+      document.getElementById('statAlumnos').textContent    = cAlumnos   ?? '—';
+      document.getElementById('statCursos').textContent     = cCursos    ?? '—';
+      document.getElementById('statVideos').textContent     = cVideos    ?? '—';
+      document.getElementById('statMatriculas').textContent = cMatriculas ?? '—';
+    }
+
+    // ============================================================
+    // ALUMNAS
+    // ============================================================
+    async function loadAlumnas() {
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, nombre, es_admin, created_at')
+        .eq('es_admin', false)
+        .order('created_at', { ascending: false });
+
+      allProfiles = profiles || [];
+
+      const { data: matriculas } = await supabase
+        .from('matriculas')
+        .select('user_id, curso_id, cursos(nombre)');
+
+      const matMap = {};
+      (matriculas || []).forEach(m => {
+        if (!matMap[m.user_id]) matMap[m.user_id] = [];
+        matMap[m.user_id].push(m.cursos?.nombre || '?');
+      });
+
+      const el = document.getElementById('alumnasList');
+
+      if (!allProfiles.length) {
+        el.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">Aún no hay alumnas registradas.</p>';
+        return;
+      }
+
+      el.innerHTML = `
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Nombre</th><th>Cursos</th><th>Registrada</th><th>Acción</th></tr>
+            </thead>
+            <tbody>${allProfiles.map(p => {
+              const cursos = matMap[p.id] || [];
+              const cursosIds = (matriculas || []).filter(m => m.user_id === p.id).map(m => m.curso_id);
+              return `
+                <tr>
+                  <td><strong>${p.nombre || '—'}</strong></td>
+                  <td style="max-width:220px;">
+                    ${cursos.length
+                      ? cursos.map(c => `<span style="display:inline-block;background:var(--rosa-cl);color:var(--tierra-osc);font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;margin:2px;">${c}</span>`).join(' ')
+                      : '<span style="color:var(--texto-suave);font-size:0.85rem;">Sin cursos</span>'}
+                  </td>
+                  <td>${formatDate(p.created_at)}</td>
+                  <td>
+                    <div class="td-actions">
+                      <button class="btn btn-sm btn--outline" onclick="toggleCursoManager('${p.id}')">
+                        ✏️ Cursos
+                      </button>
+                      <button class="btn btn-sm btn-danger" onclick="deleteAlumna('${p.id}','${p.nombre}')">
+                        Eliminar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr id="cm-${p.id}" style="display:none;">
+                  <td colspan="4" style="background:var(--crema-2);padding:12px 20px;">
+                    <strong style="font-size:0.85rem;display:block;margin-bottom:8px;">Cursos de ${p.nombre || p.id}:</strong>
+                    ${allCursos.map(c => `
+                      <label style="display:flex;align-items:center;gap:10px;padding:6px 0;font-size:0.88rem;cursor:pointer;">
+                        <input type="checkbox" ${cursosIds.includes(c.id) ? 'checked' : ''}
+                          onchange="toggleMatricula('${p.id}', '${c.id}', this.checked)" />
+                        ${c.nombre}
+                      </label>`).join('')}
+                  </td>
+                </tr>`;
+            }).join('')}
+            </tbody>
+          </table>
+        </div>`;
+    }
+
+    document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('createUserBtn');
+      btn.textContent = 'Creando...'; btn.disabled = true;
+
+      const nombre   = document.getElementById('nuNombre').value.trim();
+      const email    = document.getElementById('nuEmail').value.trim();
+      const password = document.getElementById('nuPassword').value.trim();
+      const cursoIds = [...document.querySelectorAll('#cursosCheckList input:checked')].map(i => i.value);
+
+      try {
+        // Cliente temporal en memoria — no afecta la sesión del admin
+        const tmpClient = window.supabaseFactory(
+          'https://iktdggvtvbvkmprjfmcx.supabase.co',
+          'sb_publishable_IhvUuyPNSxm5Wl_-VwRt4A_ZEB9x5WR',
+          { auth: { persistSession: false, autoRefreshToken: false,
+              storage: { getItem: () => null, setItem: () => {}, removeItem: () => {} } } }
+        );
+
+        const { data, error } = await tmpClient.auth.signUp({
+          email, password,
+          options: { data: { nombre } }
+        });
+
+        if (error) {
+          if (error.status === 429 || error.message?.toLowerCase().includes('rate') || error.message?.toLowerCase().includes('limit')) {
+            throw new Error('Límite de Supabase alcanzado (demasiados intentos seguidos). Espera 1-2 minutos e inténtalo de nuevo.');
+          }
+          throw new Error(error.message);
+        }
+        if (!data?.user?.id) {
+          throw new Error('No se pudo crear la cuenta — límite de emails alcanzado. Espera 1-2 minutos e inténtalo de nuevo.');
+        }
+
+        const newUserId = data.user.id;
+
+        // Confirmar email automáticamente (sin que la alumna tenga que hacer clic en ningún correo)
+        const { error: confirmError } = await supabase.rpc('confirm_user_email', { user_id: newUserId });
+        if (confirmError) throw new Error('Usuario creado pero sin confirmar: ' + confirmError.message);
+
+        // Asignar cursos con el cliente del admin
+        if (cursoIds.length > 0) {
+          const { error: matError } = await supabase.from('matriculas').insert(
+            cursoIds.map(cursoId => ({ user_id: newUserId, curso_id: cursoId }))
+          );
+          if (matError) throw new Error(matError.message);
+        }
+
+        showAlert('alumnaAlert', `✅ Alumna creada. Credenciales: ${email} / ${password}`, 'success');
+        e.target.reset();
+        await loadAlumnas();
+        await loadStats();
+
+      } catch (err) {
+        showAlert('alumnaAlert', 'Error: ' + err.message);
+      }
+
+      btn.textContent = 'Crear alumna y asignar cursos'; btn.disabled = false;
+    });
+
+    function toggleCursoManager(userId) {
+      const row = document.getElementById(`cm-${userId}`);
+      row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+    }
+
+    async function toggleMatricula(userId, cursoId, add) {
+      if (add) {
+        await supabase.from('matriculas').insert({ user_id: userId, curso_id: cursoId });
+      } else {
+        await supabase.from('matriculas').delete().eq('user_id', userId).eq('curso_id', cursoId);
+      }
+      await loadStats();
+    }
+
+    async function deleteAlumna(userId, nombre) {
+      if (!confirm(`¿Eliminar la cuenta de "${nombre}"?\nPerderá el acceso a todos sus cursos.`)) return;
+
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        const res = await fetch('/api/delete-user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({ userId })
+        });
+        if (!res.ok) {
+          const j = await res.json().catch(() => ({}));
+          throw new Error(j.error || 'Error eliminando usuario');
+        }
+        await loadAlumnas();
+        await loadStats();
+
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    }
+
+    // ============================================================
+    // VIDEOS
+    // ============================================================
+    async function loadVideos(cursoFilter = '') {
+      let query = supabase.from('videos').select('*, cursos(nombre)').order('created_at', { ascending: false });
+      if (cursoFilter) query = query.eq('curso_id', cursoFilter);
+      const { data: videos } = await query;
+
+      const el = document.getElementById('videosList');
+
+      if (!videos || !videos.length) {
+        el.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">No hay videos publicados aún.</p>';
+        return;
+      }
+
+      el.innerHTML = `
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Título</th><th>Curso</th><th>Publicado</th><th>Acción</th></tr>
+            </thead>
+            <tbody>${videos.map(v => {
+              const ytId = getYoutubeId(v.youtube_url);
+              const thumb = ytId
+                ? `<img src="https://img.youtube.com/vi/${ytId}/default.jpg" style="width:60px;height:36px;object-fit:cover;border-radius:3px;vertical-align:middle;margin-right:8px;" />`
+                : '';
+              return `
+                <tr>
+                  <td style="max-width:280px;">${thumb}<strong>${v.titulo}</strong></td>
+                  <td>${v.cursos?.nombre || '—'}</td>
+                  <td>${formatDate(v.created_at)}</td>
+                  <td>
+                    <div class="td-actions">
+                      ${ytId ? `<a href="https://youtu.be/${ytId}" target="_blank" class="btn btn-sm btn--outline" style="border-radius:3px;padding:6px 12px;font-size:0.75rem;">Ver</a>` : ''}
+                      <button class="btn btn-sm btn-danger" onclick="deleteVideo('${v.id}','${v.titulo.replace(/'/g,"\\'")}')">Eliminar</button>
+                    </div>
+                  </td>
+                </tr>`;
+            }).join('')}
+            </tbody>
+          </table>
+        </div>`;
+    }
+
+    document.getElementById('createVideoForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('createVideoBtn');
+      btn.textContent = 'Guardando...'; btn.disabled = true;
+
+      const curso_id    = document.getElementById('videoCursoId').value;
+      const titulo      = document.getElementById('videoTitulo').value.trim();
+      const youtube_url = document.getElementById('videoUrl').value.trim();
+      const descripcion = document.getElementById('videoDesc').value.trim() || null;
+      const orden       = parseInt(document.getElementById('videoOrden').value) || 1;
+
+      if (!getYoutubeId(youtube_url)) {
+        showAlert('videoAlert', 'La URL de YouTube no es válida. Usa el formato https://youtu.be/XXXXX');
+        btn.textContent = '🎬 Guardar video'; btn.disabled = false;
+        return;
+      }
+
+      const { error } = await supabase.from('videos').insert({ curso_id, titulo, youtube_url, descripcion, orden });
+
+      if (error) {
+        showAlert('videoAlert', 'Error: ' + error.message);
+      } else {
+        showAlert('videoAlert', '✅ Video publicado. Las alumnas ya pueden verlo.', 'success');
+        e.target.reset();
+        await loadVideos();
+        await loadStats();
+      }
+      btn.textContent = '🎬 Guardar video'; btn.disabled = false;
+    });
+
+    document.getElementById('filterVideoCurso').addEventListener('change', (e) => {
+      loadVideos(e.target.value);
+    });
+
+    async function deleteVideo(id, titulo) {
+      if (!confirm(`¿Eliminar el video "${titulo}"?`)) return;
+      const { error } = await supabase.from('videos').delete().eq('id', id);
+      if (error) alert('Error: ' + error.message);
+      else { await loadVideos(); await loadStats(); }
+    }
+
+    // ============================================================
+    // NAVEGACIÓN ENTRE PANELES
+    // ============================================================
+    document.querySelectorAll('.admin-nav-link').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel = btn.dataset.panel;
+        document.querySelectorAll('.admin-nav-link').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`panel-${panel}`).classList.add('active');
+      });
+    });
+
+    // ============================================================
+    // LOGOUT
+    // ============================================================
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = 'index.html';
+    });
+
+    init();
+  </script>
+</body>
+</html>

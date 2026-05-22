@@ -1,0 +1,863 @@
+/* ============================================================
+   MARIETA VOLA VOLA — Estilos del portal privado y admin
+   ============================================================ */
+
+/* ============================================================
+   BASE PORTAL: layout de página con navbar fija
+   ============================================================ */
+.portal-body {
+  background-color: var(--crema);
+  min-height: 100vh;
+}
+
+/* ============================================================
+   NAVBAR DEL PORTAL
+   ============================================================ */
+.portal-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--blanco);
+  border-bottom: 1px solid var(--crema-2);
+  padding: 0 24px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+
+.portal-navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.portal-navbar__logo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.portal-navbar__name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.portal-navbar__right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.portal-navbar__user {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+.portal-navbar__badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: var(--tierra);
+  color: var(--blanco);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.portal-navbar__logout {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--texto-suave);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: 'Nunito', sans-serif;
+  transition: color 0.2s;
+  padding: 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.portal-navbar__logout:hover { color: var(--tierra); }
+
+/* ============================================================
+   LOGIN PAGE
+   ============================================================ */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: var(--crema-2);
+  background-image: radial-gradient(var(--crema-3) 1px, transparent 1px);
+  background-size: 22px 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-page::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--rosa-cl) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.login-page::after {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: -60px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, var(--salvia-cl) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.login-card {
+  background-color: var(--blanco);
+  border-radius: 8px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 12px 48px var(--shadow-md);
+  position: relative;
+  z-index: 1;
+}
+
+.login-card__logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: block;
+  box-shadow: 0 4px 16px var(--shadow);
+}
+
+.login-card__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.9rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--texto);
+  margin-bottom: 6px;
+}
+
+.login-card__subtitle {
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login-card__back {
+  display: block;
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  transition: color 0.2s;
+}
+
+.login-card__back:hover { color: var(--tierra); }
+
+/* ============================================================
+   FORMULARIOS PORTAL
+   ============================================================ */
+.form-field {
+  margin-bottom: 18px;
+}
+
+.form-field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texto-medio);
+  margin-bottom: 7px;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid var(--crema-3);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: 'Nunito', sans-serif;
+  color: var(--texto);
+  background-color: var(--crema);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--tierra);
+  box-shadow: 0 0 0 3px rgba(193, 105, 79, 0.12);
+  background-color: var(--blanco);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Checkboxes de cursos */
+.courses-check-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.courses-check-list label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--texto-medio);
+  text-transform: none;
+  letter-spacing: 0;
+  padding: 10px 14px;
+  border-radius: 4px;
+  border: 1.5px solid var(--crema-3);
+  background-color: var(--crema);
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.courses-check-list label:has(input:checked) {
+  border-color: var(--tierra);
+  background-color: var(--rosa-cl);
+  color: var(--tierra-osc);
+}
+
+.courses-check-list input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--tierra);
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+}
+
+/* ============================================================
+   ALERTAS / MENSAJES
+   ============================================================ */
+.alert {
+  padding: 13px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: none;
+}
+
+.alert.visible { display: block; }
+
+.alert--error {
+  background-color: #fde8e8;
+  color: #c0392b;
+  border: 1px solid #f5c6c6;
+}
+
+.alert--success {
+  background-color: var(--salvia-cl);
+  color: #2d6a4f;
+  border: 1px solid #a8d5b5;
+}
+
+.alert--info {
+  background-color: var(--rosa-cl);
+  color: var(--tierra-osc);
+  border: 1px solid var(--rosa);
+}
+
+/* ============================================================
+   DASHBOARD DEL ALUMNO
+   ============================================================ */
+.portal-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.portal-header {
+  margin-bottom: 44px;
+}
+
+.portal-header .label {
+  margin-bottom: 6px;
+}
+
+.portal-header__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 600;
+  color: var(--texto);
+  margin-bottom: 8px;
+}
+
+.portal-header__sub {
+  font-size: 0.95rem;
+  color: var(--texto-suave);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  background-color: var(--blanco);
+  border-radius: 8px;
+  padding: 64px 32px;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.empty-state__icon { font-size: 3.5rem; margin-bottom: 16px; display: block; }
+.empty-state__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--texto);
+  margin-bottom: 10px;
+}
+
+.empty-state__text {
+  font-size: 0.95rem;
+  color: var(--texto-suave);
+  max-width: 360px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+/* ============================================================
+   TARJETAS DE CURSO (portal alumno)
+   ============================================================ */
+.portal-courses-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.portal-course-card {
+  background-color: var(--blanco);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.portal-course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 36px var(--shadow-md);
+}
+
+.portal-course-card__image {
+  width: 100%;
+  padding-top: 50%;
+  position: relative;
+  background: linear-gradient(145deg, var(--crema-2), var(--rosa-cl), var(--arena));
+  overflow: hidden;
+}
+
+.portal-course-card__image--2 {
+  background: linear-gradient(145deg, var(--salvia-cl), var(--crema-2), var(--salvia));
+}
+
+.portal-course-card__image--3 {
+  background: linear-gradient(145deg, var(--crema-2), var(--arena), #c1694f88);
+}
+
+.portal-course-card__image-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.8);
+  font-size: 2.4rem;
+}
+
+.portal-course-card__image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.portal-course-card__body {
+  padding: 24px;
+  flex: 1;
+}
+
+.portal-course-card__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--texto);
+  margin-bottom: 8px;
+}
+
+.portal-course-card__desc {
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.portal-course-card__meta {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  font-weight: 700;
+}
+
+.portal-course-card__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background-color: var(--crema);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--tierra);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-top: 1px solid var(--crema-2);
+}
+
+/* ============================================================
+   PÁGINA DE CURSO (videos)
+   ============================================================ */
+.course-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+.course-player__video-wrap {
+  position: relative;
+  padding-top: 56.25%;
+  background-color: #000;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.course-player__video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.course-player__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--texto);
+  margin: 20px 0 8px;
+}
+
+.course-player__desc {
+  font-size: 0.95rem;
+  color: var(--texto-suave);
+  line-height: 1.75;
+}
+
+.course-player__empty {
+  background-color: var(--crema-2);
+  border-radius: 6px;
+  padding-top: 56.25%;
+  position: relative;
+}
+
+.course-player__empty-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--texto-suave);
+  text-align: center;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+
+.course-player__empty-inner span { font-size: 3rem; }
+
+/* Lista de videos */
+.video-list {
+  background-color: var(--blanco);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px var(--shadow);
+  overflow: hidden;
+}
+
+.video-list__header {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--crema-2);
+}
+
+.video-list__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.video-list__count {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  margin-top: 2px;
+}
+
+.video-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--crema-2);
+  transition: background-color 0.18s;
+}
+
+.video-item:last-child { border-bottom: none; }
+
+.video-item:hover { background-color: var(--crema); }
+
+.video-item.active {
+  background-color: var(--rosa-cl);
+  border-left: 3px solid var(--tierra);
+}
+
+.video-item__thumb {
+  width: 80px;
+  height: 48px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  object-fit: cover;
+  background-color: var(--crema-2);
+}
+
+.video-item__info { flex: 1; min-width: 0; }
+
+.video-item__title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--texto);
+  line-height: 1.4;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.video-item.active .video-item__title { color: var(--tierra); }
+
+.video-item__date {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.video-item__play {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--tierra);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: white;
+  margin-top: 6px;
+}
+
+.course-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  margin-bottom: 20px;
+  transition: color 0.2s;
+}
+
+.course-back:hover { color: var(--tierra); }
+
+/* ============================================================
+   PANEL DE ADMINISTRACIÓN
+   ============================================================ */
+.admin-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: calc(100vh - 62px);
+}
+
+.admin-sidebar {
+  background-color: var(--texto);
+  padding: 32px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar__section-title {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  padding: 0 24px 10px;
+}
+
+.admin-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 24px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.65);
+  cursor: pointer;
+  transition: all 0.18s;
+  border: none;
+  background: none;
+  font-family: 'Nunito', sans-serif;
+  text-align: left;
+  width: 100%;
+  letter-spacing: 0.02em;
+}
+
+.admin-nav-link .icon { font-size: 1.1rem; }
+
+.admin-nav-link:hover {
+  background-color: rgba(255,255,255,0.07);
+  color: var(--blanco);
+}
+
+.admin-nav-link.active {
+  background-color: rgba(193, 105, 79, 0.25);
+  color: var(--blanco);
+  border-left: 3px solid var(--tierra);
+}
+
+.admin-content {
+  background-color: var(--crema);
+  padding: 36px 28px 60px;
+  overflow-y: auto;
+}
+
+/* Paneles (tabs) */
+.admin-panel { display: none; }
+.admin-panel.active { display: block; }
+
+.admin-panel__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--texto);
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--crema-3);
+}
+
+/* Tabla de administración */
+.admin-table-wrap {
+  background-color: var(--blanco);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px var(--shadow);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.admin-table th {
+  background-color: var(--crema-2);
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--texto-medio);
+  border-bottom: 1px solid var(--crema-3);
+}
+
+.admin-table td {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--crema-2);
+  color: var(--texto);
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td { border-bottom: none; }
+.admin-table tr:hover td { background-color: var(--crema); }
+
+.admin-table .td-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Tarjeta de formulario admin */
+.admin-form-card {
+  background-color: var(--blanco);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px var(--shadow);
+  padding: 28px;
+  margin-bottom: 28px;
+}
+
+.admin-form-card__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--texto);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--crema-2);
+}
+
+/* Botones pequeños (acciones en tabla) */
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  border-radius: 3px;
+}
+
+.btn-danger {
+  background-color: #fde8e8;
+  color: #c0392b;
+  border: 1px solid #f5c6c6;
+}
+
+.btn-danger:hover {
+  background-color: #f5c6c6;
+}
+
+/* Stats cards (inicio admin) */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background-color: var(--blanco);
+  border-radius: 6px;
+  padding: 24px;
+  box-shadow: 0 4px 16px var(--shadow);
+  text-align: center;
+}
+
+.stat-card__number {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--tierra);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-card__label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+/* ============================================================
+   SPINNER DE CARGA
+   ============================================================ */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--crema-3);
+  border-top-color: var(--tierra);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (min-width: 640px) {
+  .portal-courses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .portal-courses-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .admin-layout {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .course-page {
+    grid-template-columns: 320px 1fr;
+    align-items: start;
+  }
+
+  .course-page .video-list {
+    order: -1;
+  }
+}

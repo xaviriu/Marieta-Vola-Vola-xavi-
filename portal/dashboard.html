@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mis Cursos — Marieta Vola Vola</title>
+  <link rel="icon" href="../images/logo.png" type="image/png" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/portal.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="portal-body">
+
+  <!-- NAVBAR -->
+  <header class="portal-navbar">
+    <a href="../index.html" class="portal-navbar__brand">
+      <img src="../images/logo.png" alt="Logo" class="portal-navbar__logo" />
+      <span class="portal-navbar__name">Marieta Vola Vola</span>
+    </a>
+    <div class="portal-navbar__right">
+      <span class="portal-navbar__user" id="userGreeting">Hola 👋</span>
+      <button class="portal-navbar__logout" id="logoutBtn">Salir</button>
+    </div>
+  </header>
+
+  <main class="portal-main">
+
+    <div class="portal-header">
+      <span class="label">Zona privada</span>
+      <h1 class="portal-header__title" id="pageTitle">Mis cursos</h1>
+      <p class="portal-header__sub">Solo tú tienes acceso a este contenido. Aquí encontrarás los videos de los talleres en los que estás inscrita.</p>
+    </div>
+
+    <div id="content">
+      <div class="loading">
+        <div class="spinner"></div>
+        Cargando tus cursos...
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script>
+    const COURSE_ICONS = ['🌸', '🪡', '🔵', '🧵', '🌿', '✂️'];
+    const COURSE_IMG_CLASSES = ['', '--2', '--3'];
+
+    async function init() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { window.location.href = 'index.html'; return; }
+
+      const user = session.user;
+
+      // Mostrar nombre
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('nombre, es_admin')
+        .eq('id', user.id)
+        .single();
+
+      if (profile?.es_admin) { window.location.href = '../admin/dashboard.html'; return; }
+
+      const nombre = profile?.nombre || user.email;
+      document.getElementById('userGreeting').textContent = `Hola, ${nombre.split(' ')[0]} 👋`;
+      document.getElementById('pageTitle').textContent = `Mis cursos`;
+
+      // Cargar cursos matriculados
+      const { data: matriculas, error } = await supabase
+        .from('matriculas')
+        .select('curso_id, cursos(id, nombre, descripcion)')
+        .eq('user_id', user.id);
+
+      const container = document.getElementById('content');
+
+      if (error || !matriculas || matriculas.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <span class="empty-state__icon">🧵</span>
+            <h2 class="empty-state__title">Aún no tienes cursos</h2>
+            <p class="empty-state__text">
+              Cuando reserves y pagues un taller, Marieta te dará acceso aquí.
+              Escríbele por WhatsApp si tienes alguna duda.
+            </p>
+            <a href="https://wa.me/34605073702?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20acceder%20a%20un%20curso."
+               target="_blank" style="margin-top:24px" class="btn btn--primary">
+              💬 Escribir a Marieta
+            </a>
+          </div>`;
+        return;
+      }
+
+      const cursos = matriculas.map(m => m.cursos).filter(Boolean);
+
+      // Contar videos por curso
+      const cursoIds = cursos.map(c => c.id);
+      const { data: videoCounts } = await supabase
+        .from('videos')
+        .select('curso_id')
+        .in('curso_id', cursoIds);
+
+      const countMap = {};
+      (videoCounts || []).forEach(v => {
+        countMap[v.curso_id] = (countMap[v.curso_id] || 0) + 1;
+      });
+
+      container.innerHTML = `<div class="portal-courses-grid">${
+        cursos.map((c, i) => {
+          const count = countMap[c.id] || 0;
+          const icon  = COURSE_ICONS[i % COURSE_ICONS.length];
+          const imgClass = COURSE_IMG_CLASSES[i % COURSE_IMG_CLASSES.length];
+          return `
+            <a href="curso.html?id=${c.id}" class="portal-course-card">
+              <div class="portal-course-card__image portal-course-card__image${imgClass}">
+                <div class="portal-course-card__image-label">${icon}</div>
+              </div>
+              <div class="portal-course-card__body">
+                <h2 class="portal-course-card__title">${c.nombre}</h2>
+                <p class="portal-course-card__desc">${c.descripcion || ''}</p>
+                <p class="portal-course-card__meta">📹 ${count} ${count === 1 ? 'video' : 'videos'} disponibles</p>
+              </div>
+              <div class="portal-course-card__arrow">
+                <span>Ver videos del curso</span>
+                <span>→</span>
+              </div>
+            </a>`;
+        }).join('')
+      }</div>`;
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = 'index.html';
+    });
+
+    init();
+  </script>
+</body>
+</html>
