@@ -1,0 +1,569 @@
+/* ============================================
+   MARIETA VOLA VOLA — Estilos principales
+   Mobile-first, pastel, accesible
+   ============================================ */
+
+/* Variables de color */
+:root {
+  --amarillo:    #FFD93D;
+  --amarillo-cl: #FFF5C0;
+  --coral:       #FF6B6B;
+  --coral-cl:    #FFE5E5;
+  --verde:       #A8E6CF;
+  --verde-cl:    #E8F8F2;
+  --rosa:        #FFB3C6;
+  --rosa-cl:     #FFF0F5;
+  --crema:       #FFFBF2;
+  --texto:       #3D2B1F;
+  --texto-suave: #7A6055;
+  --blanco:      #FFFFFF;
+  --sombra:      rgba(61, 43, 31, 0.10);
+}
+
+/* Reset y base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--texto);
+  background-color: var(--crema);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ============================================
+   BOTONES
+   ============================================ */
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--primary {
+  background-color: var(--coral);
+  color: var(--blanco);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.35);
+}
+
+.btn--primary:hover {
+  background-color: #ff5252;
+  box-shadow: 0 6px 16px rgba(255, 107, 107, 0.45);
+  transform: translateY(-2px);
+}
+
+.btn--full {
+  width: 100%;
+  display: block;
+}
+
+.btn--social {
+  padding: 12px 22px;
+  font-size: 16px;
+}
+
+.btn--instagram {
+  background-color: #E1306C;
+  color: var(--blanco);
+}
+
+.btn--facebook {
+  background-color: #1877F2;
+  color: var(--blanco);
+}
+
+.link {
+  color: var(--coral);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--texto);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--texto-suave);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--blanco);
+  box-shadow: 0 2px 12px var(--sombra);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar__logo-img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.navbar__logo-text {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--texto);
+}
+
+.navbar__nav {
+  display: none;
+  gap: 28px;
+}
+
+.navbar__link {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--texto-suave);
+  transition: color 0.2s;
+}
+
+.navbar__link:hover {
+  color: var(--coral);
+}
+
+.navbar__menu-btn {
+  font-size: 1.6rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--texto);
+  padding: 4px 8px;
+}
+
+/* Menú móvil */
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  background-color: var(--blanco);
+  padding: 10px 20px 20px;
+  box-shadow: 0 4px 12px var(--sombra);
+  position: sticky;
+  top: 73px;
+  z-index: 99;
+}
+
+.mobile-menu.open {
+  display: flex;
+}
+
+.mobile-menu__link {
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0e8e0;
+  color: var(--texto);
+}
+
+.mobile-menu__link:last-child {
+  border-bottom: none;
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+  background: linear-gradient(135deg, var(--amarillo) 0%, var(--amarillo-cl) 60%, var(--crema) 100%);
+  padding: 60px 20px 80px;
+  text-align: center;
+}
+
+.hero__logo {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(61, 43, 31, 0.15);
+  background-color: var(--amarillo);
+}
+
+.hero__title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--texto);
+}
+
+.hero__subtitle {
+  font-size: 1.15rem;
+  color: var(--texto-suave);
+  max-width: 480px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+}
+
+/* ============================================
+   SOBRE MÍ
+   ============================================ */
+.about {
+  padding: 70px 0;
+  background-color: var(--blanco);
+}
+
+.about__content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.about__text p {
+  margin-bottom: 16px;
+  font-size: 1.05rem;
+  color: var(--texto-suave);
+}
+
+.about__social {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.about__image-placeholder {
+  background: linear-gradient(135deg, var(--rosa-cl), var(--amarillo-cl));
+  border-radius: 20px;
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--texto-suave);
+  font-size: 1rem;
+  border: 2px dashed var(--rosa);
+}
+
+.about__image-placeholder p {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+/* ============================================
+   CURSOS
+   ============================================ */
+.courses {
+  padding: 70px 0;
+  background-color: var(--verde-cl);
+}
+
+.courses__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.course-card {
+  background-color: var(--blanco);
+  border-radius: 20px;
+  padding: 32px 24px;
+  box-shadow: 0 4px 16px var(--sombra);
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-4px);
+}
+
+.course-card__icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.course-card__title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--texto);
+}
+
+.course-card__desc {
+  font-size: 1rem;
+  color: var(--texto-suave);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.course-card__price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--coral);
+  margin-bottom: 20px;
+}
+
+.courses__presential {
+  text-align: center;
+  margin-top: 40px;
+  padding: 24px;
+  background-color: var(--amarillo-cl);
+  border-radius: 16px;
+  font-size: 1.05rem;
+  color: var(--texto-suave);
+}
+
+/* ============================================
+   CONTACTO
+   ============================================ */
+.contact {
+  padding: 70px 0;
+  background-color: var(--blanco);
+}
+
+.contact__options {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 16px;
+}
+
+.contact__whatsapp {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: var(--blanco);
+  padding: 28px 32px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+
+.contact__whatsapp:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.4);
+}
+
+.contact__whatsapp-icon {
+  font-size: 2.8rem;
+  flex-shrink: 0;
+}
+
+.contact__whatsapp strong {
+  font-size: 1.2rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.contact__whatsapp p {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.contact__form-wrapper h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--texto);
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+  font-size: 1rem;
+  color: var(--texto);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e8ddd5;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: 'Nunito', sans-serif;
+  color: var(--texto);
+  background-color: var(--crema);
+  transition: border-color 0.2s;
+  appearance: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--coral);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.contact__form-success {
+  display: none;
+  background-color: var(--verde-cl);
+  color: #2d7a4f;
+  padding: 18px 20px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 16px;
+  text-align: center;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  background-color: var(--texto);
+  color: var(--crema);
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.footer__name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.footer__social {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.footer__social a {
+  font-size: 1rem;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.footer__social a:hover {
+  opacity: 1;
+}
+
+.footer__copy {
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+/* ============================================
+   RESPONSIVE — Tablet y desktop
+   ============================================ */
+@media (min-width: 640px) {
+  .courses__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar__nav {
+    display: flex;
+  }
+
+  .navbar__menu-btn {
+    display: none;
+  }
+
+  .hero__title {
+    font-size: 3rem;
+  }
+
+  .about__content {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .about__text {
+    flex: 1;
+  }
+
+  .about__image-placeholder {
+    flex: 1;
+  }
+
+  .contact__options {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .contact__whatsapp {
+    flex-direction: column;
+    text-align: center;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .contact__form-wrapper {
+    flex: 2;
+  }
+}
+
+@media (min-width: 960px) {
+  .courses__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hero__logo {
+    width: 180px;
+    height: 180px;
+  }
+}

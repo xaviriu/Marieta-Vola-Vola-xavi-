@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marieta Vola Vola — Talleres de bordado y manualidades</title>
+  <meta name="description" content="Talleres online de bordado, costura y acuarelas. Aprende a tu ritmo con videos tutoriales nuevos cada 15 días." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAVEGACIÓN -->
+  <header class="navbar">
+    <div class="navbar__logo">
+      <img src="images/logo.png" alt="Marieta Vola Vola" class="navbar__logo-img" />
+      <span class="navbar__logo-text">Marieta Vola Vola</span>
+    </div>
+    <nav class="navbar__nav">
+      <a href="#inicio" class="navbar__link">Inicio</a>
+      <a href="#cursos" class="navbar__link">Cursos</a>
+      <a href="#contacto" class="navbar__link">Contacto</a>
+    </nav>
+    <button class="navbar__menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+  </header>
+
+  <!-- MENÚ MÓVIL -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#inicio" class="mobile-menu__link">Inicio</a>
+    <a href="#cursos" class="mobile-menu__link">Cursos</a>
+    <a href="#contacto" class="mobile-menu__link">Contacto</a>
+  </div>
+
+  <main>
+
+    <!-- SECCIÓN INICIO / HERO -->
+    <section id="inicio" class="hero">
+      <div class="hero__content">
+        <img src="images/logo.png" alt="Marieta Vola Vola" class="hero__logo" />
+        <h1 class="hero__title">Hola, soy Marieta</h1>
+        <p class="hero__subtitle">
+          Te enseño a bordar, coser y pintar acuarelas desde casa,<br />
+          a tu ritmo y con mucho cariño.
+        </p>
+        <a href="#cursos" class="btn btn--primary">Ver cursos</a>
+      </div>
+    </section>
+
+    <!-- SECCIÓN SOBRE MÍ -->
+    <section id="sobre-mi" class="about">
+      <div class="container">
+        <h2 class="section-title">¿Quién soy?</h2>
+        <div class="about__content">
+          <div class="about__text">
+            <p>
+              Soy Marieta, apasionada de las manualidades y el bordado creativo.
+              Llevo años disfrutando de estas técnicas y ahora quiero compartirlas contigo
+              de una forma sencilla y accesible, desde donde estés.
+            </p>
+            <p>
+              Mis talleres son para todas las edades y niveles — no hace falta
+              experiencia previa, solo ganas de aprender y disfrutar.
+            </p>
+            <div class="about__social">
+              <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="btn btn--social btn--instagram">
+                📷 Instagram
+              </a>
+              <a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank" class="btn btn--social btn--facebook">
+                👍 Facebook
+              </a>
+            </div>
+          </div>
+          <div class="about__image-placeholder">
+            <p>📸 Foto de Marieta</p>
+            <span>(próximamente)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN CURSOS -->
+    <section id="cursos" class="courses">
+      <div class="container">
+        <h2 class="section-title">Mis cursos</h2>
+        <p class="section-subtitle">
+          Cada curso incluye acceso a los videos y un tutorial nuevo cada 15 días.
+          ¡Aprende cuando quieras y desde donde quieras!
+        </p>
+        <div class="courses__grid">
+
+          <div class="course-card">
+            <div class="course-card__icon">🧵</div>
+            <h3 class="course-card__title">Bordado creativo</h3>
+            <p class="course-card__desc">
+              Aprende las técnicas básicas y avanzadas del bordado a mano.
+              Puntos, colores y diseños para todos los niveles.
+            </p>
+            <div class="course-card__price">20 €</div>
+            <a href="#contacto" class="btn btn--primary btn--full">Reservar plaza</a>
+          </div>
+
+          <div class="course-card">
+            <div class="course-card__icon">✂️</div>
+            <h3 class="course-card__title">Costura</h3>
+            <p class="course-card__desc">
+              Desde coser un botón hasta crear tus propias prendas.
+              Tutoriales paso a paso para aprender a tu ritmo.
+            </p>
+            <div class="course-card__price">20 €</div>
+            <a href="#contacto" class="btn btn--primary btn--full">Reservar plaza</a>
+          </div>
+
+          <div class="course-card">
+            <div class="course-card__icon">🎨</div>
+            <h3 class="course-card__title">Acuarelas</h3>
+            <p class="course-card__desc">
+              Descubre el mundo de la pintura con acuarelas.
+              Técnicas básicas, mezclas de colores y proyectos creativos.
+            </p>
+            <div class="course-card__price">20 €</div>
+            <a href="#contacto" class="btn btn--primary btn--full">Reservar plaza</a>
+          </div>
+
+        </div>
+
+        <div class="courses__presential">
+          <p>
+            ¿Prefieres una clase presencial personalizada?
+            <a href="#contacto" class="link">Consúltame sin compromiso</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN CONTACTO -->
+    <section id="contacto" class="contact">
+      <div class="container">
+        <h2 class="section-title">Contáctame</h2>
+        <p class="section-subtitle">
+          ¿Tienes dudas o quieres reservar un curso? Escríbeme, te respondo enseguida.
+        </p>
+
+        <div class="contact__options">
+
+          <!-- WhatsApp -->
+          <a href="https://wa.me/34XXXXXXXXX" target="_blank" class="contact__whatsapp">
+            <span class="contact__whatsapp-icon">💬</span>
+            <div>
+              <strong>Escríbeme por WhatsApp</strong>
+              <p>La forma más rápida de contactarme</p>
+            </div>
+          </a>
+
+          <!-- Formulario -->
+          <div class="contact__form-wrapper">
+            <h3>O déjame un mensaje</h3>
+            <form class="contact__form" id="contactForm">
+              <div class="form-group">
+                <label for="nombre">Tu nombre</label>
+                <input type="text" id="nombre" name="nombre" placeholder="¿Cómo te llamas?" required />
+              </div>
+              <div class="form-group">
+                <label for="telefono">Tu teléfono o email</label>
+                <input type="text" id="telefono" name="telefono" placeholder="Para que pueda responderte" required />
+              </div>
+              <div class="form-group">
+                <label for="mensaje">¿En qué curso estás interesada?</label>
+                <select id="mensaje" name="mensaje">
+                  <option value="">Selecciona un curso</option>
+                  <option value="bordado">Bordado creativo</option>
+                  <option value="costura">Costura</option>
+                  <option value="acuarelas">Acuarelas</option>
+                  <option value="presencial">Clase presencial</option>
+                  <option value="otro">Otro / tengo una pregunta</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="comentario">Mensaje (opcional)</label>
+                <textarea id="comentario" name="comentario" rows="3" placeholder="Escribe aquí tu pregunta o comentario..."></textarea>
+              </div>
+              <button type="submit" class="btn btn--primary btn--full">Enviar mensaje</button>
+            </form>
+            <div class="contact__form-success" id="formSuccess">
+              ✅ ¡Mensaje enviado! Te responderé lo antes posible.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer__name">Marieta Vola Vola</p>
+      <div class="footer__social">
+        <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank">📷 Instagram</a>
+        <a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank">👍 Facebook</a>
+      </div>
+      <p class="footer__copy">© 2025 Marieta Vola Vola. Hecho con ❤️</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
