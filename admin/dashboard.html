@@ -219,7 +219,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
-  <script src="../js/admin-secret.js"></script>
   <script>
     // ============================================================
     // ESTADO
@@ -449,37 +448,16 @@
       const cursoIds = [...document.querySelectorAll('#cursosCheckList input:checked')].map(i => i.value);
 
       try {
-        if (!window.SUPABASE_SERVICE_KEY) {
-          throw new Error('Falta el archivo js/admin-secret.js con la clave de servicio. Contacta con el desarrollador.');
-        }
+        // Función SQL SECURITY DEFINER — crea el usuario directamente en auth.users
+        // sin pasar por la Admin API (bloqueada en browser) ni por signUp (con límites)
+        const { data: newUserId, error: rpcError } = await supabase.rpc('create_auth_user', {
+          p_email:    email,
+          p_password: password,
+          p_nombre:   nombre
+        });
 
-        // Admin REST API — crea el usuario directamente, sin emails ni límites de signUp
-        const res = await fetch(
-          'https://iktdggvtvbvkmprjfmcx.supabase.co/auth/v1/admin/users',
-          {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${window.SUPABASE_SERVICE_KEY}`,
-              'apikey': window.SUPABASE_SERVICE_KEY,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              email,
-              password,
-              email_confirm: true,
-              user_metadata: { nombre }
-            })
-          }
-        );
-
-        const result = await res.json();
-        if (!res.ok) {
-          const msg = result.msg || result.message || result.error_description || JSON.stringify(result);
-          throw new Error(msg);
-        }
-
-        const newUserId = result.id;
-        if (!newUserId) throw new Error('Supabase no devolvió el ID del usuario.');
+        if (rpcError) throw new Error(rpcError.message);
+        if (!newUserId) throw new Error('No se recibió el ID del usuario.');
 
         // Asignar cursos
         if (cursoIds.length > 0) {
@@ -489,7 +467,7 @@
           if (matError) throw new Error(matError.message);
         }
 
-        showAlert('alumnaAlert', `✅ Alumna creada correctamente. Email: ${email} · Contraseña: ${password}`, 'success');
+        showAlert('alumnaAlert', `✅ Alumna creada. Email: ${email} · Contraseña: ${password}`, 'success');
         e.target.reset();
         await loadAlumnas();
         await loadStats();
