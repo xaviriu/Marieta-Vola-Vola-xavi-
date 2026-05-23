@@ -219,6 +219,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
+  <script src="../js/admin-secret.js"></script>
   <script>
     // ============================================================
     // ESTADO
@@ -448,36 +449,39 @@
       const cursoIds = [...document.querySelectorAll('#cursosCheckList input:checked')].map(i => i.value);
 
       try {
-        // Cliente temporal en memoria — no afecta la sesión del admin
-        const tmpClient = window.supabaseFactory(
-          'https://iktdggvtvbvkmprjfmcx.supabase.co',
-          'sb_publishable_IhvUuyPNSxm5Wl_-VwRt4A_ZEB9x5WR',
-          { auth: { persistSession: false, autoRefreshToken: false,
-              storage: { getItem: () => null, setItem: () => {}, removeItem: () => {} } } }
+        if (!window.SUPABASE_SERVICE_KEY) {
+          throw new Error('Falta el archivo js/admin-secret.js con la clave de servicio. Contacta con el desarrollador.');
+        }
+
+        // Admin REST API — crea el usuario directamente, sin emails ni límites de signUp
+        const res = await fetch(
+          'https://iktdggvtvbvkmprjfmcx.supabase.co/auth/v1/admin/users',
+          {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${window.SUPABASE_SERVICE_KEY}`,
+              'apikey': window.SUPABASE_SERVICE_KEY,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email,
+              password,
+              email_confirm: true,
+              user_metadata: { nombre }
+            })
+          }
         );
 
-        const { data, error } = await tmpClient.auth.signUp({
-          email, password,
-          options: { data: { nombre } }
-        });
-
-        if (error) {
-          if (error.status === 429 || error.message?.toLowerCase().includes('rate') || error.message?.toLowerCase().includes('limit')) {
-            throw new Error('Límite de Supabase alcanzado (demasiados intentos seguidos). Espera 1-2 minutos e inténtalo de nuevo.');
-          }
-          throw new Error(error.message);
-        }
-        if (!data?.user?.id) {
-          throw new Error('No se pudo crear la cuenta — límite de emails alcanzado. Espera 1-2 minutos e inténtalo de nuevo.');
+        const result = await res.json();
+        if (!res.ok) {
+          const msg = result.msg || result.message || result.error_description || JSON.stringify(result);
+          throw new Error(msg);
         }
 
-        const newUserId = data.user.id;
+        const newUserId = result.id;
+        if (!newUserId) throw new Error('Supabase no devolvió el ID del usuario.');
 
-        // Confirmar email automáticamente (sin que la alumna tenga que hacer clic en ningún correo)
-        const { error: confirmError } = await supabase.rpc('confirm_user_email', { user_id: newUserId });
-        if (confirmError) throw new Error('Usuario creado pero sin confirmar: ' + confirmError.message);
-
-        // Asignar cursos con el cliente del admin
+        // Asignar cursos
         if (cursoIds.length > 0) {
           const { error: matError } = await supabase.from('matriculas').insert(
             cursoIds.map(cursoId => ({ user_id: newUserId, curso_id: cursoId }))
@@ -485,7 +489,7 @@
           if (matError) throw new Error(matError.message);
         }
 
-        showAlert('alumnaAlert', `✅ Alumna creada. Credenciales: ${email} / ${password}`, 'success');
+        showAlert('alumnaAlert', `✅ Alumna creada correctamente. Email: ${email} · Contraseña: ${password}`, 'success');
         e.target.reset();
         await loadAlumnas();
         await loadStats();
