@@ -63,9 +63,11 @@
 
       if (profile?.es_admin) { window.location.href = '../admin/dashboard.html'; return; }
 
-      const nombre = profile?.nombre || user.email;
-      document.getElementById('userGreeting').textContent = `Hola, ${nombre.split(' ')[0]} 👋`;
-      document.getElementById('pageTitle').textContent = `Mis cursos`;
+      const nombre = profile?.nombre || user.email.split('@')[0];
+      const firstName = nombre.split(' ')[0];
+      document.getElementById('userGreeting').textContent = `Hola, ${firstName} 👋`;
+      document.getElementById('pageTitle').textContent = `Aquí tienes tus cursos, ${firstName}`;
+      document.getElementById('pageSubtitle').textContent = `Solo tú tienes acceso a este contenido. Aquí encontrarás los vídeos de los talleres en los que estás inscrita.`;
 
       // Cargar cursos matriculados
       const { data: matriculas, error } = await supabase
