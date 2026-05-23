@@ -5,7 +5,7 @@
 
 :root {
   /* Marca */
-  --brand-green: #d6d405;
+  --brand-green: #a1ad01;
   --brand-red:   #d4221e;
 
   /* Paleta artesanal */
@@ -127,7 +127,7 @@ h1, h2, h3 {
 .divider {
   width: 40px;
   height: 2px;
-  background: linear-gradient(90deg, var(--tierra), var(--brand-green));
+  background: linear-gradient(90deg, var(--brand-red), var(--brand-green));
   margin: 18px 0 28px;
   border-radius: 2px;
 }
@@ -162,12 +162,12 @@ h1, h2, h3 {
 .btn--primary {
   background-color: var(--brand-red);
   color: var(--blanco);
-  box-shadow: 0 4px 16px rgba(212, 34, 30, 0.28);
+  box-shadow: 0 2px 8px rgba(212, 34, 30, 0.18);
 }
 .btn--primary:hover {
   background-color: #b81c18;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(212, 34, 30, 0.38);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(212, 34, 30, 0.26);
 }
 
 .btn--outline {
@@ -195,12 +195,12 @@ h1, h2, h3 {
 .btn--whatsapp {
   background-color: #25D366;
   color: var(--blanco);
-  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.28);
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.18);
 }
 .btn--whatsapp:hover {
   background-color: #1ebe5d;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.38);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.26);
 }
 
 .btn--instagram {
@@ -289,7 +289,7 @@ h1, h2, h3 {
   left: 0;
   width: 0;
   height: 1.5px;
-  background: linear-gradient(90deg, var(--tierra), var(--brand-green));
+  background: linear-gradient(90deg, var(--brand-red), var(--brand-green));
   transition: width 0.3s var(--ease-out);
 }
 
@@ -481,7 +481,7 @@ h1, h2, h3 {
   display: inline-block;
   width: 28px;
   height: 1.5px;
-  background: linear-gradient(90deg, var(--tierra), var(--brand-green));
+  background: linear-gradient(90deg, var(--brand-red), var(--brand-green));
   border-radius: 2px;
 }
 
@@ -982,9 +982,10 @@ h1, h2, h3 {
    FOOTER
    ================================================ */
 .footer {
-  background-color: var(--texto);
-  color: rgba(255,255,255,0.62);
+  background-color: var(--crema-2);
+  color: var(--texto-suave);
   padding: 64px 24px 32px;
+  border-top: 1px solid var(--crema-3);
 }
 
 .footer__inner {
@@ -994,7 +995,7 @@ h1, h2, h3 {
   grid-template-columns: 1fr;
   gap: 44px;
   padding-bottom: 44px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid var(--crema-3);
   margin-bottom: 28px;
 }
 
@@ -1002,7 +1003,7 @@ h1, h2, h3 {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--blanco);
+  color: var(--texto);
   margin-bottom: 8px;
 }
 
@@ -1023,13 +1024,13 @@ h1, h2, h3 {
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: rgba(255,255,255,0.5);
+  color: var(--texto-suave);
   transition: color 0.2s;
   display: flex;
   align-items: center;
   gap: 7px;
 }
-.footer__social-link:hover { color: var(--blanco); }
+.footer__social-link:hover { color: var(--texto); }
 .footer__social-link svg { width: 15px; height: 15px; flex-shrink: 0; }
 
 .footer__col-heading {
@@ -1037,7 +1038,7 @@ h1, h2, h3 {
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--blanco);
+  color: var(--texto);
   margin-bottom: 16px;
 }
 
@@ -1050,13 +1051,14 @@ h1, h2, h3 {
 
 .footer__links a {
   font-size: 0.9rem;
-  opacity: 0.58;
-  transition: opacity 0.2s;
+  color: var(--texto-suave);
+  opacity: 0.75;
+  transition: opacity 0.2s, color 0.2s;
   display: flex;
   align-items: center;
   gap: 7px;
 }
-.footer__links a:hover { opacity: 1; }
+.footer__links a:hover { opacity: 1; color: var(--texto); }
 .footer__links a svg { width: 14px; height: 14px; flex-shrink: 0; }
 
 .footer__bottom {
@@ -1064,6 +1066,7 @@ h1, h2, h3 {
   margin: 0 auto;
   text-align: center;
   font-size: 0.82rem;
+  color: var(--texto-suave);
 }
 
 /* ================================================
