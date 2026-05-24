@@ -448,42 +448,21 @@
       const cursoIds = [...document.querySelectorAll('#cursosCheckList input:checked')].map(i => i.value);
 
       try {
-        // Cliente temporal en memoria — no afecta la sesión del admin
-        const tmpClient = window.supabaseFactory(
-          'https://iktdggvtvbvkmprjfmcx.supabase.co',
-          'sb_publishable_IhvUuyPNSxm5Wl_-VwRt4A_ZEB9x5WR',
-          { auth: { persistSession: false, autoRefreshToken: false,
-              storage: { getItem: () => null, setItem: () => {}, removeItem: () => {} } } }
-        );
+        const { data: { session } } = await supabase.auth.getSession();
 
-        const { data, error } = await tmpClient.auth.signUp({
-          email, password,
-          options: { data: { nombre } }
+        const res = await fetch('https://iktdggvtvbvkmprjfmcx.supabase.co/functions/v1/create-user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({ nombre, email, password, cursoIds })
         });
 
-        if (error) {
-          if (error.status === 429 || error.message?.toLowerCase().includes('rate') || error.message?.toLowerCase().includes('limit')) {
-            throw new Error('Límite de Supabase alcanzado (demasiados intentos seguidos). Espera 1-2 minutos e inténtalo de nuevo.');
-          }
-          throw new Error(error.message);
-        }
-        if (!data?.user?.id) {
-          throw new Error('No se pudo crear la cuenta — límite de emails alcanzado. Espera 1-2 minutos e inténtalo de nuevo.');
-        }
+        const result = await res.json();
+        if (!result.ok) throw new Error(result.error || 'Error desconocido');
 
-        const newUserId = data.user.id;
-
-        // Confirmar email automáticamente (sin que la alumna tenga que hacer clic en ningún correo)
-        const { error: confirmError } = await supabase.rpc('confirm_user_email', { user_id: newUserId });
-        if (confirmError) throw new Error('Usuario creado pero sin confirmar: ' + confirmError.message);
-
-        // Asignar cursos con el cliente del admin
-        if (cursoIds.length > 0) {
-          const { error: matError } = await supabase.from('matriculas').insert(
-            cursoIds.map(cursoId => ({ user_id: newUserId, curso_id: cursoId }))
-          );
-          if (matError) throw new Error(matError.message);
-        }
+        const newUserId = result.userId;
 
         showAlert('alumnaAlert', `✅ Alumna creada. Credenciales: ${email} / ${password}`, 'success');
         e.target.reset();
