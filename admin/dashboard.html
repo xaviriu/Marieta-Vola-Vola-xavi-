@@ -42,6 +42,9 @@
       <button class="admin-nav-link" data-panel="videos">
         <span class="icon">🎬</span> Añadir video
       </button>
+      <button class="admin-nav-link" data-panel="materiales">
+        <span class="icon">📎</span> Materiales
+      </button>
     </aside>
 
     <!-- CONTENIDO -->
@@ -214,6 +217,59 @@
         </div>
       </div>
 
+      <!-- PANEL: MATERIALES -->
+      <div class="admin-panel" id="panel-materiales">
+        <h2 class="admin-panel__title">Materiales descargables</h2>
+
+        <div class="admin-form-card" style="background:var(--rosa-cl);border:1px solid var(--rosa);">
+          <h3 class="admin-form-card__title" style="border-color:var(--rosa);">📋 Cómo funciona</h3>
+          <ol style="padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:0.9rem;color:var(--texto-suave);">
+            <li>Selecciona el curso al que pertenece el material</li>
+            <li>Ponle un nombre (ej: "Plantilla flor de mayo")</li>
+            <li>Sube el archivo PDF o imagen desde tu ordenador</li>
+            <li>¡Las alumnas lo verán en su curso y podrán descargarlo!</li>
+          </ol>
+        </div>
+
+        <div class="admin-form-card">
+          <h3 class="admin-form-card__title">➕ Subir nuevo material</h3>
+          <div class="alert" id="materialAlert"></div>
+          <form id="createMaterialForm">
+            <div class="form-field">
+              <label>Curso</label>
+              <select id="materialCursoId" required>
+                <option value="">Selecciona el curso...</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Nombre del material</label>
+              <input type="text" id="materialNombre" placeholder="Ej: Plantilla bordado floral" required />
+            </div>
+            <div class="form-field">
+              <label>Archivo (PDF o imagen)</label>
+              <input type="file" id="materialArchivo" accept=".pdf,image/*" required
+                style="padding:10px;border:2px dashed var(--rosa);border-radius:8px;background:var(--rosa-cl);width:100%;cursor:pointer;" />
+            </div>
+            <button type="submit" class="btn btn--primary" id="createMaterialBtn">
+              📎 Subir material
+            </button>
+          </form>
+        </div>
+
+        <div class="admin-form-card">
+          <h3 class="admin-form-card__title">Materiales publicados</h3>
+          <div class="form-field" style="margin-bottom:20px;">
+            <label>Filtrar por curso</label>
+            <select id="filterMaterialCurso">
+              <option value="">Todos los cursos</option>
+            </select>
+          </div>
+          <div id="materialesList">
+            <div class="loading"><div class="spinner"></div>Cargando...</div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /admin-content -->
   </div><!-- /admin-layout -->
 
@@ -261,6 +317,7 @@
       await loadStats();
       await loadAlumnas();
       await loadVideos();
+      await loadMateriales();
     }
 
     // ============================================================
@@ -272,6 +329,7 @@
       renderCursosList();
       populateCursoSelects();
       populateCursosCheckList();
+      populateMaterialSelects();
     }
 
     function renderCursosList() {
@@ -598,6 +656,105 @@
       const { error } = await supabase.from('videos').delete().eq('id', id);
       if (error) alert('Error: ' + error.message);
       else { await loadVideos(); await loadStats(); }
+    }
+
+    // ============================================================
+    // MATERIALES
+    // ============================================================
+    async function loadMateriales(cursoFilter = '') {
+      let query = supabase.from('materiales').select('*, cursos(nombre)').order('created_at', { ascending: false });
+      if (cursoFilter) query = query.eq('curso_id', cursoFilter);
+      const { data: materiales } = await query;
+
+      const el = document.getElementById('materialesList');
+      if (!materiales || !materiales.length) {
+        el.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">No hay materiales publicados aún.</p>';
+        return;
+      }
+
+      el.innerHTML = `
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Nombre</th><th>Curso</th><th>Tipo</th><th>Publicado</th><th>Acción</th></tr></thead>
+            <tbody>${materiales.map(m => `
+              <tr>
+                <td><strong>${m.nombre}</strong></td>
+                <td>${m.cursos?.nombre || '—'}</td>
+                <td><span style="font-size:1.2rem;">${m.tipo === 'pdf' ? '📄' : '🖼️'}</span> ${m.tipo.toUpperCase()}</td>
+                <td>${formatDate(m.created_at)}</td>
+                <td>
+                  <div class="td-actions">
+                    <a href="${m.archivo_url}" target="_blank" class="btn btn-sm btn--outline">Ver</a>
+                    <button class="btn btn-sm btn-danger" onclick="deleteMaterial('${m.id}','${m.nombre.replace(/'/g,"\\'")}','${m.archivo_url}')">Eliminar</button>
+                  </div>
+                </td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+    }
+
+    function populateMaterialSelects() {
+      const opts = allCursos.map(c => `<option value="${c.id}">${c.nombre}</option>`).join('');
+      document.getElementById('materialCursoId').innerHTML = '<option value="">Selecciona el curso...</option>' + opts;
+      document.getElementById('filterMaterialCurso').innerHTML = '<option value="">Todos los cursos</option>' + opts;
+    }
+
+    document.getElementById('createMaterialForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('createMaterialBtn');
+      btn.textContent = 'Subiendo...'; btn.disabled = true;
+
+      const cursoId  = document.getElementById('materialCursoId').value;
+      const nombre   = document.getElementById('materialNombre').value.trim();
+      const archivo  = document.getElementById('materialArchivo').files[0];
+
+      if (!archivo) {
+        showAlert('materialAlert', 'Selecciona un archivo.');
+        btn.textContent = '📎 Subir material'; btn.disabled = false;
+        return;
+      }
+
+      const ext  = archivo.name.split('.').pop().toLowerCase();
+      const tipo = ext === 'pdf' ? 'pdf' : 'imagen';
+      const path = `${cursoId}/${Date.now()}-${archivo.name.replace(/\s+/g, '_')}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('materials')
+        .upload(path, archivo, { upsert: false });
+
+      if (uploadError) {
+        showAlert('materialAlert', 'Error al subir archivo: ' + uploadError.message);
+        btn.textContent = '📎 Subir material'; btn.disabled = false;
+        return;
+      }
+
+      const { data: urlData } = supabase.storage.from('materials').getPublicUrl(path);
+      const archivo_url = urlData.publicUrl;
+
+      const { error: dbError } = await supabase.from('materiales').insert({ curso_id: cursoId, nombre, archivo_url, tipo });
+
+      if (dbError) {
+        showAlert('materialAlert', 'Error al guardar: ' + dbError.message);
+      } else {
+        showAlert('materialAlert', '✅ Material publicado. Las alumnas ya pueden descargarlo.', 'success');
+        e.target.reset();
+        await loadMateriales();
+      }
+      btn.textContent = '📎 Subir material'; btn.disabled = false;
+    });
+
+    document.getElementById('filterMaterialCurso').addEventListener('change', (e) => {
+      loadMateriales(e.target.value);
+    });
+
+    async function deleteMaterial(id, nombre, archivoUrl) {
+      if (!confirm(`¿Eliminar "${nombre}"?`)) return;
+      const path = archivoUrl.split('/materials/')[1];
+      if (path) await supabase.storage.from('materials').remove([path]);
+      const { error } = await supabase.from('materiales').delete().eq('id', id);
+      if (error) alert('Error: ' + error.message);
+      else await loadMateriales();
     }
 
     // ============================================================

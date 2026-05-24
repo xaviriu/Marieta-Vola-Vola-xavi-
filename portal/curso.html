@@ -134,6 +134,34 @@
 
       videos = videoData || [];
 
+      // Cargar materiales descargables
+      const { data: materiales } = await supabase
+        .from('materiales')
+        .select('*')
+        .eq('curso_id', cursoId)
+        .order('created_at', { ascending: true });
+
+      if (materiales && materiales.length > 0) {
+        const materialesHtml = materiales.map(m => `
+          <a href="${m.archivo_url}" target="_blank" download
+            style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--crema-2);border:1px solid var(--rosa);border-radius:10px;text-decoration:none;color:var(--texto);transition:background 0.2s;"
+            onmouseover="this.style.background='var(--rosa-cl)'" onmouseout="this.style.background='var(--crema-2)'">
+            <span style="font-size:2rem;">${m.tipo === 'pdf' ? '📄' : '🖼️'}</span>
+            <div style="flex:1;">
+              <div style="font-weight:700;font-size:0.95rem;">${m.nombre}</div>
+              <div style="font-size:0.8rem;color:var(--texto-suave);margin-top:2px;">${m.tipo === 'pdf' ? 'PDF descargable' : 'Imagen descargable'}</div>
+            </div>
+            <span style="font-size:0.85rem;font-weight:700;color:var(--tierra);background:var(--rosa-cl);border:1px solid var(--rosa);padding:6px 14px;border-radius:20px;">⬇ Descargar</span>
+          </a>`).join('');
+
+        const materialesSection = document.createElement('div');
+        materialesSection.style.cssText = 'margin-top:48px;';
+        materialesSection.innerHTML = `
+          <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--texto);margin-bottom:16px;">📎 Materiales del curso</h2>
+          <div style="display:flex;flex-direction:column;gap:12px;">${materialesHtml}</div>`;
+        document.querySelector('main').appendChild(materialesSection);
+      }
+
       const content = document.getElementById('content');
 
       if (videos.length === 0) {
