@@ -49,34 +49,3 @@ document.querySelectorAll('.reveal').forEach(el => {
   revealObserver.observe(el);
 });
 
-// Lightbox — ver imagen a pantalla completa
-const lightbox = document.createElement('div');
-lightbox.className = 'lightbox';
-lightbox.innerHTML = '<button class="lightbox__close" aria-label="Cerrar">&#x2715;</button><img class="lightbox__img" src="" alt="" />';
-document.body.appendChild(lightbox);
-
-const lbImg   = lightbox.querySelector('.lightbox__img');
-const lbClose = lightbox.querySelector('.lightbox__close');
-
-function openLightbox(src, alt) {
-  lbImg.src = src;
-  lbImg.alt = alt;
-  lightbox.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-  lightbox.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-document.querySelectorAll(
-  '.gallery-item img, .course-card__image img, .creacion__img-wrap img'
-).forEach(img => {
-  img.style.cursor = 'zoom-in';
-  img.addEventListener('click', () => openLightbox(img.src, img.alt));
-});
-
-lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-lbClose.addEventListener('click', closeLightbox);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
