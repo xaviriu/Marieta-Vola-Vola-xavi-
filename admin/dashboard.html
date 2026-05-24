@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/feather-icons"></script>
   <style>
     .pago-filter {
       font-family: 'Nunito', sans-serif;
@@ -72,6 +73,7 @@
     .pago-edit-grid select,
     .pago-edit-grid input { width: 100%; padding: 8px 10px; border: 1.5px solid var(--rosa); border-radius: 8px; font-size: 0.9rem; font-family: 'Nunito', sans-serif; background: #fff; }
     .pago-notas { width: 100%; padding: 8px 10px; border: 1.5px solid var(--rosa); border-radius: 8px; font-size: 0.88rem; font-family: 'Nunito', sans-serif; resize: vertical; min-height: 60px; margin-bottom: 12px; }
+    .admin-nav-link i { width: 16px; height: 16px; stroke-width: 2; vertical-align: middle; margin-right: 4px; }
   </style>
 </head>
 <body class="portal-body" style="overflow-x:hidden;">
@@ -94,22 +96,22 @@
     <aside class="admin-sidebar">
       <p class="admin-sidebar__section-title">Menú</p>
       <button class="admin-nav-link active" data-panel="inicio">
-        <span class="icon">🏠</span> Inicio
+        <i data-feather="home"></i> Inicio
       </button>
       <button class="admin-nav-link" data-panel="alumnos">
-        <span class="icon">👩</span> Alumnos
+        <i data-feather="users"></i> Alumnos
       </button>
       <button class="admin-nav-link" data-panel="cursos">
-        <span class="icon">🧵</span> Cursos
+        <i data-feather="layers"></i> Cursos
       </button>
       <button class="admin-nav-link" data-panel="videos">
-        <span class="icon">🎬</span> Añadir video
+        <i data-feather="video"></i> Añadir video
       </button>
       <button class="admin-nav-link" data-panel="materiales">
-        <span class="icon">📎</span> Materiales
+        <i data-feather="paperclip"></i> Materiales
       </button>
       <button class="admin-nav-link" data-panel="pagos">
-        <span class="icon">💰</span> Pagos
+        <i data-feather="credit-card"></i> Pagos
       </button>
     </aside>
 
@@ -118,7 +120,7 @@
 
       <!-- PANEL: INICIO -->
       <div class="admin-panel active" id="panel-inicio">
-        <h2 class="admin-panel__title">Bienvenida, Marieta 👋</h2>
+        <h2 class="admin-panel__title">Bienvenida, Marieta</h2>
         <div class="admin-stats" id="statsGrid">
           <div class="stat-card"><div class="stat-card__number" id="statAlumnos">—</div><div class="stat-card__label">Alumnos</div></div>
           <div class="stat-card"><div class="stat-card__number" id="statCursos">—</div><div class="stat-card__label">Cursos</div></div>
@@ -127,18 +129,22 @@
         </div>
         <div class="admin-form-card">
           <h3 class="admin-form-card__title">¿Qué puedes hacer aquí?</h3>
-          <ul style="list-style:none; display:flex; flex-direction:column; gap:12px;">
-            <li style="display:flex;gap:12px;align-items:flex-start;font-size:0.95rem;color:var(--texto-suave);">
-              <span style="font-size:1.2rem; flex-shrink:0;">👩</span>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:16px;">
+            <li style="display:flex;gap:14px;align-items:flex-start;font-size:0.95rem;color:var(--texto-suave);">
+              <i data-feather="users" style="flex-shrink:0;margin-top:2px;color:var(--tierra);"></i>
               <span><strong>Alumnos</strong> — Crear nueva cuenta para una alumna que ha pagado, asignarle cursos y gestionarla.</span>
             </li>
-            <li style="display:flex;gap:12px;align-items:flex-start;font-size:0.95rem;color:var(--texto-suave);">
-              <span style="font-size:1.2rem; flex-shrink:0;">🧵</span>
+            <li style="display:flex;gap:14px;align-items:flex-start;font-size:0.95rem;color:var(--texto-suave);">
+              <i data-feather="layers" style="flex-shrink:0;margin-top:2px;color:var(--tierra);"></i>
               <span><strong>Cursos</strong> — Ver y crear cursos. Asignar o retirar acceso a una alumna.</span>
             </li>
-            <li style="display:flex;gap:12px;align-items:flex-start;font-size:0.95rem;color:var(--texto-suave);">
-              <span style="font-size:1.2rem; flex-shrink:0;">🎬</span>
+            <li style="display:flex;gap:14px;align-items:flex-start;font-size:0.95rem;color:var(--texto-suave);">
+              <i data-feather="video" style="flex-shrink:0;margin-top:2px;color:var(--tierra);"></i>
               <span><strong>Añadir video</strong> — Sube el video a YouTube como "No listado" y pega aquí el enlace para que aparezca en el curso.</span>
+            </li>
+            <li style="display:flex;gap:14px;align-items:flex-start;font-size:0.95rem;color:var(--texto-suave);">
+              <i data-feather="credit-card" style="flex-shrink:0;margin-top:2px;color:var(--tierra);"></i>
+              <span><strong>Pagos</strong> — Registra los pagos recibidos por Bizum y lleva el control de ingresos.</span>
             </li>
           </ul>
         </div>
@@ -150,7 +156,7 @@
 
         <!-- Formulario crear alumna -->
         <div class="admin-form-card">
-          <h3 class="admin-form-card__title">➕ Crear nueva alumna</h3>
+          <h3 class="admin-form-card__title">Crear nueva alumna</h3>
           <div class="alert" id="alumnaAlert"></div>
           <form id="createUserForm">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
@@ -194,7 +200,7 @@
 
         <!-- Crear curso -->
         <div class="admin-form-card">
-          <h3 class="admin-form-card__title">➕ Crear nuevo curso</h3>
+          <h3 class="admin-form-card__title">Crear nuevo curso</h3>
           <div class="alert" id="cursoAlert"></div>
           <form id="createCursoForm">
             <div class="form-field">
@@ -225,7 +231,7 @@
         <h2 class="admin-panel__title">Añadir video a un curso</h2>
 
         <div class="admin-form-card" style="background: var(--rosa-cl); border:1px solid var(--rosa);">
-          <h3 class="admin-form-card__title" style="border-color:var(--rosa);">📋 Cómo funciona</h3>
+          <h3 class="admin-form-card__title" style="border-color:var(--rosa);">Cómo funciona</h3>
           <ol style="padding-left:20px; display:flex; flex-direction:column; gap:10px; font-size:0.9rem; color:var(--texto-suave);">
             <li>Graba o ten listo el video de este mes</li>
             <li>Entra a <strong>YouTube</strong> → "Subir video"</li>
@@ -237,7 +243,7 @@
         </div>
 
         <div class="admin-form-card">
-          <h3 class="admin-form-card__title">➕ Subir nuevo video</h3>
+          <h3 class="admin-form-card__title">Subir nuevo video</h3>
           <div class="alert" id="videoAlert"></div>
           <form id="createVideoForm">
             <div class="form-field">
@@ -263,7 +269,7 @@
               <input type="number" id="videoOrden" value="1" min="1" />
             </div>
             <button type="submit" class="btn btn--primary" id="createVideoBtn">
-              🎬 Guardar video
+              Guardar video
             </button>
           </form>
         </div>
@@ -288,7 +294,7 @@
         <h2 class="admin-panel__title">Materiales descargables</h2>
 
         <div class="admin-form-card" style="background:var(--rosa-cl);border:1px solid var(--rosa);">
-          <h3 class="admin-form-card__title" style="border-color:var(--rosa);">📋 Cómo funciona</h3>
+          <h3 class="admin-form-card__title" style="border-color:var(--rosa);">Cómo funciona</h3>
           <ol style="padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:0.9rem;color:var(--texto-suave);">
             <li>Selecciona el curso al que pertenece el material</li>
             <li>Ponle un nombre (ej: "Plantilla flor de mayo")</li>
@@ -298,7 +304,7 @@
         </div>
 
         <div class="admin-form-card">
-          <h3 class="admin-form-card__title">➕ Subir nuevo material</h3>
+          <h3 class="admin-form-card__title">Subir nuevo material</h3>
           <div class="alert" id="materialAlert"></div>
           <form id="createMaterialForm">
             <div class="form-field">
@@ -317,7 +323,7 @@
                 style="padding:10px;border:2px dashed var(--rosa);border-radius:8px;background:var(--rosa-cl);width:100%;cursor:pointer;" />
             </div>
             <button type="submit" class="btn btn--primary" id="createMaterialBtn">
-              📎 Subir material
+              Subir material
             </button>
           </form>
         </div>
@@ -360,10 +366,10 @@
         <div class="admin-form-card">
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;" id="pagosFilterBtns">
             <button class="pago-filter active" data-filter="todos">Todos</button>
-            <button class="pago-filter" data-filter="pendiente">⏳ Pendiente</button>
-            <button class="pago-filter" data-filter="pagado">✅ Pagado</button>
-            <button class="pago-filter" data-filter="en_conversacion">💬 En conversación</button>
-            <button class="pago-filter" data-filter="cancelado">❌ Cancelado</button>
+            <button class="pago-filter" data-filter="pendiente">Pendiente</button>
+            <button class="pago-filter" data-filter="pagado">Pagado</button>
+            <button class="pago-filter" data-filter="en_conversacion">En conversación</button>
+            <button class="pago-filter" data-filter="cancelado">Cancelado</button>
           </div>
           <div id="pagosList">
             <div class="loading"><div class="spinner"></div>Cargando...</div>
@@ -486,7 +492,7 @@
       if (error) {
         showAlert('cursoAlert', 'Error: ' + error.message);
       } else {
-        showAlert('cursoAlert', '✅ Curso creado correctamente.', 'success');
+        showAlert('cursoAlert', 'Curso creado correctamente.', 'success');
         e.target.reset();
         await loadCursos();
         await loadStats();
@@ -624,7 +630,7 @@
 
         const newUserId = result.userId;
 
-        showAlert('alumnaAlert', `✅ Alumna creada. Credenciales: ${email} / ${password}`, 'success');
+        showAlert('alumnaAlert', `Alumna creada correctamente. Credenciales: ${email} / ${password}`, 'success');
         e.target.reset();
         await loadAlumnas();
         await loadStats();
@@ -732,7 +738,7 @@
 
       if (!getYoutubeId(youtube_url)) {
         showAlert('videoAlert', 'La URL de YouTube no es válida. Usa el formato https://youtu.be/XXXXX');
-        btn.textContent = '🎬 Guardar video'; btn.disabled = false;
+        btn.textContent = 'Guardar video'; btn.disabled = false;
         return;
       }
 
@@ -741,7 +747,7 @@
       if (error) {
         showAlert('videoAlert', 'Error: ' + error.message);
       } else {
-        showAlert('videoAlert', '✅ Video publicado. Las alumnas ya pueden verlo.', 'success');
+        showAlert('videoAlert', 'Video publicado. Las alumnas ya pueden verlo.', 'success');
         e.target.reset();
         await loadVideos();
         await loadStats();
@@ -813,7 +819,7 @@
 
       if (!archivo) {
         showAlert('materialAlert', 'Selecciona un archivo.');
-        btn.textContent = '📎 Subir material'; btn.disabled = false;
+        btn.textContent = 'Subir material'; btn.disabled = false;
         return;
       }
 
@@ -827,7 +833,7 @@
 
       if (uploadError) {
         showAlert('materialAlert', 'Error al subir archivo: ' + uploadError.message);
-        btn.textContent = '📎 Subir material'; btn.disabled = false;
+        btn.textContent = 'Subir material'; btn.disabled = false;
         return;
       }
 
@@ -839,7 +845,7 @@
       if (dbError) {
         showAlert('materialAlert', 'Error al guardar: ' + dbError.message);
       } else {
-        showAlert('materialAlert', '✅ Material publicado. Las alumnas ya pueden descargarlo.', 'success');
+        showAlert('materialAlert', 'Material publicado. Las alumnas ya pueden descargarlo.', 'success');
         e.target.reset();
         await loadMateriales();
       }
@@ -863,10 +869,10 @@
     // PAGOS
     // ============================================================
     const ESTADO = {
-      pagado:          { label: '✅ Pagado',          bg: '#d4f4e2', color: '#1a6b3a' },
-      pendiente:       { label: '⏳ Pendiente',        bg: '#fff3cd', color: '#7d5a00' },
-      en_conversacion: { label: '💬 En conversación', bg: '#dce8ff', color: '#1a3a7a' },
-      cancelado:       { label: '❌ Cancelado',        bg: '#fde2e2', color: '#7a1a1a' },
+      pagado:          { dot: '#1a6b3a', label: 'Pagado',          bg: '#d4f4e2', color: '#1a6b3a' },
+      pendiente:       { dot: '#b07800', label: 'Pendiente',        bg: '#fff3cd', color: '#7d5a00' },
+      en_conversacion: { dot: '#1a3a7a', label: 'En conversación', bg: '#dce8ff', color: '#1a3a7a' },
+      cancelado:       { dot: '#7a1a1a', label: 'Cancelado',        bg: '#fde2e2', color: '#7a1a1a' },
     };
 
     let allPagos = [];
@@ -922,12 +928,14 @@
           <div class="pago-card__top">
             <div>
               <div class="pago-card__name">${nombre}</div>
-              <div class="pago-card__curso">🧵 ${curso}</div>
+              <div class="pago-card__curso">${curso}</div>
             </div>
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-              <span class="estado-badge" style="background:${cfg.bg};color:${cfg.color};">${cfg.label}</span>
+              <span class="estado-badge" style="background:${cfg.bg};color:${cfg.color};display:inline-flex;align-items:center;gap:6px;">
+                <span style="width:7px;height:7px;border-radius:50%;background:${cfg.dot};flex-shrink:0;"></span>${cfg.label}
+              </span>
               <span style="font-weight:800;font-size:0.95rem;color:var(--tierra);">${p.importe > 0 ? parseFloat(p.importe).toFixed(2) + '€' : '—'}</span>
-              <button class="btn btn-sm btn--outline" onclick="togglePagoEdit('${p.id}')">✏️ Editar</button>
+              <button class="btn btn-sm btn--outline" onclick="togglePagoEdit('${p.id}')">Editar</button>
             </div>
           </div>
           ${p.notas ? `<p style="font-size:0.82rem;color:var(--texto-suave);margin:0;">📝 ${p.notas}</p>` : ''}
@@ -951,7 +959,7 @@
                   <option value="bizum"        ${p.forma_pago === 'bizum'        ? 'selected' : ''}>💸 Bizum</option>
                   <option value="transferencia" ${p.forma_pago === 'transferencia'? 'selected' : ''}>🏦 Transferencia</option>
                   <option value="efectivo"     ${p.forma_pago === 'efectivo'     ? 'selected' : ''}>💵 Efectivo</option>
-                  <option value="otro"         ${p.forma_pago === 'otro'         ? 'selected' : ''}>📋 Otro</option>
+                  <option value="otro"         ${p.forma_pago === 'otro'         ? 'selected' : ''}>Otro</option>
                 </select>
               </div>
               <div>
@@ -962,7 +970,7 @@
             <label style="font-size:0.78rem;font-weight:700;color:var(--texto-suave);display:block;margin-bottom:4px;">Notas</label>
             <textarea class="pago-notas" id="notas-${p.id}" placeholder="Ej: pagó el viernes por Bizum...">${p.notas || ''}</textarea>
             <div style="display:flex;gap:10px;">
-              <button class="btn btn--primary" onclick="savePago('${p.id}')">💾 Guardar</button>
+              <button class="btn btn--primary" onclick="savePago('${p.id}')">Guardar</button>
               <button class="btn btn--outline" onclick="togglePagoEdit('${p.id}')">Cancelar</button>
             </div>
           </div>
@@ -1034,6 +1042,7 @@
     });
 
     init();
+    feather.replace({ width: 16, height: 16 });
   </script>
 </body>
 </html>
