@@ -58,6 +58,10 @@
   font-size: 0.85rem;
   color: var(--texto-suave);
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 120px;
 }
 
 .portal-navbar__badge {
@@ -76,16 +80,19 @@
   font-weight: 700;
   color: var(--texto-suave);
   cursor: pointer;
-  border: none;
+  border: 1.5px solid var(--crema-3);
   background: none;
   font-family: 'Nunito', sans-serif;
-  transition: color 0.2s;
-  padding: 0;
+  transition: color 0.2s, border-color 0.2s;
+  padding: 8px 14px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  border-radius: 20px;
+  min-height: 36px;
+  white-space: nowrap;
 }
 
-.portal-navbar__logout:hover { color: var(--tierra); }
+.portal-navbar__logout:hover { color: var(--tierra); border-color: var(--tierra); }
 
 /* ============================================================
    LOGIN PAGE
@@ -613,6 +620,8 @@
   text-decoration: none;
   margin-bottom: 20px;
   transition: color 0.2s;
+  padding: 8px 0;
+  min-height: 44px;
 }
 
 .course-back:hover { color: var(--tierra); }
@@ -833,6 +842,70 @@
 /* ============================================================
    RESPONSIVE
    ============================================================ */
+
+/* Admin sidebar horizontal en móvil */
+@media (max-width: 899px) {
+  .admin-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    padding: 0;
+    flex-direction: row;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .admin-sidebar::-webkit-scrollbar { display: none; }
+
+  .admin-sidebar__section-title { display: none; }
+
+  .admin-nav-link {
+    padding: 14px 16px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    border-left: none !important;
+    border-bottom: 3px solid transparent;
+    font-size: 0.78rem;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+    align-items: center;
+    min-width: 70px;
+  }
+
+  .admin-nav-link.active {
+    border-left: none !important;
+    border-bottom: 3px solid var(--tierra);
+  }
+
+  .admin-content {
+    padding: 24px 16px 60px;
+  }
+
+  .admin-panel__title {
+    font-size: 1.5rem;
+  }
+
+  .admin-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Portal navbar en pantallas muy pequeñas */
+@media (max-width: 400px) {
+  .portal-navbar__name { display: none; }
+  .portal-navbar { padding: 0 16px; }
+}
+
 @media (min-width: 640px) {
   .portal-courses-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -849,7 +922,31 @@
   }
 
   .admin-layout {
+    display: grid;
     grid-template-columns: 220px 1fr;
+  }
+
+  .admin-sidebar {
+    flex-direction: column;
+    padding: 32px 0;
+  }
+
+  .admin-sidebar__section-title { display: block; }
+
+  .admin-nav-link {
+    padding: 13px 24px;
+    flex-direction: row;
+    white-space: normal;
+    min-width: unset;
+    font-size: 0.88rem;
+    text-align: left;
+    align-items: center;
+    border-bottom: none !important;
+  }
+
+  .admin-nav-link.active {
+    border-bottom: none !important;
+    border-left: 3px solid var(--tierra) !important;
   }
 
   .course-page {
