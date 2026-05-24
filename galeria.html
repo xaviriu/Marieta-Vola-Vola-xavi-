@@ -527,34 +527,36 @@
 
   <script src="js/main.js"></script>
   <script>
-    // ── FILTROS ──
+    // ── FILTROS → scroll a la sección ──
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const categories = document.querySelectorAll('.gallery-category');
 
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        const filter = btn.dataset.filter;
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        categories.forEach(cat => {
-          if (filter === 'all' || cat.dataset.category === filter) {
-            cat.classList.remove('hidden');
-          } else {
-            cat.classList.add('hidden');
+
+        const filter = btn.dataset.filter;
+        if (filter === 'all') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          const target = document.querySelector(`.gallery-category[data-category="${filter}"]`);
+          if (target) {
+            const offset = target.getBoundingClientRect().top + window.scrollY - 100;
+            window.scrollTo({ top: offset, behavior: 'smooth' });
           }
-        });
+        }
       });
     });
 
     // ── LIGHTBOX ──
-    const lightbox = document.getElementById('lightbox');
-    const lbImg    = document.getElementById('lbImg');
+    const lightbox  = document.getElementById('lightbox');
+    const lbImg     = document.getElementById('lbImg');
     const lbCaption = document.getElementById('lbCaption');
-    const lbClose  = document.getElementById('lbClose');
-    const lbPrev   = document.getElementById('lbPrev');
-    const lbNext   = document.getElementById('lbNext');
+    const lbClose   = document.getElementById('lbClose');
+    const lbPrev    = document.getElementById('lbPrev');
+    const lbNext    = document.getElementById('lbNext');
 
-    let allItems = [];
+    const allItems = Array.from(document.querySelectorAll('.masonry-item'));
     let currentIndex = 0;
 
     function openLightbox(index) {
@@ -582,21 +584,20 @@
       openLightbox(currentIndex);
     }
 
-    document.querySelectorAll('.masonry-item').forEach((item, i) => {
-      allItems.push(item);
+    allItems.forEach((item, i) => {
       item.addEventListener('click', () => openLightbox(i));
     });
 
     lbClose.addEventListener('click', closeLightbox);
-    lbPrev.addEventListener('click', showPrev);
-    lbNext.addEventListener('click', showNext);
+    lbPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+    lbNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
     lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
 
     document.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('open')) return;
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') showPrev();
-      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'Escape')      closeLightbox();
+      if (e.key === 'ArrowLeft')   showPrev();
+      if (e.key === 'ArrowRight')  showNext();
     });
   </script>
 </body>
