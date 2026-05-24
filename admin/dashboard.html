@@ -74,6 +74,35 @@
     .pago-edit-grid input { width: 100%; padding: 8px 10px; border: 1.5px solid var(--rosa); border-radius: 8px; font-size: 0.9rem; font-family: 'Nunito', sans-serif; background: #fff; }
     .pago-notas { width: 100%; padding: 8px 10px; border: 1.5px solid var(--rosa); border-radius: 8px; font-size: 0.88rem; font-family: 'Nunito', sans-serif; resize: vertical; min-height: 60px; margin-bottom: 12px; }
     .admin-nav-link i { width: 16px; height: 16px; stroke-width: 2; vertical-align: middle; margin-right: 4px; }
+
+    /* Selector de sección en móvil */
+    .admin-mobile-nav {
+      display: none;
+      background: var(--texto);
+      padding: 12px 16px;
+    }
+    .admin-mobile-nav select {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      color: var(--texto);
+      background: var(--crema);
+      border: none;
+      border-radius: 8px;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23C1694F' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 44px;
+      cursor: pointer;
+    }
+    @media (max-width: 899px) {
+      .admin-mobile-nav { display: block; }
+      .admin-sidebar { display: none !important; }
+    }
   </style>
 </head>
 <body class="portal-body" style="overflow-x:hidden;">
@@ -89,6 +118,18 @@
       <button class="portal-navbar__logout" id="logoutBtn">Salir</button>
     </div>
   </header>
+
+  <!-- SELECTOR MÓVIL -->
+  <div class="admin-mobile-nav">
+    <select id="adminMobileSelect">
+      <option value="inicio">🏠 Inicio</option>
+      <option value="alumnos">👤 Alumnos</option>
+      <option value="cursos">📚 Cursos</option>
+      <option value="videos">🎬 Añadir video</option>
+      <option value="materiales">📎 Materiales</option>
+      <option value="pagos">💳 Pagos</option>
+    </select>
+  </div>
 
   <div class="admin-layout">
 
@@ -1023,15 +1064,27 @@
     // ============================================================
     // NAVEGACIÓN ENTRE PANELES
     // ============================================================
+    function switchPanel(panel) {
+      document.querySelectorAll('.admin-nav-link').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+      const btn = document.querySelector(`.admin-nav-link[data-panel="${panel}"]`);
+      if (btn) btn.classList.add('active');
+      document.getElementById(`panel-${panel}`).classList.add('active');
+    }
+
     document.querySelectorAll('.admin-nav-link').forEach(btn => {
       btn.addEventListener('click', () => {
         const panel = btn.dataset.panel;
-        document.querySelectorAll('.admin-nav-link').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(`panel-${panel}`).classList.add('active');
+        switchPanel(panel);
+        const sel = document.getElementById('adminMobileSelect');
+        if (sel) sel.value = panel;
       });
     });
+
+    const mobileSelect = document.getElementById('adminMobileSelect');
+    if (mobileSelect) {
+      mobileSelect.addEventListener('change', () => switchPanel(mobileSelect.value));
+    }
 
     // ============================================================
     // LOGOUT
