@@ -10,6 +10,69 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .pago-filter {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 7px 16px;
+      border-radius: 20px;
+      border: 2px solid var(--rosa);
+      background: transparent;
+      color: var(--tierra);
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .pago-filter.active, .pago-filter:hover {
+      background: var(--tierra);
+      border-color: var(--tierra);
+      color: #fff;
+    }
+    .pago-card {
+      border: 1px solid var(--rosa);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      background: var(--crema-2);
+      transition: box-shadow 0.2s;
+    }
+    .pago-card:hover { box-shadow: 0 4px 16px var(--shadow); }
+    .pago-card__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .pago-card__name { font-weight: 800; font-size: 1rem; color: var(--texto); }
+    .pago-card__curso { font-size: 0.85rem; color: var(--texto-suave); margin-top: 2px; }
+    .estado-badge {
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .pago-card__edit {
+      border-top: 1px solid var(--rosa);
+      margin-top: 14px;
+      padding-top: 14px;
+      display: none;
+    }
+    .pago-card__edit.open { display: block; }
+    .pago-edit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 520px) { .pago-edit-grid { grid-template-columns: 1fr; } }
+    .pago-edit-grid label { font-size: 0.78rem; font-weight: 700; color: var(--texto-suave); display: block; margin-bottom: 4px; }
+    .pago-edit-grid select,
+    .pago-edit-grid input { width: 100%; padding: 8px 10px; border: 1.5px solid var(--rosa); border-radius: 8px; font-size: 0.9rem; font-family: 'Nunito', sans-serif; background: #fff; }
+    .pago-notas { width: 100%; padding: 8px 10px; border: 1.5px solid var(--rosa); border-radius: 8px; font-size: 0.88rem; font-family: 'Nunito', sans-serif; resize: vertical; min-height: 60px; margin-bottom: 12px; }
+  </style>
 </head>
 <body class="portal-body" style="overflow-x:hidden;">
 
@@ -44,6 +107,9 @@
       </button>
       <button class="admin-nav-link" data-panel="materiales">
         <span class="icon">📎</span> Materiales
+      </button>
+      <button class="admin-nav-link" data-panel="pagos">
+        <span class="icon">💰</span> Pagos
       </button>
     </aside>
 
@@ -270,6 +336,41 @@
         </div>
       </div>
 
+      <!-- PANEL: PAGOS -->
+      <div class="admin-panel" id="panel-pagos">
+        <h2 class="admin-panel__title">Pagos</h2>
+
+        <!-- Métricas -->
+        <div class="admin-stats" style="margin-bottom:28px;">
+          <div class="stat-card">
+            <div class="stat-card__number" id="pagoMes">—</div>
+            <div class="stat-card__label">💰 Este mes</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__number" id="pagoAno">—</div>
+            <div class="stat-card__label">📅 Este año</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__number" id="pagoTotal">—</div>
+            <div class="stat-card__label">📊 Total histórico</div>
+          </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="admin-form-card">
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;" id="pagosFilterBtns">
+            <button class="pago-filter active" data-filter="todos">Todos</button>
+            <button class="pago-filter" data-filter="pendiente">⏳ Pendiente</button>
+            <button class="pago-filter" data-filter="pagado">✅ Pagado</button>
+            <button class="pago-filter" data-filter="en_conversacion">💬 En conversación</button>
+            <button class="pago-filter" data-filter="cancelado">❌ Cancelado</button>
+          </div>
+          <div id="pagosList">
+            <div class="loading"><div class="spinner"></div>Cargando...</div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /admin-content -->
   </div><!-- /admin-layout -->
 
@@ -318,6 +419,7 @@
       await loadAlumnas();
       await loadVideos();
       await loadMateriales();
+      await loadPagos();
     }
 
     // ============================================================
@@ -756,6 +858,159 @@
       if (error) alert('Error: ' + error.message);
       else await loadMateriales();
     }
+
+    // ============================================================
+    // PAGOS
+    // ============================================================
+    const ESTADO = {
+      pagado:          { label: '✅ Pagado',          bg: '#d4f4e2', color: '#1a6b3a' },
+      pendiente:       { label: '⏳ Pendiente',        bg: '#fff3cd', color: '#7d5a00' },
+      en_conversacion: { label: '💬 En conversación', bg: '#dce8ff', color: '#1a3a7a' },
+      cancelado:       { label: '❌ Cancelado',        bg: '#fde2e2', color: '#7a1a1a' },
+    };
+
+    let allPagos = [];
+    let pagosFilter = 'todos';
+
+    async function loadPagos() {
+      const { data } = await supabase
+        .from('matriculas')
+        .select('*, cursos(nombre)')
+        .order('created_at', { ascending: false });
+      allPagos = data || [];
+      renderPagosMetrics();
+      renderPagos();
+    }
+
+    function renderPagosMetrics() {
+      const now = new Date();
+      const mes = String(now.getMonth() + 1).padStart(2, '0');
+      const firstMes  = `${now.getFullYear()}-${mes}-01`;
+      const firstAno  = `${now.getFullYear()}-01-01`;
+      const pagados = allPagos.filter(p => p.estado_pago === 'pagado' && p.importe > 0);
+
+      const total  = pagados.reduce((s, p) => s + parseFloat(p.importe || 0), 0);
+      const ano    = pagados.filter(p => p.fecha_pago >= firstAno).reduce((s, p) => s + parseFloat(p.importe || 0), 0);
+      const mes_n  = pagados.filter(p => p.fecha_pago >= firstMes).reduce((s, p) => s + parseFloat(p.importe || 0), 0);
+
+      document.getElementById('pagoMes').textContent   = mes_n.toFixed(2) + '€';
+      document.getElementById('pagoAno').textContent   = ano.toFixed(2) + '€';
+      document.getElementById('pagoTotal').textContent = total.toFixed(2) + '€';
+    }
+
+    function renderPagos() {
+      const lista = pagosFilter === 'todos'
+        ? allPagos
+        : allPagos.filter(p => (p.estado_pago || 'pendiente') === pagosFilter);
+
+      const el = document.getElementById('pagosList');
+
+      if (!lista.length) {
+        el.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">No hay registros con este filtro.</p>';
+        return;
+      }
+
+      el.innerHTML = lista.map(p => {
+        const profile = allProfiles.find(pr => pr.id === p.user_id);
+        const nombre  = profile?.nombre || p.user_id?.slice(0, 8) + '...';
+        const curso   = p.cursos?.nombre || '—';
+        const estado  = p.estado_pago || 'pendiente';
+        const cfg     = ESTADO[estado] || ESTADO.pendiente;
+
+        return `
+        <div class="pago-card" id="pago-${p.id}">
+          <div class="pago-card__top">
+            <div>
+              <div class="pago-card__name">${nombre}</div>
+              <div class="pago-card__curso">🧵 ${curso}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span class="estado-badge" style="background:${cfg.bg};color:${cfg.color};">${cfg.label}</span>
+              <span style="font-weight:800;font-size:0.95rem;color:var(--tierra);">${p.importe > 0 ? parseFloat(p.importe).toFixed(2) + '€' : '—'}</span>
+              <button class="btn btn-sm btn--outline" onclick="togglePagoEdit('${p.id}')">✏️ Editar</button>
+            </div>
+          </div>
+          ${p.notas ? `<p style="font-size:0.82rem;color:var(--texto-suave);margin:0;">📝 ${p.notas}</p>` : ''}
+
+          <!-- FORMULARIO EDICIÓN -->
+          <div class="pago-card__edit" id="edit-${p.id}">
+            <div class="pago-edit-grid">
+              <div>
+                <label>Estado del pago</label>
+                <select id="est-${p.id}">
+                  ${Object.entries(ESTADO).map(([k, v]) => `<option value="${k}" ${estado === k ? 'selected' : ''}>${v.label}</option>`).join('')}
+                </select>
+              </div>
+              <div>
+                <label>Importe (€)</label>
+                <input type="number" id="imp-${p.id}" value="${p.importe || ''}" placeholder="0.00" step="0.01" min="0" />
+              </div>
+              <div>
+                <label>Forma de pago</label>
+                <select id="forma-${p.id}">
+                  <option value="bizum"        ${p.forma_pago === 'bizum'        ? 'selected' : ''}>💸 Bizum</option>
+                  <option value="transferencia" ${p.forma_pago === 'transferencia'? 'selected' : ''}>🏦 Transferencia</option>
+                  <option value="efectivo"     ${p.forma_pago === 'efectivo'     ? 'selected' : ''}>💵 Efectivo</option>
+                  <option value="otro"         ${p.forma_pago === 'otro'         ? 'selected' : ''}>📋 Otro</option>
+                </select>
+              </div>
+              <div>
+                <label>Fecha de pago</label>
+                <input type="date" id="fecha-${p.id}" value="${p.fecha_pago || ''}" />
+              </div>
+            </div>
+            <label style="font-size:0.78rem;font-weight:700;color:var(--texto-suave);display:block;margin-bottom:4px;">Notas</label>
+            <textarea class="pago-notas" id="notas-${p.id}" placeholder="Ej: pagó el viernes por Bizum...">${p.notas || ''}</textarea>
+            <div style="display:flex;gap:10px;">
+              <button class="btn btn--primary" onclick="savePago('${p.id}')">💾 Guardar</button>
+              <button class="btn btn--outline" onclick="togglePagoEdit('${p.id}')">Cancelar</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function togglePagoEdit(id) {
+      const el = document.getElementById(`edit-${id}`);
+      el.classList.toggle('open');
+    }
+
+    async function savePago(id) {
+      const estado_pago = document.getElementById(`est-${id}`).value;
+      const importe     = parseFloat(document.getElementById(`imp-${id}`).value) || 0;
+      const forma_pago  = document.getElementById(`forma-${id}`).value;
+      const notas       = document.getElementById(`notas-${id}`).value.trim() || null;
+      let   fecha_pago  = document.getElementById(`fecha-${id}`).value || null;
+
+      if (estado_pago === 'pagado' && !fecha_pago) {
+        fecha_pago = new Date().toISOString().split('T')[0];
+      }
+
+      const btn = document.querySelector(`#pago-${id} .btn--primary`);
+      btn.textContent = 'Guardando...'; btn.disabled = true;
+
+      const { error } = await supabase
+        .from('matriculas')
+        .update({ estado_pago, importe, forma_pago, fecha_pago, notas })
+        .eq('id', id);
+
+      if (error) {
+        alert('Error al guardar: ' + error.message);
+        btn.textContent = '💾 Guardar'; btn.disabled = false;
+      } else {
+        await loadPagos();
+        await loadStats();
+      }
+    }
+
+    document.getElementById('pagosFilterBtns').addEventListener('click', (e) => {
+      const btn = e.target.closest('.pago-filter');
+      if (!btn) return;
+      document.querySelectorAll('.pago-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      pagosFilter = btn.dataset.filter;
+      renderPagos();
+    });
 
     // ============================================================
     // NAVEGACIÓN ENTRE PANELES
