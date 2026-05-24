@@ -450,7 +450,7 @@
       try {
         const { data: { session } } = await supabase.auth.getSession();
 
-        const res = await fetch('https://iktdggvtvbvkmprjfmcx.supabase.co/functions/v1/create-user', {
+        const res = await fetch('https://iktdggvtvbvkmprjfmcx.supabase.co/functions/v1/rapid-worker', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
