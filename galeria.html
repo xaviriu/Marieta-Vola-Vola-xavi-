@@ -11,97 +11,234 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    .gallery-grid {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
 
-    .gallery-item {
-      border-radius: 6px;
-      overflow: hidden;
-      background: linear-gradient(145deg, var(--crema-2), var(--rosa-cl), var(--crema-3));
-      position: relative;
-      box-shadow: 0 4px 16px var(--shadow);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .gallery-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px var(--shadow-md);
-    }
-
-    .gallery-item:nth-child(3n+1) {
-      background: linear-gradient(145deg, var(--crema-2), var(--rosa-cl), var(--arena));
-    }
-
-    .gallery-item:nth-child(3n+2) {
-      background: linear-gradient(145deg, var(--salvia-cl), var(--crema-2), var(--salvia));
-    }
-
-    .gallery-item:nth-child(3n+3) {
-      background: linear-gradient(145deg, var(--crema-2), var(--arena), var(--tierra) 200%);
-    }
-
-    .gallery-item__inner {
-      padding-top: 100%;
-      position: relative;
-    }
-
-    .gallery-item__label {
-      position: absolute;
-      inset: 0;
+    /* ── FILTROS ── */
+    .gallery-filters {
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
       justify-content: center;
-      color: var(--texto-suave);
-      font-size: 0.8rem;
-      text-align: center;
-      gap: 8px;
+      margin: 0 auto 48px;
+      max-width: 700px;
+    }
+
+    .filter-btn {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 10px 22px;
+      border-radius: 30px;
+      border: 2px solid var(--rosa);
+      background: transparent;
+      color: var(--tierra);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--tierra);
+      border-color: var(--tierra);
+      color: #fff;
+    }
+
+    /* ── CATEGORÍA ── */
+    .gallery-category {
+      max-width: 1200px;
+      margin: 0 auto 72px;
+      padding: 0 24px;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery-category.hidden {
+      display: none;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .category-header__icon {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .category-header__text {}
+
+    .category-header__label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tierra);
+      opacity: 0.6;
+      margin-bottom: 2px;
+    }
+
+    .category-header__title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
       font-weight: 600;
-      letter-spacing: 0.05em;
+      color: var(--texto);
+      margin: 0;
+      line-height: 1.1;
     }
 
-    .gallery-item__label span {
-      font-size: 1.8rem;
+    .category-divider {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--rosa), transparent);
     }
 
-    .gallery-item img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .gallery-item--wide {
-      grid-column: span 2;
-    }
-
-    .gallery-item--wide .gallery-item__inner {
-      padding-top: 45%;
+    /* ── GRID MASONRY ── */
+    .masonry-grid {
+      columns: 2;
+      column-gap: 16px;
     }
 
     @media (min-width: 640px) {
-      .gallery-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .gallery-item--wide {
-        grid-column: span 1;
-      }
-      .gallery-item--wide .gallery-item__inner {
-        padding-top: 100%;
-      }
+      .masonry-grid { columns: 3; column-gap: 18px; }
     }
 
     @media (min-width: 960px) {
-      .gallery-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-      }
+      .masonry-grid { columns: 4; column-gap: 20px; }
+    }
+
+    .masonry-item {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .masonry-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.14);
+    }
+
+    .masonry-item img {
+      width: 100%;
+      display: block;
+    }
+
+    .masonry-item__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(80,40,20,0.7) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+    }
+
+    .masonry-item:hover .masonry-item__overlay {
+      opacity: 1;
+    }
+
+    .masonry-item__caption {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(10, 5, 0, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox__img {
+      max-width: min(92vw, 860px);
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      transform: scale(0.95);
+      transition: transform 0.25s ease;
+    }
+
+    .lightbox.open .lightbox__img {
+      transform: scale(1);
+    }
+
+    .lightbox__caption {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.75);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .lightbox__close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-size: 2rem;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .lightbox__close:hover { color: #fff; }
+
+    .lightbox__nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.5rem;
+      color: rgba(255,255,255,0.6);
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+      padding: 12px;
+      transition: color 0.2s;
+      user-select: none;
+    }
+
+    .lightbox__nav:hover { color: #fff; }
+    .lightbox__nav--prev { left: 12px; }
+    .lightbox__nav--next { right: 12px; }
+
+    @media (max-width: 480px) {
+      .lightbox__nav { font-size: 1.8rem; padding: 8px; }
+    }
+
+    .gallery-page {
+      padding-bottom: 24px;
     }
   </style>
 </head>
@@ -147,67 +284,172 @@
       <h1 class="section-title">Galería</h1>
       <div class="divider divider--center"></div>
       <p class="section-subtitle">
-        Lo que crean las alumnas en los talleres. Cada pieza, única.
-        Bordado, manualidades de tela, personalización de ropa y mucho más.
+        Lo que se crea en los talleres. Bordado, costura, manualidades de tela y decoración.<br />
+        Cada pieza, única y hecha con las manos.
       </p>
     </section>
 
-    <!-- GALLERY GRID -->
+    <!-- FILTROS -->
+    <div style="padding: 0 24px;">
+      <div class="gallery-filters">
+        <button class="filter-btn active" data-filter="all">✨ Todos</button>
+        <button class="filter-btn" data-filter="bordado">🪡 Bordado</button>
+        <button class="filter-btn" data-filter="tela">🧵 Manualidades de tela</button>
+        <button class="filter-btn" data-filter="decoracion">🎨 Decoración</button>
+      </div>
+    </div>
+
     <section class="gallery-page">
-      <div class="gallery-grid">
 
-        <div class="gallery-item gallery-item--wide">
-          <div class="gallery-item__inner">
-            <img src="images/fotomarieta.jpg" alt="Marieta Vola Vola con chaleco bordado artesanal" />
+      <!-- CATEGORÍA: BORDADO -->
+      <div class="gallery-category" data-category="bordado">
+        <div class="category-header">
+          <div class="category-header__icon">🪡</div>
+          <div class="category-header__text">
+            <div class="category-header__label">Categoría</div>
+            <h2 class="category-header__title">Bordado</h2>
           </div>
+          <div class="category-divider"></div>
         </div>
 
-        <div class="gallery-item">
-          <div class="gallery-item__inner">
-            <img src="images/proyecto.jpg" alt="Chaqueta vaquera personalizada con bordado" />
-          </div>
-        </div>
+        <div class="masonry-grid">
 
-        <div class="gallery-item">
-          <div class="gallery-item__inner">
-            <img src="images/otramanualidad.jpg" alt="Bastidor decorativo con letra L bordada con flores" />
+          <div class="masonry-item" data-src="images/1.jpg" data-caption="Bastidor personalizado — Bienvenida bebé Gerard">
+            <img src="images/1.jpg" alt="Bastidor bordado personalizado con nombre Gerard y animales" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Bastidor personalizado — Gerard</span>
+            </div>
           </div>
-        </div>
 
-        <div class="gallery-item">
-          <div class="gallery-item__inner">
-            <img src="images/manualidad2.jpg" alt="Gorro y guantes con pequeñas flores bordadas" />
+          <div class="masonry-item" data-src="images/2.jpg" data-caption="Bastidor bordado — «Magia eres tú»">
+            <img src="images/2.jpg" alt="Bastidor bordado con hada y texto Magia eres tú" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">«Magia eres tú»</span>
+            </div>
           </div>
-        </div>
 
-        <div class="gallery-item">
-          <div class="gallery-item__inner">
-            <img src="images/manudalidadhecha.jpg" alt="Organizadores de tela artesanales con forma de casita" />
+          <div class="masonry-item" data-src="images/otramanualidad.jpg" data-caption="Bastidor decorativo con letra L bordada y flores">
+            <img src="images/otramanualidad.jpg" alt="Bastidor decorativo con letra L bordada con flores" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Bastidor decorativo — Letra L</span>
+            </div>
           </div>
-        </div>
 
-        <div class="gallery-item">
-          <div class="gallery-item__inner">
-            <img src="images/otramanualidaade.jpg" alt="Portamóvil artesanal de tela con patrón geométrico" />
+          <div class="masonry-item" data-src="images/puntoslibrosantjordi.jpg" data-caption="Punts de llibre de Sant Jordi bordados a mano">
+            <img src="images/puntoslibrosantjordi.jpg" alt="Puntos de libro de Sant Jordi bordados" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Punts de llibre — Sant Jordi</span>
+            </div>
           </div>
-        </div>
 
-        <div class="gallery-item">
-          <div class="gallery-item__inner">
-            <img src="images/puntoslibrosantjordi.jpg" alt="Puntos de libro de Sant Jordi bordados" />
+          <div class="masonry-item" data-src="images/proyecto.jpg" data-caption="Chaqueta vaquera personalizada con bordado artesanal">
+            <img src="images/proyecto.jpg" alt="Chaqueta vaquera personalizada con bordado" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Chaqueta vaquera bordada</span>
+            </div>
           </div>
-        </div>
 
+          <div class="masonry-item" data-src="images/manualidad2.jpg" data-caption="Gorro y guantes con pequeñas flores bordadas">
+            <img src="images/manualidad2.jpg" alt="Gorro y guantes con flores bordadas" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Gorro y guantes bordados</span>
+            </div>
+          </div>
+
+          <div class="masonry-item" data-src="images/fotomarieta.jpg" data-caption="Marieta Vola Vola con su chaleco bordado artesanal">
+            <img src="images/fotomarieta.jpg" alt="Marieta con chaleco bordado artesanal" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Chaleco bordado artesanal</span>
+            </div>
+          </div>
+
+          <div class="masonry-item" data-src="images/otrotallerdisponible.jpg" data-caption="Coronas navideñas bordadas — Taller Brodat de Nadal">
+            <img src="images/otrotallerdisponible.jpg" alt="Coronas de Navidad bordadas Bon Nadal y Feliz Navidad" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Coronas navideñas bordadas</span>
+            </div>
+          </div>
+
+        </div>
       </div>
 
-      <div style="text-align: center; margin-top: 48px;">
-        <p style="color: var(--texto-suave); font-size: 0.95rem; margin-bottom: 20px;">
-          ¿Quieres ver más trabajos? Síguenos en Instagram
+      <!-- CATEGORÍA: MANUALIDADES DE TELA -->
+      <div class="gallery-category" data-category="tela">
+        <div class="category-header">
+          <div class="category-header__icon">🧵</div>
+          <div class="category-header__text">
+            <div class="category-header__label">Categoría</div>
+            <h2 class="category-header__title">Manualidades de tela</h2>
+          </div>
+          <div class="category-divider"></div>
+        </div>
+
+        <div class="masonry-grid">
+
+          <div class="masonry-item" data-src="images/manudalidadhecha.jpg" data-caption="Organizadores de tela artesanales con forma de casita">
+            <img src="images/manudalidadhecha.jpg" alt="Organizadores de tela artesanales con forma de casita" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Organizadores de tela — casitas</span>
+            </div>
+          </div>
+
+          <div class="masonry-item" data-src="images/otramanualidaade.jpg" data-caption="Portamóvil artesanal de tela con patrón geométrico">
+            <img src="images/otramanualidaade.jpg" alt="Portamóvil artesanal de tela con patrón geométrico" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Portamóvil de tela artesanal</span>
+            </div>
+          </div>
+
+          <div class="masonry-item" data-src="images/55.jpg" data-caption="Delantal artesanal de cuadros con apliques de tela">
+            <img src="images/55.jpg" alt="Delantal artesanal rojo a cuadros con apliques de tela" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Delantal artesanal con apliques</span>
+            </div>
+          </div>
+
+          <div class="masonry-item" data-src="images/tallerdisponible.jpg" data-caption="Calabazas de tela artesanales — Taller de Halloween">
+            <img src="images/tallerdisponible.jpg" alt="Calabazas de tela artesanales de Halloween" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Calabazas de tela artesanales</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CATEGORÍA: DECORACIÓN -->
+      <div class="gallery-category" data-category="decoracion">
+        <div class="category-header">
+          <div class="category-header__icon">🎨</div>
+          <div class="category-header__text">
+            <div class="category-header__label">Categoría</div>
+            <h2 class="category-header__title">Decoración</h2>
+          </div>
+          <div class="category-divider"></div>
+        </div>
+
+        <div class="masonry-grid">
+
+          <div class="masonry-item" data-src="images/88.jpg" data-caption="Perchero de madera decorado con bolsos pintados a mano">
+            <img src="images/88.jpg" alt="Perchero de madera con bolsos pintados" loading="lazy" />
+            <div class="masonry-item__overlay">
+              <span class="masonry-item__caption">Perchero con bolsos pintados</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CTA INSTAGRAM -->
+      <div style="text-align:center; margin: 16px auto 64px; max-width: 500px; padding: 0 24px;">
+        <p style="color:var(--texto-suave); font-size:0.95rem; margin-bottom:20px; line-height:1.6;">
+          ¿Quieres ver más trabajos y los próximos talleres?<br />Síguenos en Instagram.
         </p>
         <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="btn btn--instagram btn--lg">
           📷 Ver en Instagram
         </a>
       </div>
+
     </section>
 
     <!-- CTA -->
@@ -274,6 +516,88 @@
     </svg>
   </a>
 
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox__close" id="lbClose">✕</button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lbPrev">‹</button>
+    <img class="lightbox__img" id="lbImg" src="" alt="" />
+    <button class="lightbox__nav lightbox__nav--next" id="lbNext">›</button>
+    <div class="lightbox__caption" id="lbCaption"></div>
+  </div>
+
   <script src="js/main.js"></script>
+  <script>
+    // ── FILTROS ──
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const categories = document.querySelectorAll('.gallery-category');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        categories.forEach(cat => {
+          if (filter === 'all' || cat.dataset.category === filter) {
+            cat.classList.remove('hidden');
+          } else {
+            cat.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // ── LIGHTBOX ──
+    const lightbox = document.getElementById('lightbox');
+    const lbImg    = document.getElementById('lbImg');
+    const lbCaption = document.getElementById('lbCaption');
+    const lbClose  = document.getElementById('lbClose');
+    const lbPrev   = document.getElementById('lbPrev');
+    const lbNext   = document.getElementById('lbNext');
+
+    let allItems = [];
+    let currentIndex = 0;
+
+    function openLightbox(index) {
+      currentIndex = index;
+      const item = allItems[index];
+      lbImg.src = item.dataset.src;
+      lbImg.alt = item.querySelector('img').alt;
+      lbCaption.textContent = item.dataset.caption || '';
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + allItems.length) % allItems.length;
+      openLightbox(currentIndex);
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % allItems.length;
+      openLightbox(currentIndex);
+    }
+
+    document.querySelectorAll('.masonry-item').forEach((item, i) => {
+      allItems.push(item);
+      item.addEventListener('click', () => openLightbox(i));
+    });
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', showPrev);
+    lbNext.addEventListener('click', showNext);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'ArrowRight') showNext();
+    });
+  </script>
 </body>
 </html>
