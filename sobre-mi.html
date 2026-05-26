@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobre mí — Marieta Vola Vola</title>
+  <meta name="description" content="Conoce la historia de Cristina, la artesana detrás de Marieta Vola Vola. Sus inicios en el bordado, su pasión por las manualidades y por qué comparte su arte." />
+  <link rel="icon" href="images/logo nuevo con fondo.png" type="image/png" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="navbar__logo">
+      <img src="images/icono marieta.png" alt="Marieta Vola Vola" class="navbar__logo-img" />
+      <span class="navbar__logo-text">Marieta Vola Vola</span>
+    </a>
+    <nav class="navbar__nav">
+      <a href="index.html" class="navbar__link">Inicio</a>
+      <a href="sobre-mi.html" class="navbar__link active">Sobre mí</a>
+      <a href="cursos.html" class="navbar__link">Cursos</a>
+      <a href="galeria.html" class="navbar__link">Galería</a>
+      <a href="contacto.html" class="navbar__link">Contacto</a>
+      <a href="portal/index.html" class="navbar__portal-btn">Mis cursos</a>
+    </nav>
+    <button class="navbar__menu-btn" id="menuBtn" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- MENÚ MÓVIL -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="mobile-menu__link">Inicio</a>
+    <a href="sobre-mi.html" class="mobile-menu__link">Sobre mí</a>
+    <a href="cursos.html" class="mobile-menu__link">Cursos</a>
+    <a href="galeria.html" class="mobile-menu__link">Galería</a>
+    <a href="contacto.html" class="mobile-menu__link">Contacto</a>
+    <a href="portal/index.html" class="mobile-menu__link mobile-menu__link--portal">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+      Mis cursos
+    </a>
+    <div class="mobile-menu__cta">
+      <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="btn btn--whatsapp btn--full">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- CABECERA -->
+    <section class="page-header">
+      <span class="label">Quién soy</span>
+      <h1 class="section-title">Sobre mí</h1>
+      <div class="divider divider--center"></div>
+      <p class="section-subtitle">
+        La artesana detrás de Marieta Vola Vola, su historia y su pasión por el bordado.
+      </p>
+    </section>
+
+    <!-- INTRO: foto + presentación -->
+    <section class="about" style="padding-top: 0;">
+      <div class="about__grid">
+        <div class="about__img-wrap reveal">
+          <div class="about__img-placeholder">
+            <img src="images/presentacion-cristina.jpg" alt="Cristina, artesana de Marieta Vola Vola" />
+          </div>
+        </div>
+        <div class="about__text reveal reveal--delay-1">
+          <span class="label">Sobre mí</span>
+          <h2 class="section-title">Hola, soy Cristina</h2>
+          <div class="divider"></div>
+          <p>
+            La artesana que está detrás de la marca <strong>Marieta Vola Vola</strong>.
+          </p>
+          <p>
+            <em>"Marieta"</em> significa mariquita en catalán, y hay una canción popular infantil
+            que se llama <em>"Marieta vola vola"</em> (mariquita vuela vuela). Me gustó tanto
+            que la adopté como nombre artístico.
+          </p>
+          <p>
+            Estudié la carrera de Turismo y, aunque ejercí poco, soy una apasionada de viajar
+            con mi familia y amigos. Mi otra gran pasión es bordar, la costura, el punto de cruz
+            y las manualidades en general.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORIA -->
+    <section class="about" style="background: var(--crema); padding-top: 0;">
+      <div class="about__story">
+
+        <!-- Bloque 1 -->
+        <div class="about__story-block reveal">
+          <div class="about__story-img">
+            <img src="images/presentacion-mariquita.jpg" alt="Una mariquita en la mano de Cristina" />
+            <p class="about__story-caption">El origen del nombre</p>
+          </div>
+          <div class="about__story-text">
+            <h3 class="about__story-title">De donde viene el nombre</h3>
+            <p>
+              Cuando era niña, solo me quedaba quieta cuando salía al balcón y me entretenía con las
+              mariquitas, poniéndomelas en la mano y haciéndolas volar. Hoy en día, no puedo evitar
+              seguir haciéndolo.
+            </p>
+            <p>
+              Mis primeros recuerdos con el mundo del <em>"hazlo tú misma"</em> son de cuando tenía
+              10 años y mi madre me llevaba a bordar cada sábado a <strong>"Ca la Sra. Teresina"</strong>.
+              De ella me quedó la manía de no poder iniciar una labor sin antes haberme lavado las manos.
+            </p>
+          </div>
+        </div>
+
+        <!-- Foto primera labor -->
+        <div class="about__story-photo reveal">
+          <img src="images/presentacion-labor10.jpg" alt="Primera labor de bordado con 10 años" />
+          <p class="about__story-caption">Mi primera labor con 10 años</p>
+        </div>
+
+        <!-- Bloque 2 -->
+        <div class="about__story-block about__story-block--reverse reveal">
+          <div class="about__story-img">
+            <img src="images/presentacion-colgador.jpg" alt="Colgador de cocina pintado sobre yeso" />
+            <p class="about__story-caption">Colgador de cocina: mi primer trabajo de pintura sobre yeso</p>
+          </div>
+          <div class="about__story-text">
+            <h3 class="about__story-title">El mundo de las manualidades</h3>
+            <p>
+              Con unos 25 años, mi madre iba a manualidades con su profesora (y ahora amiga)
+              <strong>Carme Josa de Pinzellart</strong>, y allí descubrí todo un mundo alrededor
+              de la pintura: reciclaje, decoupage, pintura sobre madera, sobre yeso, cerámica...
+            </p>
+            <p>
+              Aunque me entusiasman todas las manualidades, actualmente estoy más dedicada a bordar.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BENEFICIOS DEL BORDADO -->
+    <section class="about" style="background: var(--blanco);">
+      <div class="about__beneficios reveal">
+        <h3 class="about__beneficios-title">¿Por qué bordar?</h3>
+        <p class="about__beneficios-intro">El bordado tiene muchísimos beneficios:</p>
+        <div class="about__beneficios-grid">
+          <div class="about__beneficio-card">
+            <div class="about__beneficio-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <span class="about__beneficio-texto">Disminuye el estrés</span>
+          </div>
+          <div class="about__beneficio-card">
+            <div class="about__beneficio-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <span class="about__beneficio-texto">Cultiva la paciencia y la perseverancia</span>
+          </div>
+          <div class="about__beneficio-card">
+            <div class="about__beneficio-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <span class="about__beneficio-texto">Favorece la concentración</span>
+          </div>
+          <div class="about__beneficio-card">
+            <div class="about__beneficio-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <span class="about__beneficio-texto">Estimula la creatividad</span>
+          </div>
+          <div class="about__beneficio-card">
+            <div class="about__beneficio-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <span class="about__beneficio-texto">Fomenta la socialización</span>
+          </div>
+        </div>
+        <p class="about__beneficios-nota">
+          No hay edad ni sexo para iniciarse en el bordado ni en las manualidades en general.
+        </p>
+      </div>
+    </section>
+
+    <!-- CIERRE -->
+    <section class="about" style="background: var(--crema);">
+      <div class="about__closing">
+        <blockquote class="about__quote reveal">
+          "Gracias al bordado puedo transformar mis ideas en artesanías y piezas únicas hechas con mucho mimo y amor."
+        </blockquote>
+        <div class="reveal reveal--delay-1">
+          <p>
+            Cada bordado es 100% artesanal, por lo que lleva su tiempo realizarlo con todo
+            el cuidado y delicadeza que te mereces.
+          </p>
+          <p>
+            Gracias a mi experiencia en el mundo de las manualidades, me encantaría ayudarte
+            a hacer realidad tus ideas. Si tienes alguna pregunta, no dudes en contactar conmigo,
+            estaré encantada de ayudarte.
+          </p>
+          <p class="about__firma">
+            Muchísimas gracias por seguirme<br />
+            <strong>Cristina Robles · Marieta Vola Vola</strong>
+          </p>
+        </div>
+        <div class="about__social reveal reveal--delay-2">
+          <a href="https://wa.me/34630050209?text=Hola%20Cristina%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="btn btn--whatsapp">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            Escríbeme por WhatsApp
+          </a>
+          <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="btn btn--instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Instagram
+          </a>
+          <a href="cursos.html" class="btn btn--outline">Ver talleres</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <p class="footer__brand-name">Marieta Vola Vola</p>
+        <p class="footer__brand-desc">
+          Talleres de bordado creativo en un ambiente cálido y personal.
+          Aprende, crea y disfruta con las manos.
+        </p>
+        <div class="footer__social-links">
+          <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="footer__social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Instagram
+          </a>
+          <a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank" class="footer__social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            Facebook
+          </a>
+          <a href="https://www.youtube.com/@marieta.vola.vola.Bordado" target="_blank" class="footer__social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+            YouTube
+          </a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-heading">Navegación</p>
+        <ul class="footer__links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="sobre-mi.html">Sobre mí</a></li>
+          <li><a href="cursos.html">Cursos</a></li>
+          <li><a href="galeria.html">Galería</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <p class="footer__col-heading">Contacto</p>
+        <ul class="footer__links">
+          <li><a href="https://wa.me/34630050209?text=Hola%20Marieta%21" target="_blank">WhatsApp</a></li>
+          <li><a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank">Instagram</a></li>
+          <li><a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p style="display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;">
+        <span>© 2026 Marieta Vola Vola</span>
+        <img src="images/powered-by-optine-gray.png" alt="Powered by Optine" style="height:30px;width:auto;filter:brightness(0) saturate(200%) invert(18%) sepia(80%) saturate(700%) hue-rotate(200deg) brightness(80%);opacity:0.9;">
+        <a href="admin/index.html" style="opacity:0.3;font-size:0.75rem;text-decoration:none;color:inherit;">admin</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOTANTE -->
+  <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="whatsapp-float" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -234,11 +234,11 @@ h1, h2, h3 {
 }
 
 .navbar.scrolled {
-  background-color: rgba(250, 247, 242, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 2px 24px var(--shadow-md);
-  border-bottom-color: transparent;
+  background: rgba(250, 247, 242, 0.72);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  box-shadow: 0 2px 28px var(--shadow-md);
+  border-bottom: 1px solid rgba(193, 105, 79, 0.14);
 }
 
 .navbar__logo {
@@ -399,143 +399,29 @@ h1, h2, h3 {
    HERO
    ================================================ */
 .hero {
-  background-color: var(--crema-2);
-  background-image: radial-gradient(var(--crema-3) 1px, transparent 1px);
-  background-size: 24px 24px;
-  padding: 80px 24px 96px;
+  width: 100%;
   position: relative;
+  line-height: 0;
   overflow: hidden;
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -120px; right: -80px;
-  width: 480px; height: 480px;
-  background: radial-gradient(circle, rgba(214, 212, 5, 0.12) 0%, transparent 65%);
-  pointer-events: none;
+.hero__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: brightness(1.12);
 }
 
+/* Difuminado en la parte inferior hacia el fondo crema */
 .hero::after {
   content: '';
   position: absolute;
-  bottom: -80px; left: -60px;
-  width: 360px; height: 360px;
-  background: radial-gradient(circle, var(--salvia-cl) 0%, transparent 65%);
+  bottom: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent 0%, var(--crema) 100%);
   pointer-events: none;
 }
 
-.hero__inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-}
-
-.hero__content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-}
-
-.hero__portrait {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hero__portrait-img {
-  width: 100%;
-  max-width: 420px;
-  height: 520px;
-  object-fit: cover;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px var(--shadow-lg);
-}
-
-.hero__logo {
-  width: 116px;
-  height: 116px;
-  object-fit: contain;
-  border-radius: 20px;
-  margin: 0 0 36px;
-  box-shadow: 0 8px 32px var(--shadow-md);
-  border: 4px solid var(--blanco);
-}
-
-.hero__label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--tierra);
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.hero__label::before {
-  content: '';
-  display: inline-block;
-  width: 28px;
-  height: 1.5px;
-  background: linear-gradient(90deg, var(--brand-red), var(--brand-green));
-  border-radius: 2px;
-}
-
-.hero__title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(3rem, 8vw, 5.4rem);
-  font-weight: 600;
-  color: var(--texto);
-  line-height: 1.05;
-  margin-bottom: 24px;
-  letter-spacing: -0.01em;
-}
-
-.hero__title em {
-  font-style: italic;
-  color: var(--tierra);
-}
-
-.hero__subtitle {
-  font-size: 1.08rem;
-  color: var(--texto-suave);
-  max-width: 480px;
-  margin: 0 0 44px;
-  line-height: 1.9;
-}
-
-.hero__actions {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
-@media (max-width: 900px) {
-  .hero__inner {
-    grid-template-columns: 1fr;
-    gap: 36px;
-  }
-  .hero__content {
-    align-items: center;
-    text-align: center;
-    order: 2;
-  }
-  .hero__portrait { order: 1; }
-  .hero__portrait-img { height: 320px; max-width: 100%; }
-  .hero__logo { margin: 0 auto 32px; }
-  .hero__subtitle { margin: 0 auto 44px; }
-  .hero__actions { justify-content: center; }
-  .hero__label { align-self: center; }
-}
 
 /* ================================================
    FEATURES STRIP — Premium white cards
@@ -676,6 +562,189 @@ h1, h2, h3 {
   gap: 12px;
   flex-wrap: wrap;
   margin-top: 28px;
+}
+
+/* Historia de Cristina */
+.about__story {
+  max-width: 1100px;
+  margin: 72px auto 0;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.about__story-block {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: center;
+  padding: 48px 0;
+  border-bottom: 1px solid var(--crema-3);
+}
+
+.about__story-block:last-child { border-bottom: none; }
+
+.about__story-img {
+  position: relative;
+}
+
+.about__story-img img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px var(--shadow-md);
+  object-fit: cover;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.about__story-img img:hover {
+  transform: scale(1.02);
+}
+
+.about__story-caption {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  text-align: center;
+  margin-top: 10px;
+  font-style: italic;
+  letter-spacing: 0.04em;
+}
+
+.about__story-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: var(--texto);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--crema-3);
+}
+
+.about__story-text p {
+  font-size: 1rem;
+  color: var(--texto-suave);
+  line-height: 1.9;
+  margin-bottom: 14px;
+}
+
+.about__story-text p:last-child { margin-bottom: 0; }
+
+/* Foto central entre bloques */
+.about__story-photo {
+  max-width: 440px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px 0;
+}
+
+.about__story-photo img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px var(--shadow-md);
+  transition: transform 0.5s var(--ease-out);
+}
+
+.about__story-photo img:hover { transform: scale(1.02); }
+
+/* Beneficios — tarjetas en grid */
+.about__beneficios {
+  margin: 64px auto 0;
+  padding: 0 24px;
+  max-width: 960px;
+}
+
+.about__beneficios-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--texto);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.about__beneficios-intro {
+  color: var(--texto-suave);
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 1rem;
+}
+
+.about__beneficios-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.about__beneficio-card {
+  background: var(--crema);
+  border-radius: 10px;
+  padding: 20px 22px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  border: 1px solid var(--crema-3);
+}
+
+.about__beneficio-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--brand-green), var(--salvia));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1rem;
+  color: var(--blanco);
+}
+
+.about__beneficio-texto {
+  font-size: 0.92rem;
+  color: var(--texto-medio);
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.about__beneficios-nota {
+  color: var(--texto-suave);
+  font-size: 0.92rem;
+  font-style: italic;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Cierre */
+.about__closing {
+  margin: 64px auto 0;
+  padding: 0 24px;
+  max-width: 700px;
+  text-align: center;
+}
+
+.about__closing p {
+  font-size: 1rem;
+  color: var(--texto-suave);
+  line-height: 1.9;
+  margin-bottom: 16px;
+}
+
+.about__firma {
+  font-size: 1rem;
+  color: var(--texto-medio);
+  margin-top: 24px;
+  line-height: 1.9;
+}
+
+.about__closing .about__social {
+  justify-content: center;
+  margin-top: 32px;
+}
+
+@media (max-width: 480px) {
+  .about__beneficios-grid { grid-template-columns: 1fr; }
+  .about__story-block { padding: 36px 0; gap: 20px; }
 }
 
 /* ================================================
@@ -1372,15 +1441,11 @@ h1, h2, h3 {
    ================================================ */
 /* Mejoras específicas para móvil pequeño */
 @media (max-width: 480px) {
-  .hero { padding: 48px 16px 64px; }
   .page-header { padding: 56px 16px 52px; }
   .courses-full, .courses-info, .contact-page { padding-left: 16px; padding-right: 16px; }
   .contact-card { padding: 32px 20px; }
   .cta-banner { padding: 64px 16px; }
   .section-title { font-size: clamp(1.7rem, 7vw, 2.4rem); }
-  .hero__portrait-img { height: 260px; }
-  .hero__actions { flex-direction: column; align-items: stretch; }
-  .hero__actions .btn { width: 100%; }
   .cta-banner__actions { flex-direction: column; align-items: center; }
   .cta-banner__actions .btn { width: 100%; max-width: 340px; }
   .footer { padding: 48px 16px 28px; }
@@ -1403,6 +1468,11 @@ h1, h2, h3 {
   .about__grid     { grid-template-columns: 1fr 1fr; }
   .footer__inner   { grid-template-columns: 2fr 1fr 1fr; }
   .contact-page__grid { grid-template-columns: repeat(2, 1fr); }
+  .about__story-block { grid-template-columns: 1fr 1.6fr; gap: 56px; }
+  .about__story-block--reverse { grid-template-columns: 1.6fr 1fr; }
+  .about__story-block--reverse .about__story-img { order: 2; }
+  .about__story-block--reverse .about__story-text { order: 1; }
+  .about__beneficios-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (min-width: 960px) {
