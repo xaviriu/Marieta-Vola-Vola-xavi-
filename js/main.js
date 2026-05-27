@@ -49,3 +49,26 @@ document.querySelectorAll('.reveal').forEach(el => {
   revealObserver.observe(el);
 });
 
+// Parallax en iconos del hero
+const heroSection = document.querySelector('.hero');
+const heroPars    = document.querySelectorAll('.hero__par[data-par]');
+
+if (heroSection && heroPars.length) {
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const scrollY = window.scrollY;
+      if (scrollY <= heroSection.offsetHeight) {
+        heroPars.forEach(el => {
+          const speed = parseFloat(el.dataset.par);
+          el.style.transform = `translateY(${-scrollY * speed}px)`;
+        });
+      }
+      ticking = false;
+    });
+  }, { passive: true });
+}
+
