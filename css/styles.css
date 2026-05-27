@@ -399,27 +399,76 @@ h1, h2, h3 {
    HERO
    ================================================ */
 .hero {
-  width: 100%;
+  min-height: 100vh;
   position: relative;
-  line-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--crema);
   overflow: hidden;
+  padding: 100px 20px 60px;
 }
 
-.hero__img {
-  width: 100%;
-  height: auto;
-  display: block;
-  filter: brightness(1.12);
-}
-
-/* Difuminado en la parte inferior hacia el fondo crema */
-.hero::after {
-  content: '';
+.hero__deco {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 40%;
-  background: linear-gradient(to bottom, transparent 0%, var(--crema) 100%);
+  inset: 0;
   pointer-events: none;
+  user-select: none;
+}
+
+.hero__deco-svg {
+  position: absolute;
+  opacity: 0.82;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.hero__logo {
+  width: clamp(220px, 38vw, 340px);
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 6px 28px rgba(33,21,16,0.10));
+  animation: heroLogoIn 0.9s var(--ease-out) both;
+}
+
+.hero__tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  font-style: italic;
+  color: var(--texto-medio);
+  letter-spacing: 0.04em;
+  animation: heroFadeIn 1s 0.3s var(--ease-out) both;
+}
+
+.hero__content .btn {
+  animation: heroFadeIn 1s 0.5s var(--ease-out) both;
+}
+
+@keyframes heroLogoIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0); }
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 100svh;
+    padding: 88px 16px 48px;
+  }
+  .hero__deco-hide-m {
+    display: none;
+  }
 }
 
 
