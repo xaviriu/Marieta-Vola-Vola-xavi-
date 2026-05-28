@@ -491,7 +491,7 @@ h1, h2, h3 {
   object-fit: cover;
   object-position: center 45%;
   display: block;
-  transform: scale(1.55);
+  transform: scale(1.9);
   transform-origin: center 45%;
 }
 
