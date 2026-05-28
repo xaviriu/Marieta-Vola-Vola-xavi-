@@ -472,11 +472,15 @@ h1, h2, h3 {
 }
 
 .hero__ilustracion-frame {
-  width: clamp(290px, 52vw, 500px);
-  aspect-ratio: 1.55;
-  border-radius: 24px;
+  width: clamp(250px, 40vw, 370px);
+  aspect-ratio: 1;
+  border-radius: 50%;
   overflow: hidden;
-  box-shadow: 0 12px 56px rgba(33,21,16,0.22);
+  box-shadow:
+    0 0 0 7px #FAF0E0,
+    0 0 0 15px #C89020,
+    0 0 0 17px #A07010,
+    0 18px 56px rgba(33,21,16,0.24);
   animation: heroLogoIn 0.9s var(--ease-out) both;
 }
 .hero__ilustracion {
