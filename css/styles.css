@@ -491,8 +491,8 @@ h1, h2, h3 {
   object-fit: cover;
   object-position: center 45%;
   display: block;
-  transform: scale(1.9);
-  transform-origin: center 45%;
+  transform: scale(2.6);
+  transform-origin: center 52%;
 }
 
 .hero__dots {
