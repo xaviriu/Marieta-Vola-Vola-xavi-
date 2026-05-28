@@ -471,6 +471,25 @@ h1, h2, h3 {
   text-align: center;
 }
 
+.hero__bastidor {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  animation: heroLogoIn 0.9s var(--ease-out) both;
+  padding-top: 22px;
+}
+
+.hero__bastidor-clasp {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 68px;
+  z-index: 10;
+  filter: drop-shadow(0 3px 6px rgba(33,21,16,0.45));
+}
+
 .hero__ilustracion-frame {
   width: clamp(260px, 42vw, 400px);
   aspect-ratio: 1;
@@ -482,7 +501,6 @@ h1, h2, h3 {
     0 0 0 14px #C89020,
     0 0 0 16px #8A6010,
     0 16px 52px rgba(33,21,16,0.26);
-  animation: heroLogoIn 0.9s var(--ease-out) both;
 }
 
 .hero__ilustracion {
