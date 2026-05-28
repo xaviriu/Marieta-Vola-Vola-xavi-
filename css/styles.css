@@ -476,6 +476,7 @@ h1, h2, h3 {
   aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
+  background-color: #8BBF3A;
   box-shadow:
     0 0 0 6px #FAF0E0,
     0 0 0 14px #C89020,
@@ -487,10 +488,8 @@ h1, h2, h3 {
 .hero__ilustracion {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 48%;
+  object-fit: contain;
   display: block;
-  transform: scale(1.08);
 }
 
 .hero__dots {
