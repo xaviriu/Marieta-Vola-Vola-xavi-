@@ -132,6 +132,20 @@
   pointer-events: none;
 }
 
+.login-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.login-deco__svg {
+  position: absolute;
+  display: block;
+  opacity: 0.55;
+  transform: rotate(var(--rot, 0deg));
+}
+
 .login-card {
   background-color: var(--blanco);
   border-radius: 8px;
@@ -144,13 +158,13 @@
 }
 
 .login-card__logo {
-  width: 72px;
-  height: 72px;
+  width: 110px;
+  height: 110px;
   object-fit: contain;
   border-radius: 50%;
   margin: 0 auto 20px;
   display: block;
-  box-shadow: 0 4px 16px var(--shadow);
+  box-shadow: 0 4px 20px var(--shadow-md);
 }
 
 .login-card__title {

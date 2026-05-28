@@ -471,7 +471,29 @@ h1, h2, h3 {
   text-align: center;
 }
 
+.hero__logo-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero__logo-wrap::before {
+  content: '';
+  position: absolute;
+  width: 135%;
+  height: 135%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+    rgba(250,247,242,1) 28%,
+    rgba(250,247,242,0.88) 48%,
+    rgba(250,247,242,0) 72%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
 .hero__logo {
+  position: relative;
+  z-index: 1;
   width: clamp(220px, 38vw, 340px);
   mix-blend-mode: multiply;
   filter: drop-shadow(0 6px 28px rgba(33,21,16,0.10));
