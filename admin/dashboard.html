@@ -75,6 +75,74 @@
     .pago-notas { width: 100%; padding: 8px 10px; border: 1.5px solid var(--rosa); border-radius: 8px; font-size: 0.88rem; font-family: 'Nunito', sans-serif; resize: vertical; min-height: 60px; margin-bottom: 12px; }
     .admin-nav-link i { width: 16px; height: 16px; stroke-width: 2; vertical-align: middle; margin-right: 4px; }
 
+    /* ── CONTENIDOS MODAL ── */
+    .cnt-modal-overlay {
+      position: fixed; inset: 0; background: rgba(33,21,16,0.55);
+      z-index: 1000; align-items: center; justify-content: center; padding: 16px;
+    }
+    .cnt-modal {
+      background: #fff; border-radius: 12px; width: 100%; max-width: 620px;
+      max-height: 90vh; display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(33,21,16,0.3);
+    }
+    .cnt-modal__header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px 16px; border-bottom: 1px solid var(--crema-2);
+    }
+    .cnt-modal__header h3 {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;
+      font-weight: 600; color: var(--texto);
+    }
+    .cnt-modal__close {
+      background: none; border: none; font-size: 1.1rem; cursor: pointer;
+      color: var(--texto-suave); padding: 4px 8px; border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .cnt-modal__close:hover { background: var(--crema-2); }
+    .cnt-modal__body { overflow-y: auto; padding: 20px 24px; flex: 1; }
+    .cnt-modal__footer {
+      padding: 16px 24px; border-top: 1px solid var(--crema-2);
+      display: flex; justify-content: flex-end; gap: 10px;
+    }
+    .cnt-section-label {
+      font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--tierra); margin: 20px 0 10px;
+      padding-bottom: 6px; border-bottom: 1px solid var(--crema-2);
+    }
+    .cnt-section-label:first-child { margin-top: 0; }
+    .cnt-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 480px) { .cnt-grid-2 { grid-template-columns: 1fr; } }
+    .cnt-tipo-btn {
+      padding: 7px 14px; border-radius: 20px; border: 2px solid var(--crema-3);
+      background: transparent; font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem; font-weight: 700; cursor: pointer;
+      color: var(--texto-suave); transition: all 0.15s;
+    }
+    .cnt-tipo-btn.active, .cnt-tipo-btn:hover {
+      background: var(--tierra); border-color: var(--tierra); color: #fff;
+    }
+    .cnt-toggle-wrap { display: flex; gap: 8px; margin-top: 4px; }
+    .cnt-toggle {
+      flex: 1; padding: 8px; border-radius: 8px; border: 2px solid var(--crema-3);
+      background: transparent; font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem; font-weight: 700; cursor: pointer;
+      color: var(--texto-suave); transition: all 0.15s;
+    }
+    .cnt-toggle.active {
+      background: var(--salvia-cl); border-color: var(--salvia); color: #1a6b3a;
+    }
+    .cnt-check-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 14px; border-radius: 20px; border: 1.5px solid var(--crema-3);
+      background: var(--crema); cursor: pointer; font-size: 0.85rem;
+      font-weight: 600; color: var(--texto-suave); transition: all 0.15s;
+      user-select: none;
+    }
+    .cnt-check-pill:has(input:checked) {
+      background: var(--rosa-cl); border-color: var(--tierra); color: var(--tierra-osc);
+    }
+    .cnt-check-pill input { width: 15px; height: 15px; accent-color: var(--tierra); }
+
     /* Selector de sección en móvil */
     .admin-mobile-nav {
       display: none;
@@ -128,6 +196,7 @@
       <option value="videos">Añadir video</option>
       <option value="materiales">Materiales</option>
       <option value="pagos">Pagos</option>
+      <option value="contenidos">Contenidos</option>
     </select>
   </div>
 
@@ -153,6 +222,9 @@
       </button>
       <button class="admin-nav-link" data-panel="pagos">
         <i data-feather="credit-card"></i> Pagos
+      </button>
+      <button class="admin-nav-link" data-panel="contenidos">
+        <i data-feather="film"></i> Contenidos
       </button>
     </aside>
 
@@ -418,8 +490,158 @@
         </div>
       </div>
 
+      <!-- PANEL: CONTENIDOS -->
+      <div class="admin-panel" id="panel-contenidos">
+        <h2 class="admin-panel__title">Gestión de Contenidos</h2>
+
+        <!-- Stats rápidas -->
+        <div class="admin-stats" style="margin-bottom:28px;" id="contenidosStats">
+          <div class="stat-card"><div class="stat-card__number" id="cntTotal">—</div><div class="stat-card__label">Total</div></div>
+          <div class="stat-card"><div class="stat-card__number" id="cntGrabado">—</div><div class="stat-card__label">✅ Grabados</div></div>
+          <div class="stat-card"><div class="stat-card__number" id="cntPago">—</div><div class="stat-card__label">💰 Cursos pago</div></div>
+          <div class="stat-card"><div class="stat-card__number" id="cntPendiente">—</div><div class="stat-card__label">⏳ Sin grabar</div></div>
+        </div>
+
+        <!-- Acciones y filtros -->
+        <div class="admin-form-card" style="padding:16px 20px;">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between;">
+            <div style="display:flex;flex-wrap:wrap;gap:8px;" id="cntFilterBtns">
+              <button class="pago-filter active" data-cfilter="todos">Todos</button>
+              <button class="pago-filter" data-cfilter="tutorial_gratuito">Tutorial gratuito</button>
+              <button class="pago-filter" data-cfilter="tutorial">Tutorial</button>
+              <button class="pago-filter" data-cfilter="curso_pago">Curso de pago</button>
+              <button class="pago-filter" data-cfilter="sin_grabar">Sin grabar</button>
+            </div>
+            <button class="btn btn--primary" onclick="openContenidoModal()">
+              + Añadir nuevo
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="admin-form-card" style="padding:0;overflow:hidden;">
+          <div id="contenidosList">
+            <div class="loading"><div class="spinner"></div>Cargando...</div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /admin-content -->
   </div><!-- /admin-layout -->
+
+  <!-- ============================================================
+       MODAL: AÑADIR / EDITAR CONTENIDO
+  ============================================================ -->
+  <div id="contenidoModal" class="cnt-modal-overlay" style="display:none;" onclick="if(event.target===this)closeContenidoModal()">
+    <div class="cnt-modal">
+      <div class="cnt-modal__header">
+        <h3 id="cntModalTitle">Nuevo contenido</h3>
+        <button class="cnt-modal__close" onclick="closeContenidoModal()">✕</button>
+      </div>
+      <div class="cnt-modal__body">
+        <input type="hidden" id="cntId" />
+        <div class="alert" id="cntAlert"></div>
+
+        <!-- Sección 1: Info básica -->
+        <p class="cnt-section-label">Información básica</p>
+        <div class="cnt-grid-2">
+          <div class="form-field" style="grid-column:1/-1;">
+            <label>Nombre / Título *</label>
+            <input type="text" id="cntNombre" placeholder="Ej: Tutorial cómo enhebrar una aguja" required />
+          </div>
+          <div class="form-field">
+            <label>Temática</label>
+            <select id="cntTematica">
+              <option value="">— Sin temática —</option>
+              <option>Bordado</option>
+              <option>Navidad</option>
+              <option>Costura</option>
+              <option>Pintura</option>
+              <option>Decoupage</option>
+              <option>Punto de Cruz</option>
+              <option>Lápices acuarelables</option>
+              <option>Reciclar</option>
+              <option>Bordado y pintura</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Técnica</label>
+            <input type="text" id="cntTecnica" placeholder="Ej: Punto Margarita" />
+          </div>
+          <div class="form-field" style="grid-column:1/-1;">
+            <label>Tipo de contenido *</label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;" id="cntTipoGroup">
+              <button type="button" class="cnt-tipo-btn active" data-tipo="tutorial_gratuito">Tutorial gratuito</button>
+              <button type="button" class="cnt-tipo-btn" data-tipo="tutorial">Tutorial</button>
+              <button type="button" class="cnt-tipo-btn" data-tipo="curso_pago">Curso de pago</button>
+              <button type="button" class="cnt-tipo-btn" data-tipo="directo">Directo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección 2: Producción -->
+        <p class="cnt-section-label">Producción</p>
+        <div class="cnt-grid-2">
+          <div class="form-field">
+            <label>¿Está grabado?</label>
+            <div class="cnt-toggle-wrap">
+              <button type="button" class="cnt-toggle active" id="cntGrabadoSi" onclick="setToggle('grabado',true)">✅ Sí</button>
+              <button type="button" class="cnt-toggle" id="cntGrabadoNo" onclick="setToggle('grabado',false)">⏳ No</button>
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Referencia Dropbox</label>
+            <input type="text" id="cntDropbox" placeholder="Ej: A5 DROPBOX" />
+          </div>
+          <div class="form-field" style="grid-column:1/-1;">
+            <label>Enlace YouTube</label>
+            <input type="url" id="cntYoutube" placeholder="https://youtu.be/..." />
+          </div>
+        </div>
+
+        <!-- Sección 3: Calidad del video -->
+        <p class="cnt-section-label">Calidad del video</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;">
+          <label class="cnt-check-pill"><input type="checkbox" id="cntExplicacion" /> Explicación</label>
+          <label class="cnt-check-pill"><input type="checkbox" id="cntSubtitulos" /> Subtítulos</label>
+          <label class="cnt-check-pill"><input type="checkbox" id="cntMusica" /> Música</label>
+        </div>
+
+        <!-- Sección 4: Distribución -->
+        <p class="cnt-section-label">Publicado en…</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;">
+          <label class="cnt-check-pill"><input type="checkbox" id="cntWeb" /> 🌐 Web</label>
+          <label class="cnt-check-pill"><input type="checkbox" id="cntYoutubePub" /> ▶️ YouTube</label>
+          <label class="cnt-check-pill"><input type="checkbox" id="cntInstagram" /> 📸 Instagram</label>
+          <label class="cnt-check-pill"><input type="checkbox" id="cntFacebook" /> 👍 Facebook</label>
+          <label class="cnt-check-pill"><input type="checkbox" id="cntTiktok" /> 🎵 TikTok</label>
+          <label class="cnt-check-pill"><input type="checkbox" id="cntWhatsapp" /> 💬 WhatsApp</label>
+        </div>
+
+        <!-- Sección 5: Visibilidad y notas -->
+        <p class="cnt-section-label">Visibilidad y notas</p>
+        <div class="cnt-grid-2">
+          <div class="form-field">
+            <label>Visibilidad en YouTube</label>
+            <select id="cntVisibilidad">
+              <option value="publica">🟢 Pública</option>
+              <option value="privado" selected>🔒 Privado</option>
+              <option value="oculta">👁️ Oculta (solo con enlace)</option>
+            </select>
+          </div>
+          <div class="form-field" style="grid-column:1/-1;">
+            <label>Notas internas</label>
+            <textarea id="cntNotas" rows="3" placeholder="Ej: Falta añadir intro al final…"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="cnt-modal__footer">
+        <button type="button" class="btn btn--outline" onclick="closeContenidoModal()">Cancelar</button>
+        <button type="button" class="btn btn--primary" id="cntSaveBtn" onclick="saveContenido()">Guardar</button>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
@@ -467,6 +689,7 @@
       await loadVideos();
       await loadMateriales();
       await loadPagos();
+      await loadContenidos();
     }
 
     // ============================================================
@@ -1060,6 +1283,236 @@
       pagosFilter = btn.dataset.filter;
       renderPagos();
     });
+
+    // ============================================================
+    // CONTENIDOS
+    // ============================================================
+    let allContenidos = [];
+    let cntFilter = 'todos';
+    let cntToggleState = { grabado: true };
+
+    const TIPO_META = {
+      tutorial_gratuito: { label: 'Tutorial gratuito', bg: '#d4f4e2', color: '#1a6b3a' },
+      tutorial:          { label: 'Tutorial',          bg: '#dce8ff', color: '#1a3a7a' },
+      curso_pago:        { label: 'Curso de pago',     bg: '#fff3cd', color: '#7d5a00' },
+      directo:           { label: 'Directo',            bg: '#f0e6ff', color: '#5a1a7a' },
+    };
+    const VIS_META = {
+      publica: { icon: '🟢', label: 'Pública' },
+      privado: { icon: '🔒', label: 'Privado' },
+      oculta:  { icon: '👁️', label: 'Oculta'  },
+    };
+    const PLATFORM_ICONS = {
+      web: '🌐', youtube_pub: '▶️', instagram: '📸',
+      facebook: '👍', tiktok: '🎵', whatsapp_difusion: '💬'
+    };
+
+    async function loadContenidos() {
+      const { data } = await supabase.from('contenidos').select('*').order('created_at', { ascending: false });
+      allContenidos = data || [];
+      renderContenidosStats();
+      renderContenidosList();
+    }
+
+    function renderContenidosStats() {
+      document.getElementById('cntTotal').textContent     = allContenidos.length;
+      document.getElementById('cntGrabado').textContent   = allContenidos.filter(c => c.grabado).length;
+      document.getElementById('cntPago').textContent      = allContenidos.filter(c => c.tipo === 'curso_pago').length;
+      document.getElementById('cntPendiente').textContent = allContenidos.filter(c => !c.grabado).length;
+    }
+
+    function renderContenidosList() {
+      const el = document.getElementById('contenidosList');
+      let items = allContenidos;
+      if (cntFilter === 'sin_grabar') items = items.filter(c => !c.grabado);
+      else if (cntFilter !== 'todos') items = items.filter(c => c.tipo === cntFilter);
+
+      if (!items.length) {
+        el.innerHTML = '<p style="padding:24px;color:var(--texto-suave);font-size:0.9rem;">No hay contenidos. Pulsa «Añadir nuevo» para empezar.</p>';
+        return;
+      }
+
+      el.innerHTML = `
+        <div class="admin-table-wrap" style="border-radius:0;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="min-width:220px;">Nombre</th>
+                <th>Temática</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+                <th>Plataformas</th>
+                <th>Visibilidad</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${items.map(c => {
+                const tipo  = TIPO_META[c.tipo] || TIPO_META.tutorial;
+                const vis   = VIS_META[c.visibilidad] || VIS_META.privado;
+                const plats = Object.entries(PLATFORM_ICONS)
+                  .filter(([k]) => c[k])
+                  .map(([,icon]) => `<span style="font-size:1.1rem;">${icon}</span>`)
+                  .join('');
+                const ytLink = c.enlace_youtube
+                  ? `<a href="${c.enlace_youtube}" target="_blank" title="Ver en YouTube" style="font-size:1.1rem;text-decoration:none;">🔗</a>`
+                  : '';
+                return `
+                  <tr>
+                    <td>
+                      <strong style="display:block;max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${c.nombre}">${c.nombre}</strong>
+                      ${c.dropbox ? `<span style="font-size:0.72rem;color:var(--texto-suave);">📁 ${c.dropbox}</span>` : ''}
+                    </td>
+                    <td><span style="font-size:0.8rem;color:var(--texto-suave);">${c.tematica || '—'}</span></td>
+                    <td><span class="estado-badge" style="background:${tipo.bg};color:${tipo.color};">${tipo.label}</span></td>
+                    <td>
+                      <span style="font-size:1.3rem;" title="${c.grabado ? 'Grabado' : 'Sin grabar'}">${c.grabado ? '✅' : '⏳'}</span>
+                      ${c.subtitulos ? '<span style="font-size:1rem;" title="Con subtítulos">📝</span>' : ''}
+                      ${c.musica ? '<span style="font-size:1rem;" title="Con música">🎵</span>' : ''}
+                      ${ytLink}
+                    </td>
+                    <td style="white-space:nowrap;">${plats || '<span style="color:var(--texto-suave);font-size:0.8rem;">Ninguna</span>'}</td>
+                    <td><span style="font-size:0.85rem;">${vis.icon} ${vis.label}</span></td>
+                    <td>
+                      <div class="td-actions">
+                        <button class="btn btn-sm btn--outline" onclick="editContenido('${c.id}')">✏️</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteContenido('${c.id}','${c.nombre.replace(/'/g,"\\'")}')">🗑️</button>
+                      </div>
+                    </td>
+                  </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>`;
+    }
+
+    document.getElementById('cntFilterBtns').addEventListener('click', (e) => {
+      const btn = e.target.closest('.pago-filter');
+      if (!btn) return;
+      document.querySelectorAll('#cntFilterBtns .pago-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      cntFilter = btn.dataset.cfilter;
+      renderContenidosList();
+    });
+
+    function setToggle(field, val) {
+      cntToggleState[field] = val;
+      const si = document.getElementById(`cnt${field.charAt(0).toUpperCase()+field.slice(1)}Si`);
+      const no = document.getElementById(`cnt${field.charAt(0).toUpperCase()+field.slice(1)}No`);
+      if (si && no) {
+        si.classList.toggle('active', val);
+        no.classList.toggle('active', !val);
+      }
+    }
+
+    function openContenidoModal(contenido = null) {
+      const modal = document.getElementById('contenidoModal');
+      document.getElementById('cntAlert').className = 'alert';
+      document.getElementById('cntId').value = contenido?.id || '';
+      document.getElementById('cntModalTitle').textContent = contenido ? 'Editar contenido' : 'Nuevo contenido';
+      document.getElementById('cntNombre').value     = contenido?.nombre || '';
+      document.getElementById('cntTematica').value   = contenido?.tematica || '';
+      document.getElementById('cntTecnica').value    = contenido?.tecnica || '';
+      document.getElementById('cntDropbox').value    = contenido?.dropbox || '';
+      document.getElementById('cntYoutube').value    = contenido?.enlace_youtube || '';
+      document.getElementById('cntNotas').value      = contenido?.notas || '';
+      document.getElementById('cntVisibilidad').value = contenido?.visibilidad || 'privado';
+
+      // Tipo buttons
+      const tipo = contenido?.tipo || 'tutorial_gratuito';
+      document.querySelectorAll('.cnt-tipo-btn').forEach(b => b.classList.toggle('active', b.dataset.tipo === tipo));
+
+      // Toggles
+      setToggle('grabado', contenido ? !!contenido.grabado : false);
+
+      // Checkboxes calidad
+      document.getElementById('cntExplicacion').checked = !!contenido?.explicacion;
+      document.getElementById('cntSubtitulos').checked  = !!contenido?.subtitulos;
+      document.getElementById('cntMusica').checked      = !!contenido?.musica;
+
+      // Checkboxes distribución
+      document.getElementById('cntWeb').checked       = !!contenido?.web;
+      document.getElementById('cntYoutubePub').checked = !!contenido?.youtube_pub;
+      document.getElementById('cntInstagram').checked  = !!contenido?.instagram;
+      document.getElementById('cntFacebook').checked   = !!contenido?.facebook;
+      document.getElementById('cntTiktok').checked     = !!contenido?.tiktok;
+      document.getElementById('cntWhatsapp').checked   = !!contenido?.whatsapp_difusion;
+
+      modal.style.display = 'flex';
+      document.getElementById('cntNombre').focus();
+    }
+
+    function closeContenidoModal() {
+      document.getElementById('contenidoModal').style.display = 'none';
+    }
+
+    function editContenido(id) {
+      const c = allContenidos.find(x => x.id === id);
+      if (c) openContenidoModal(c);
+    }
+
+    document.getElementById('cntTipoGroup').addEventListener('click', (e) => {
+      const btn = e.target.closest('.cnt-tipo-btn');
+      if (!btn) return;
+      document.querySelectorAll('.cnt-tipo-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+
+    async function saveContenido() {
+      const nombre = document.getElementById('cntNombre').value.trim();
+      if (!nombre) {
+        showAlert('cntAlert', 'El nombre es obligatorio.'); return;
+      }
+
+      const btn = document.getElementById('cntSaveBtn');
+      btn.textContent = 'Guardando...'; btn.disabled = true;
+
+      const tipo = document.querySelector('.cnt-tipo-btn.active')?.dataset.tipo || 'tutorial_gratuito';
+      const payload = {
+        nombre,
+        tematica:          document.getElementById('cntTematica').value || null,
+        tecnica:           document.getElementById('cntTecnica').value.trim() || null,
+        tipo,
+        grabado:           cntToggleState.grabado,
+        dropbox:           document.getElementById('cntDropbox').value.trim() || null,
+        enlace_youtube:    document.getElementById('cntYoutube').value.trim() || null,
+        explicacion:       document.getElementById('cntExplicacion').checked,
+        subtitulos:        document.getElementById('cntSubtitulos').checked,
+        musica:            document.getElementById('cntMusica').checked,
+        web:               document.getElementById('cntWeb').checked,
+        youtube_pub:       document.getElementById('cntYoutubePub').checked,
+        instagram:         document.getElementById('cntInstagram').checked,
+        facebook:          document.getElementById('cntFacebook').checked,
+        tiktok:            document.getElementById('cntTiktok').checked,
+        whatsapp_difusion: document.getElementById('cntWhatsapp').checked,
+        visibilidad:       document.getElementById('cntVisibilidad').value,
+        notas:             document.getElementById('cntNotas').value.trim() || null,
+        updated_at:        new Date().toISOString(),
+      };
+
+      const id = document.getElementById('cntId').value;
+      let error;
+      if (id) {
+        ({ error } = await supabase.from('contenidos').update(payload).eq('id', id));
+      } else {
+        ({ error } = await supabase.from('contenidos').insert(payload));
+      }
+
+      if (error) {
+        showAlert('cntAlert', 'Error: ' + error.message);
+      } else {
+        closeContenidoModal();
+        await loadContenidos();
+      }
+      btn.textContent = 'Guardar'; btn.disabled = false;
+    }
+
+    async function deleteContenido(id, nombre) {
+      if (!confirm(`¿Eliminar "${nombre}"?`)) return;
+      const { error } = await supabase.from('contenidos').delete().eq('id', id);
+      if (error) alert('Error: ' + error.message);
+      else await loadContenidos();
+    }
 
     // ============================================================
     // NAVEGACIÓN ENTRE PANELES
