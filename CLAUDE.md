@@ -85,3 +85,100 @@ Ejemplo de reparto:
 - Tipografía grande y legible (mínimo 16px body)
 - Contraste alto para buena legibilidad
 - Botones grandes y claramente clicables
+
+## Skills & Reglas de Uso
+
+Tengo las siguientes skills instaladas. Léelas y aplícalas automáticamente 
+según lo que te pida, sin que yo tenga que invocarlas manualmente.
+
+---
+
+### DISEÑO & ESTILO VISUAL
+
+**/taste-skill** — Úsala SIEMPRE al construir algo nuevo desde cero.
+Evita diseños genéricos, templated o con aspecto de IA. Lee el contexto 
+del proyecto e infiere la dirección de diseño correcta.
+→ Se activa cuando digo: "hazme una sección", "crea el hero", 
+"diseña las cards", "construye el layout", "empieza la página"
+
+**/soft-skill** — Úsala cuando algo tiene que verse caro, profesional o premium.
+Define fuentes, espaciados, sombras y estructuras exactas para que no parezca 
+hecho con una plantilla.
+→ Se activa cuando digo: "que se vea premium", "que parezca caro", 
+"que se vea profesional", "mejora el aspecto visual", "que no parezca de IA"
+
+**/minimalist-skill** — Úsala cuando el cliente quiera algo limpio, 
+serio y editorial. Paleta monocromática, tipografía con contraste, sin 
+gradientes ni sombras pesadas.
+→ Se activa cuando digo: "estilo minimalista", "diseño limpio", 
+"algo simple y elegante", "estilo editorial", "sin mucho ruido visual"
+
+**/redesign-skill** — Úsala cuando el cliente ya tiene web y quiere mejorarla.
+Primero audita lo que hay, luego mejora sin romper la funcionalidad existente.
+→ Se activa cuando digo: "el cliente ya tiene web", "quiero mejorar esto", 
+"rediseña esta sección", "actualiza el diseño actual"
+
+**/emil-design-eng** — Úsala para revisar y pulir animaciones y transiciones CSS.
+Devuelve siempre una tabla Before/After/Why con los cambios exactos.
+→ Se activa cuando digo: "revisa las animaciones", "¿está bien este CSS?", 
+"¿se ve natural?", "revisa las transiciones", "¿el timing está bien?"
+
+---
+
+### ANIMACIONES
+
+**/gsap-scrolltrigger** — Úsala para todo lo que se anime al hacer scroll.
+Elementos que aparecen, secciones que se pegan, efectos parallax.
+→ Se activa cuando digo: "que aparezca al hacer scroll", "efecto parallax", 
+"que se revele al bajar", "sección que se queda fija", "animación al scroll"
+
+**/gsap-timeline** — Úsala para secuenciar varias animaciones en orden.
+Primero entra esto, luego aquello, luego lo otro.
+→ Se activa cuando digo: "primero el título luego el botón", 
+"que entren en orden", "secuencia de entrada", "animación por pasos", 
+"que aparezcan uno detrás del otro"
+
+**/gsap-core** — Úsala para animaciones simples y directas sobre un elemento.
+Mover, escalar, cambiar opacidad, rotar.
+→ Se activa cuando digo: "anima este elemento", "que aparezca con fade", 
+"que se mueva hacia arriba", "animación de entrada básica"
+
+**/gsap-plugins** — Úsala para efectos avanzados que impresionan al cliente.
+Texto que se rompe letra a letra, scroll suave, elementos arrastrables, flip de layout.
+→ Se activa cuando digo: "texto que aparece letra por letra", 
+"scroll suave", "que se pueda arrastrar", "efecto de texto avanzado", 
+"SplitText", "ScrollSmoother"
+
+**/gsap-react** — Úsala cuando el proyecto está en React o Next.js.
+Gestiona correctamente refs, cleanup y el hook useGSAP.
+→ Se activa cuando el proyecto usa React/Next.js y me pide animaciones
+
+**/gsap-performance** — Úsala cuando las animaciones van lentas o hacen saltos.
+→ Se activa cuando digo: "va lento en móvil", "hace jank", 
+"las animaciones no van fluidas", "quiero 60fps", "optimiza las animaciones"
+
+---
+
+### REVISIÓN & ENTREGA
+
+**/code-review** — Úsala antes de entregar el proyecto al cliente.
+Busca bugs, problemas de lógica y errores en el código.
+→ Se activa cuando digo: "voy a entregar esto", "revisa el código", 
+"¿está todo bien antes de subir?", "última revisión"
+
+**/security-review** — Úsala antes de hacer deploy en producción.
+Busca vulnerabilidades de seguridad.
+→ Se activa cuando digo: "voy a hacer deploy", "súbelo a producción", 
+"revisión de seguridad"
+
+---
+
+### REGLA GENERAL
+
+Cuando me pidas construir cualquier cosa nueva, combina automáticamente:
+1. **/taste-skill** → para que no sea genérico
+2. **/soft-skill** → para que se vea premium
+3. La skill de animación que corresponda según el contexto
+
+No esperes a que yo invoque las skills manualmente. Lée lo que te pido, 
+decide cuál encaja mejor y aplícala directamente.
