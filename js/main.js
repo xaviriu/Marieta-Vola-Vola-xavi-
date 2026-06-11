@@ -49,23 +49,17 @@ document.querySelectorAll('.reveal').forEach(el => {
   revealObserver.observe(el);
 });
 
-// Parallax de fondo del hero
-const heroBgEl  = document.getElementById('heroBg');
-const heroEl    = document.querySelector('.hero');
+// Efecto sutil en los doodles al hacer scroll (parallax ligero)
+const heroEl = document.querySelector('.hero');
+const doodlesEl = document.querySelector('.hero__doodles');
 
-if (heroBgEl && heroEl) {
-  let rafHero = false;
-  window.addEventListener('scroll', () => {
-    if (rafHero) return;
-    rafHero = true;
-    requestAnimationFrame(() => {
-      const scrollY  = window.scrollY;
-      const heroH    = heroEl.offsetHeight;
-      if (scrollY < heroH * 1.3) {
-        heroBgEl.style.transform = `translateY(${scrollY * 0.38}px)`;
-      }
-      rafHero = false;
+if (heroEl && doodlesEl) {
+  const revealObserverHero = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      revealObserverHero.unobserve(entry.target);
     });
-  }, { passive: true });
+  }, { threshold: 0 });
+  revealObserverHero.observe(heroEl);
 }
 
