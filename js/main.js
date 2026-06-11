@@ -49,25 +49,22 @@ document.querySelectorAll('.reveal').forEach(el => {
   revealObserver.observe(el);
 });
 
-// Parallax en iconos del hero
-const heroSection = document.querySelector('.hero');
-const heroPars    = document.querySelectorAll('.hero__par[data-par]');
+// Parallax de fondo del hero
+const heroBgEl  = document.getElementById('heroBg');
+const heroEl    = document.querySelector('.hero');
 
-if (heroSection && heroPars.length) {
-  let ticking = false;
-
+if (heroBgEl && heroEl) {
+  let rafHero = false;
   window.addEventListener('scroll', () => {
-    if (ticking) return;
-    ticking = true;
+    if (rafHero) return;
+    rafHero = true;
     requestAnimationFrame(() => {
-      const scrollY = window.scrollY;
-      if (scrollY <= heroSection.offsetHeight) {
-        heroPars.forEach(el => {
-          const speed = parseFloat(el.dataset.par);
-          el.style.transform = `translateY(${-scrollY * speed}px)`;
-        });
+      const scrollY  = window.scrollY;
+      const heroH    = heroEl.offsetHeight;
+      if (scrollY < heroH * 1.3) {
+        heroBgEl.style.transform = `translateY(${scrollY * 0.38}px)`;
       }
-      ticking = false;
+      rafHero = false;
     });
   }, { passive: true });
 }
