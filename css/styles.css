@@ -480,12 +480,15 @@ main {
 .mobile-menu__cta { margin-top: 20px; }
 
 /* ================================================
-   HERO — Split layout (cartel horizontal con foto)
+   HERO — Split layout (cartel artesanal con foto)
    ================================================ */
 .hero {
   margin-top: -68px;
   min-height: 100svh;
-  background: #AACC2A;
+  /* Verde cálido — mismo tono cartel pero menos eléctrico en pantalla */
+  background:
+    radial-gradient(ellipse 75% 65% at 38% 52%, rgba(240, 255, 140, 0.11) 0%, transparent 65%),
+    #B4CC30;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -501,19 +504,28 @@ main {
   overflow: hidden;
 }
 
+/* Grano/textura SVG para quitar el look "pantalla radiactiva" */
+.doodle-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.045;
+}
+
 .doodle { position: absolute; }
 
 .doodle--frame-tr { top: 14px; right: 14px; width: 210px; }
 .doodle--frame-bl { bottom: 58px; left: 12px; width: 142px; }
-.doodle--needle   { top: 13%; left: 6.5%; width: 38px; transform: rotate(-24deg); }
-.doodle--button-1 { top: 64%; left: 3.5%; width: 48px; }
-.doodle--button-2 { top: 22%; left: 2%;   width: 33px; }
-.doodle--scissors { bottom: 10%; right: 3%; width: 56px; transform: rotate(16deg); }
-.doodle--thimble  { top: 46%; left: 7%;   width: 35px; }
-.doodle--star-1   { bottom: 28%; left: 15%; width: 26px; }
-.doodle--star-2   { top: 36%; left: 43%; width: 18px; }
-.doodle--hoop     { bottom: 15%; left: 17%; width: 58px; opacity: 0.75; }
-.doodle--spool    { top: 70%; right: 4.5%; width: 40px; }
+.doodle--needle   { top: 12%; left: 6%; width: 38px; transform: rotate(-24deg); }
+.doodle--button-1 { top: 63%; left: 3%; width: 50px; }
+.doodle--button-2 { top: 21%; left: 1.8%; width: 34px; }
+.doodle--scissors { bottom: 18%; right: 2.5%; width: 54px; transform: rotate(16deg); }
+.doodle--thimble  { top: 46%; left: 6.5%; width: 36px; }
+.doodle--star-1   { bottom: 26%; left: 14%; width: 27px; }
+.doodle--star-2   { top: 35%; left: 43%; width: 19px; }
+.doodle--hoop     { bottom: 14%; left: 16%; width: 60px; opacity: 0.8; }
+.doodle--spool    { top: 68%; right: 4%; width: 42px; }
+.doodle--tape     { bottom: 6%; right: 5%; width: 130px; }
 
 /* Layout interior: grid 2 columnas */
 .hero__inner {
@@ -598,34 +610,30 @@ main {
 .hero__btn {
   display: inline-flex;
   align-items: center;
-  padding: 13px 30px;
+  padding: 12px 28px;
   background: #1A3D06;
-  color: #D8F55A;
+  color: #E0F55E;
   border: 2px solid #1A3D06;
-  border-radius: 10px;
+  border-radius: 5px;
   font-family: 'Nunito', sans-serif;
   font-weight: 800;
   font-size: 0.88rem;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
-  box-shadow: 4px 4px 0 rgba(26, 61, 6, 0.26);
   transition:
-    transform 200ms var(--ease-out),
-    box-shadow 200ms ease,
-    background 180ms ease;
+    transform 180ms var(--ease-out),
+    background 160ms ease;
   white-space: nowrap;
 }
 
 .hero__btn:hover {
   background: #243F0A;
-  transform: translateY(-3px);
-  box-shadow: 6px 8px 0 rgba(26, 61, 6, 0.22);
+  transform: translateY(-2px);
 }
 
 .hero__btn:active {
   transform: translateY(1px) scale(0.98);
-  box-shadow: 2px 2px 0 rgba(26, 61, 6, 0.26);
 }
 
 .hero__link {
@@ -647,7 +655,7 @@ main {
   border-color: #1A3D06;
 }
 
-/* Columna derecha: foto */
+/* Columna derecha: foto con marco de bordado */
 .hero__right {
   display: flex;
   align-items: center;
@@ -660,16 +668,31 @@ main {
   to   { opacity: 1; transform: translateX(0) scale(1); }
 }
 
+/* Contenedor externo que da espacio al marco decorativo */
+.hero__photo-card {
+  position: relative;
+  padding: 22px;
+  width: 100%;
+  max-width: 430px;
+}
+
+/* Marco SVG decorativo — ocupa toda la card (foto + padding) */
+.hero__photo-frame-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Foto cuadrada */
 .hero__photo-wrap {
   position: relative;
   width: 100%;
-  max-width: 450px;
-  height: clamp(320px, calc(100svh - 200px), 570px);
-  border-radius: 22px;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow:
-    10px 14px 0 rgba(26, 61, 6, 0.2),
-    0 8px 48px rgba(0, 0, 0, 0.13);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.16);
 }
 
 .hero__photo {
@@ -681,15 +704,20 @@ main {
 }
 
 .hero__photo-wrap:hover .hero__photo {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
-/* Fade inferior hacia la siguiente sección */
+/* Fade inferior — difuminado suave hacia la siguiente sección */
 .hero__fade {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 14%;
-  background: linear-gradient(to bottom, transparent 0%, var(--crema) 100%);
+  height: 22%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(250, 247, 242, 0.45) 55%,
+    var(--crema) 100%
+  );
   z-index: 2;
   pointer-events: none;
 }
@@ -723,10 +751,9 @@ main {
 
   .hero__ctas { justify-content: center; }
 
-  .hero__photo-wrap {
-    height: clamp(220px, 48vw, 340px);
+  .hero__photo-card {
     max-width: 100%;
-    border-radius: 16px;
+    padding: 14px;
   }
 
   .doodle--frame-tr { width: 130px; }
@@ -737,7 +764,8 @@ main {
   .doodle--scissors,
   .doodle--thimble,
   .doodle--hoop,
-  .doodle--spool { display: none; }
+  .doodle--spool,
+  .doodle--tape { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
