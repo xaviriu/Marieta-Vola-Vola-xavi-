@@ -252,8 +252,9 @@ h1, h2, h3 {
    NAVBAR
    ================================================ */
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0; right: 0;
   z-index: 200;
   background-color: var(--crema);
   border-bottom: 1px solid var(--crema-2);
@@ -262,15 +263,63 @@ h1, h2, h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: box-shadow 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease;
+  transition:
+    box-shadow 0.35s ease,
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    backdrop-filter 0.35s ease;
+}
+
+/* Navbar transparente sobre el hero verde */
+body.has-hero .navbar:not(.scrolled) {
+  background-color: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+}
+
+body.has-hero .navbar:not(.scrolled) .navbar__logo-text {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+body.has-hero .navbar:not(.scrolled) .navbar__link {
+  color: rgba(255, 255, 255, 0.80);
+}
+
+body.has-hero .navbar:not(.scrolled) .navbar__link:hover,
+body.has-hero .navbar:not(.scrolled) .navbar__link.active {
+  color: #ffffff;
+}
+
+body.has-hero .navbar:not(.scrolled) .navbar__link::after {
+  background: #ffffff;
+}
+
+body.has-hero .navbar:not(.scrolled) .navbar__portal-btn {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.90);
+}
+
+body.has-hero .navbar:not(.scrolled) .navbar__portal-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.75);
+}
+
+body.has-hero .navbar:not(.scrolled) .navbar__menu-btn span {
+  background-color: #ffffff;
 }
 
 .navbar.scrolled {
-  background: rgba(250, 247, 242, 0.72);
+  background: rgba(250, 247, 242, 0.88);
   backdrop-filter: blur(20px) saturate(1.6);
   -webkit-backdrop-filter: blur(20px) saturate(1.6);
   box-shadow: 0 2px 28px var(--shadow-md);
   border-bottom: 1px solid rgba(193, 105, 79, 0.14);
+}
+
+/* Offset para que el contenido no quede detrás de la navbar fija */
+main {
+  padding-top: 68px;
 }
 
 .navbar__logo {
@@ -428,125 +477,41 @@ h1, h2, h3 {
 .mobile-menu__cta { margin-top: 20px; }
 
 /* ================================================
-   HERO — Cartel / Poster
+   HERO — Cartel / Poster limpio
    ================================================ */
 .hero {
+  /* Comienza donde empieza la página (detrás de la navbar fija) */
+  margin-top: -68px;
   min-height: 100svh;
   position: relative;
-  display: flex;
-  align-items: flex-end;
   overflow: hidden;
-  background: #2C4A1A;
+  background: #AACC2A; /* fallback — verde lima del cartel */
 }
 
 .hero__bg {
   position: absolute;
-  inset: -14% 0 -4%;
-  background: url('../images/nuevooo.png') center 38% / cover no-repeat;
+  inset: -12% 0 -4%;
+  background: url('../images/nuevooo.png') center center / cover no-repeat;
   will-change: transform;
   transform-origin: center top;
 }
 
-/* Viñeta lateral izquierda para legibilidad del texto */
-.hero__vignette {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to right, rgba(18, 30, 10, 0.68) 0%, rgba(18,30,10,0.32) 42%, transparent 72%),
-    linear-gradient(to top, rgba(18, 30, 10, 0.28) 0%, transparent 40%);
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* Fade inferior hacia el crema de la página */
+/* Fade inferior suave hacia la sección de cursos */
 .hero__fade {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 42%;
+  height: 28%;
   background: linear-gradient(to bottom,
     transparent 0%,
-    rgba(250, 247, 242, 0.55) 55%,
-    var(--crema) 100%
+    rgba(255, 255, 255, 0.65) 72%,
+    var(--blanco) 100%
   );
   z-index: 2;
   pointer-events: none;
 }
 
-.hero__content {
-  position: relative;
-  z-index: 3;
-  padding: 0 clamp(28px, 7vw, 110px) clamp(64px, 10vh, 120px);
-  max-width: 720px;
-  animation: heroContentIn 1s 0.1s var(--ease-out) both;
-}
-
-@keyframes heroContentIn {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.hero__title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3.6rem, 10.5vw, 8.5rem);
-  font-weight: 600;
-  color: var(--blanco);
-  line-height: 0.92;
-  letter-spacing: -0.025em;
-  margin-bottom: 22px;
-  text-shadow: 0 4px 64px rgba(0,0,0,0.22), 0 1px 4px rgba(0,0,0,0.16);
-}
-
-.hero__title em {
-  font-style: italic;
-  color: #EAF5D4;
-  display: block;
-}
-
-.hero__tagline {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
-  margin-bottom: 36px;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.35);
-}
-
-.btn--hero {
-  background: rgba(255, 255, 255, 0.93);
-  color: var(--texto);
-  border: none;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.22), 0 1px 4px rgba(0,0,0,0.12);
-  transition:
-    transform 200ms var(--ease-out),
-    box-shadow 200ms ease,
-    background-color 180ms ease,
-    color 180ms ease;
-}
-
-.btn--hero:hover {
-  background: var(--blanco);
-  color: var(--tierra);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.28);
-}
-
-.btn--hero:active { transform: scale(0.97) translateY(0) !important; }
-
-@media (max-width: 640px) {
-  .hero__title {
-    font-size: clamp(3rem, 16vw, 4.5rem);
-  }
-  .hero__content {
-    padding: 0 24px clamp(56px, 12vh, 96px);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .hero__bg { will-change: auto; }
-  .hero__content { animation: none; opacity: 1; }
 }
 
 
