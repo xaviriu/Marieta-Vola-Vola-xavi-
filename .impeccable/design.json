@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-02T12:00:00Z",
+  "title": "Design System: Marieta Vola Vola",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Card Stock White",
+        "canonical": "#FDFDFB",
+        "tonalRamp": [
+          "#4C4C4B",
+          "#7F7F7E",
+          "#B1B1B0",
+          "#DFDFDD",
+          "#FDFDFB",
+          "#FEFEFC",
+          "#FEFEFE",
+          "#FFFFFF"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Cool Grey Card",
+        "canonical": "#EEF0EC",
+        "tonalRamp": [
+          "#474847",
+          "#777876",
+          "#A7A8A5",
+          "#D1D3D0",
+          "#EEF0EC",
+          "#F4F5F3",
+          "#F9FAF8",
+          "#FDFDFD"
+        ]
+      },
+      "card-2": {
+        "role": "neutral",
+        "displayName": "Grey Card Shade",
+        "canonical": "#E3E6E0",
+        "tonalRamp": [
+          "#444543",
+          "#727370",
+          "#9FA19D",
+          "#C8CAC5",
+          "#E3E6E0",
+          "#EDEFEB",
+          "#F5F6F4",
+          "#FCFCFB"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Thread Ink",
+        "canonical": "#1B1B1A",
+        "tonalRamp": [
+          "#080808",
+          "#0E0E0D",
+          "#131312",
+          "#181817",
+          "#1B1B1A",
+          "#6B6B6A",
+          "#AFAFAF",
+          "#E4E4E4"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "#474744",
+        "tonalRamp": [
+          "#151514",
+          "#242422",
+          "#323230",
+          "#3E3E3C",
+          "#474744",
+          "#878785",
+          "#BFBFBE",
+          "#E9E9E9"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink 3",
+        "canonical": "#6A6A66",
+        "tonalRamp": [
+          "#20201F",
+          "#353533",
+          "#4A4A47",
+          "#5D5D5A",
+          "#6A6A66",
+          "#9E9E9C",
+          "#CBCBC9",
+          "#EDEDED"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(27, 27, 26, .16)"
+      },
+      "t321": {
+        "role": "primary",
+        "displayName": "321 Rojo (Talleres)",
+        "canonical": "#C3283A",
+        "tonalRamp": [
+          "#3B0C11",
+          "#62141D",
+          "#891C29",
+          "#AC2333",
+          "#C3283A",
+          "#D8737F",
+          "#EAB4BA",
+          "#F8E5E7"
+        ]
+      },
+      "t321-deep": {
+        "role": "primary",
+        "displayName": "321 Rojo Oscuro",
+        "canonical": "#9E1E2E"
+      },
+      "t699": {
+        "role": "secondary",
+        "displayName": "699 Verde (Comunidad)",
+        "canonical": "#0F5E35",
+        "tonalRamp": [
+          "#051C10",
+          "#082F1B",
+          "#0B4225",
+          "#0D532F",
+          "#0F5E35",
+          "#63967C",
+          "#ABC7B8",
+          "#E2ECE7"
+        ]
+      },
+      "t699-deep": {
+        "role": "secondary",
+        "displayName": "699 Verde Oscuro",
+        "canonical": "#0A4627"
+      },
+      "t725": {
+        "role": "secondary",
+        "displayName": "725 Topacio (Tienda)",
+        "canonical": "#E3A42B",
+        "tonalRamp": [
+          "#44310D",
+          "#725216",
+          "#9F731E",
+          "#C89026",
+          "#E3A42B",
+          "#EDC475",
+          "#F5DFB5",
+          "#FCF4E6"
+        ]
+      },
+      "t725-deep": {
+        "role": "secondary",
+        "displayName": "725 Topacio Oscuro",
+        "canonical": "#B97E12"
+      },
+      "t798": {
+        "role": "tertiary",
+        "displayName": "798 Azul (Tutoriales, focus)",
+        "canonical": "#3C61A8",
+        "tonalRamp": [
+          "#121D32",
+          "#1E3154",
+          "#2A4476",
+          "#355594",
+          "#3C61A8",
+          "#8098C6",
+          "#BBC8E1",
+          "#E8ECF5"
+        ]
+      },
+      "t3607": {
+        "role": "tertiary",
+        "displayName": "3607 Rosa (Sobre mí)",
+        "canonical": "#B8417F",
+        "tonalRamp": [
+          "#371426",
+          "#5C2140",
+          "#812E59",
+          "#A23970",
+          "#B8417F",
+          "#D184AC",
+          "#E6BDD2",
+          "#F6E8F0"
+        ]
+      },
+      "t3607-deep": {
+        "role": "tertiary",
+        "displayName": "3607 Rosa Oscuro",
+        "canonical": "#933264"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Inner-page hero titles and the closing contact title. Home hero runs smaller (clamp(2.75rem, 4.2vw, 4rem), width 84%)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles beside a section skein."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Programme rows, card names, FAQ questions, steps, venues."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All running text; 18px below 860px; measure 62ch."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "One-sentence intros under titles, in ink-2."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, nav, tags, meta. Bold, never uppercase, never under 16px."
+      },
+      "skein-number": {
+        "displayName": "Skein Number",
+        "purpose": "Numbers on skein bands, date-chip days, price tag, timeline ages (75% width)."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-soft",
+        "value": "0 1px 2px rgba(40, 42, 36, .06), 0 10px 30px -12px rgba(40, 42, 36, .22)",
+        "purpose": "Resting cards, carta, photos, video."
+      },
+      {
+        "name": "shadow-lift",
+        "value": "0 2px 4px rgba(40, 42, 36, .08), 0 22px 40px -16px rgba(40, 42, 36, .34)",
+        "purpose": "Button hover and the rotated story inset."
+      },
+      {
+        "name": "skein-hang",
+        "value": "inset 0 0 0 1px rgba(0,0,0,.08), 0 6px 14px -8px rgba(0,0,0,.4)",
+        "purpose": "Hero skeins at rest; hover rises to 0 22px 26px -14px rgba(0,0,0,.45)."
+      },
+      {
+        "name": "header-stuck",
+        "value": "0 1px 0 rgba(27, 27, 26, .16), 0 8px 24px -18px rgba(40,42,36,.4)",
+        "purpose": "Sticky header once the page scrolls."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Default for CSS state transitions (buttons .5s, nav underline .45s, image zoom 1.2s)."
+      },
+      {
+        "name": "ease-thread",
+        "value": "cubic-bezier(.34, 1.4, .64, 1)",
+        "purpose": "Thread-tension overshoot for skein lift, band pull, brand ladybird tilt, play disc, WhatsApp float."
+      },
+      {
+        "name": "hero-skein-drop",
+        "value": "GSAP yPercent -112 -> 0, 1.15s back.out(1.5), stagger .09s; bands scaleY 0 -> 1, .5s power3.out",
+        "purpose": "Signature load sequence: skeins hang one after another."
+      },
+      {
+        "name": "hero-title-reveal",
+        "value": "GSAP clip-path inset reveal + yPercent 40, 1s expo.out, stagger .12s",
+        "purpose": "Hero headline lines on load."
+      },
+      {
+        "name": "scroll-reveal",
+        "value": "GSAP y 26 -> 0, opacity 0 -> 1, .9s expo.out, stagger .07s, once",
+        "purpose": "[data-reveal] rows via ScrollTrigger.batch."
+      },
+      {
+        "name": "section-skein-drop",
+        "value": "GSAP yPercent -60, 1.1s back.out(1.6), once",
+        "purpose": "Section-head and page-hero skeins on scroll."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "all transitions .01ms; GSAP skipped entirely",
+        "purpose": "prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "nav-collapse",
+        "value": "1100px"
+      },
+      {
+        "name": "single-column",
+        "value": "860px"
+      },
+      {
+        "name": "phone",
+        "value": "600px"
+      },
+      {
+        "name": "rail-align",
+        "value": "1400px (min-width)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Booking Button (321)",
+      "kind": "button",
+      "refersTo": "button-321",
+      "description": "Primary pill with icon dot; colour follows the section, 321 for workshop booking.",
+      "html": "<a class=\"ds-btn ds-btn--321\" href=\"#\">Reservar plaza<span class=\"ds-btn__dot\"><svg viewBox=\"0 0 256 256\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z\"/></svg></span></a>",
+      "css": ".ds-btn { --btn-bg: var(--ink, #1B1B1A); --btn-fg: var(--paper, #FDFDFB); display: inline-flex; align-items: center; gap: .75rem; min-height: 56px; padding: .5rem .5rem .5rem 1.5rem; border: 0; border-radius: 999px; background: var(--btn-bg); color: var(--btn-fg); font-family: 'Atkinson Hyperlegible Next', 'Segoe UI', sans-serif; font-size: 1.125rem; font-weight: 700; line-height: 1.1; text-decoration: none; cursor: pointer; transition: transform .5s cubic-bezier(.16,1,.3,1), background-color .3s cubic-bezier(.16,1,.3,1), box-shadow .5s cubic-bezier(.16,1,.3,1); } .ds-btn__dot { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.16); transition: transform .5s cubic-bezier(.16,1,.3,1); } .ds-btn:hover { box-shadow: 0 2px 4px rgba(40,42,36,.08), 0 22px 40px -16px rgba(40,42,36,.34); transform: translateY(-2px); } .ds-btn:hover .ds-btn__dot { transform: translateX(3px) scale(1.06); } .ds-btn:active { transform: translateY(0) scale(.98); box-shadow: none; } .ds-btn:focus-visible { outline: 3px solid var(--t798, #3C61A8); outline-offset: 3px; } .ds-btn--321 { --btn-bg: var(--t321, #C3283A); } .ds-btn--321:hover { --btn-bg: var(--t321-deep, #9E1E2E); }"
+    },
+    {
+      "name": "WhatsApp Button (ink)",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "Default ink pill used for 'Escríbeme' WhatsApp actions.",
+      "html": "<a class=\"ds-btn-ink\" href=\"#\">Escríbeme<span class=\"ds-btn-ink__dot\"><svg viewBox=\"0 0 256 256\" width=\"22\" height=\"22\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M187.58,144.84l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1-16-16l9.8-14.69a8,8,0,0,0,.5-8l-16-32A8,8,0,0,0,104,64a40,40,0,0,0-40,40,88.1,88.1,0,0,0,88,88,40,40,0,0,0,40-40A8,8,0,0,0,187.58,144.84ZM152,176a72.08,72.08,0,0,1-72-72A24,24,0,0,1,99.29,80.46l11.48,23L101,118a8,8,0,0,0-.73,7.51,56.47,56.47,0,0,0,30.15,30.15A8,8,0,0,0,138,155l14.61-9.74,23,11.48A24,24,0,0,1,152,176ZM128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Z\"/></svg></span></a>",
+      "css": ".ds-btn-ink { display: inline-flex; align-items: center; gap: .75rem; min-height: 56px; padding: .5rem .5rem .5rem 1.5rem; border-radius: 999px; background: var(--ink, #1B1B1A); color: var(--paper, #FDFDFB); font-family: 'Atkinson Hyperlegible Next', 'Segoe UI', sans-serif; font-size: 1.125rem; font-weight: 700; text-decoration: none; transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s cubic-bezier(.16,1,.3,1); } .ds-btn-ink__dot { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.16); transition: transform .5s cubic-bezier(.16,1,.3,1); } .ds-btn-ink:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(40,42,36,.08), 0 22px 40px -16px rgba(40,42,36,.34); } .ds-btn-ink:hover .ds-btn-ink__dot { transform: translateX(3px) scale(1.06); } .ds-btn-ink:focus-visible { outline: 3px solid var(--t798, #3C61A8); outline-offset: 3px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary pill with a 2px inset ink ring and no dot; fills with ink on hover.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">Cómo funciona</a>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; min-height: 56px; padding: .5rem 1.5rem; border-radius: 999px; background: transparent; color: var(--ink, #1B1B1A); box-shadow: inset 0 0 0 2px var(--ink, #1B1B1A); font-family: 'Atkinson Hyperlegible Next', 'Segoe UI', sans-serif; font-size: 1.125rem; font-weight: 700; text-decoration: none; transition: background-color .3s cubic-bezier(.16,1,.3,1), color .3s, transform .5s cubic-bezier(.16,1,.3,1); } .ds-btn-ghost:hover { background: var(--ink, #1B1B1A); color: var(--paper, #FDFDFB); transform: translateY(-2px); } .ds-btn-ghost:focus-visible { outline: 3px solid var(--t798, #3C61A8); outline-offset: 3px; }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Pill filter for the shop catalogue; selected state is ink.",
+      "html": "<div style=\"display:flex;gap:.5rem\"><button class=\"ds-chip\" aria-pressed=\"true\">Todo</button><button class=\"ds-chip\" aria-pressed=\"false\">Bastidores</button></div>",
+      "css": ".ds-chip { min-height: 48px; padding: 0 1.25rem; border: 0; border-radius: 999px; background: var(--card, #EEF0EC); color: var(--ink, #1B1B1A); font-family: 'Atkinson Hyperlegible Next', 'Segoe UI', sans-serif; font-weight: 700; font-size: 1.0625rem; cursor: pointer; transition: background-color .3s cubic-bezier(.16,1,.3,1), color .3s; } .ds-chip:hover { background: var(--card-2, #E3E6E0); } .ds-chip[aria-pressed=\"true\"] { background: var(--ink, #1B1B1A); color: var(--paper, #FDFDFB); } .ds-chip:focus-visible { outline: 3px solid var(--t798, #3C61A8); outline-offset: 3px; }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Bold header link with a 3px underline in its section's thread colour drawing in from the left.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav__link\" style=\"--c:#C3283A\" href=\"#\" aria-current=\"page\">Talleres</a><a class=\"ds-nav__link\" style=\"--c:#0F5E35\" href=\"#\">Comunidad</a><a class=\"ds-nav__link\" style=\"--c:#E3A42B\" href=\"#\">Tienda</a><a class=\"ds-nav__link\" style=\"--c:#3C61A8\" href=\"#\">Tutoriales</a><a class=\"ds-nav__link\" style=\"--c:#B8417F\" href=\"#\">Sobre mí</a></nav>",
+      "css": ".ds-nav { display: flex; gap: .25rem; } .ds-nav__link { position: relative; display: inline-flex; align-items: center; min-height: 48px; padding: 0 .7rem; color: var(--ink, #1B1B1A); font-family: 'Atkinson Hyperlegible Next', 'Segoe UI', sans-serif; font-weight: 700; font-size: 1.125rem; text-decoration: none; border-radius: 999px; } .ds-nav__link::after { content: \"\"; position: absolute; left: .75rem; right: .75rem; bottom: 8px; height: 3px; border-radius: 2px; background: var(--c); transform: scaleX(0); transform-origin: left; transition: transform .45s cubic-bezier(.16,1,.3,1); } .ds-nav__link:hover::after, .ds-nav__link[aria-current=\"page\"]::after { transform: scaleX(1); } .ds-nav__link:focus-visible { outline: 3px solid var(--t798, #3C61A8); outline-offset: 3px; }"
+    },
+    {
+      "name": "Product Card",
+      "kind": "card",
+      "refersTo": "card-product",
+      "description": "Paper card, 6px radius, soft shadow, square photo, topaz kind tag, WhatsApp order pill.",
+      "html": "<article class=\"ds-product\"><div class=\"ds-product__img\"></div><div class=\"ds-product__body\"><h3 class=\"ds-product__name\">Bastidor de nacimiento</h3><p class=\"ds-product__desc\">Con nombre y fecha, bordado a mano.</p><div class=\"ds-product__foot\"><span class=\"ds-product__kind\">Por encargo</span><a class=\"ds-product__btn\" href=\"#\">Lo quiero</a></div></div></article>",
+      "css": ".ds-product { max-width: 300px; background: var(--paper, #FDFDFB); border-radius: 6px; overflow: hidden; box-shadow: 0 1px 2px rgba(40,42,36,.06), 0 10px 30px -12px rgba(40,42,36,.22); font-family: 'Atkinson Hyperlegible Next', 'Segoe UI', sans-serif; color: var(--ink, #1B1B1A); } .ds-product__img { aspect-ratio: 1; background: var(--card-2, #E3E6E0); } .ds-product__body { display: grid; gap: .375rem; padding: 1.125rem 1.25rem 1.25rem; } .ds-product__name { margin: 0; font-family: 'Bricolage Grotesque', 'Arial Narrow', sans-serif; font-weight: 700; font-stretch: 85%; font-size: 1.5rem; line-height: 1.08; letter-spacing: -.02em; } .ds-product__desc { margin: 0; color: var(--ink-2, #474744); font-size: 1.125rem; } .ds-product__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; margin-top: .75rem; padding-top: .875rem; border-top: 1px solid rgba(27,27,26,.16); } .ds-product__kind { padding: .125rem .5rem; border-radius: 2px; background: var(--t725, #E3A42B); color: var(--ink, #1B1B1A); font-size: 1rem; font-weight: 700; } .ds-product__btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.125rem; border-radius: 999px; background: var(--ink, #1B1B1A); color: var(--paper, #FDFDFB); font-weight: 700; font-size: 1rem; text-decoration: none; transition: transform .5s cubic-bezier(.16,1,.3,1); } .ds-product__btn:hover { transform: translateY(-2px); } .ds-product__btn:focus-visible { outline: 3px solid var(--t798, #3C61A8); outline-offset: 3px; }"
+    },
+    {
+      "name": "Skein",
+      "kind": "custom",
+      "refersTo": "skein-band",
+      "description": "Signature component: numbered thread skein with a paper band; hero menu item and section marker. Face is an interim CSS twist until real skein photos arrive.",
+      "html": "<a class=\"ds-skein-link\" href=\"#\"><span class=\"ds-skein\" style=\"--c:#C3283A\"><span class=\"ds-skein__band\"><span class=\"ds-skein__num\">321</span><span class=\"ds-skein__name\">Talleres</span></span></span></a>",
+      "css": ".ds-skein-link { display: block; width: 62px; height: 300px; padding-top: 8px; text-decoration: none; color: var(--ink, #1B1B1A); border-radius: 999px / 46px; transition: transform .6s cubic-bezier(.34,1.4,.64,1); } .ds-skein { --c: #C3283A; position: relative; display: block; width: 100%; height: 100%; border-radius: 999px / 46px; background: linear-gradient(90deg, rgba(0,0,0,.22), rgba(0,0,0,0) 26%, rgba(255,255,255,.10) 48%, rgba(0,0,0,0) 70%, rgba(0,0,0,.24)), repeating-linear-gradient(118deg, rgba(255,255,255,.20) 0 1.5px, rgba(255,255,255,0) 1.5px 4px, rgba(0,0,0,.13) 4px 5px, rgba(0,0,0,0) 5px 7px), var(--c); box-shadow: inset 0 0 0 1px rgba(0,0,0,.08), 0 6px 14px -8px rgba(0,0,0,.4); transition: box-shadow .5s cubic-bezier(.16,1,.3,1); } .ds-skein::before { content: \"\"; position: absolute; left: 50%; top: 6%; width: 34%; height: 4%; min-height: 8px; transform: translateX(-50%); border-radius: 999px; background: rgba(0,0,0,.18); } .ds-skein__band { position: absolute; left: -5px; right: -5px; top: 52%; display: grid; gap: 2px; padding: .55rem .25rem .5rem; background: var(--paper, #FDFDFB); border-radius: 2px; box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 4px 10px -4px rgba(0,0,0,.25); text-align: center; transition: transform .5s cubic-bezier(.34,1.4,.64,1); } .ds-skein__num { font-family: 'Bricolage Grotesque', 'Arial Narrow', sans-serif; font-weight: 800; font-stretch: 75%; font-size: 1.375rem; line-height: 1; letter-spacing: -.01em; } .ds-skein__num::before { content: \"\"; display: block; width: 14px; height: 4px; margin: 0 auto 6px; border-radius: 2px; background: var(--c); } .ds-skein__name { font-family: 'Bricolage Grotesque', 'Arial Narrow', sans-serif; font-weight: 700; font-stretch: 75%; font-size: .9375rem; line-height: 1.05; } .ds-skein-link:hover, .ds-skein-link:focus-visible { transform: translateY(-10px); } .ds-skein-link:hover .ds-skein { box-shadow: inset 0 0 0 1px rgba(0,0,0,.08), 0 22px 26px -14px rgba(0,0,0,.45); } .ds-skein-link:hover .ds-skein__band { transform: translateY(14px); } .ds-skein-link:focus-visible { outline: 3px solid var(--t798, #3C61A8); outline-offset: 6px; }"
+    },
+    {
+      "name": "Date Chip",
+      "kind": "custom",
+      "refersTo": "date-chip",
+      "description": "Programme date: paper chip with 2px inset ink ring, Bricolage day numeral.",
+      "html": "<div class=\"ds-date\"><span class=\"ds-date__wd\">sáb</span><span class=\"ds-date__d\">25</span><span class=\"ds-date__m\">oct</span></div>",
+      "css": ".ds-date { display: grid; justify-items: center; width: 100px; padding: .625rem .5rem .75rem; background: var(--paper, #FDFDFB); color: var(--ink, #1B1B1A); border-radius: 6px; box-shadow: inset 0 0 0 2px var(--ink, #1B1B1A); text-align: center; line-height: 1; font-family: 'Atkinson Hyperlegible Next', 'Segoe UI', sans-serif; } .ds-date__wd, .ds-date__m { font-weight: 700; font-size: 1rem; } .ds-date__d { font-family: 'Bricolage Grotesque', 'Arial Narrow', sans-serif; font-weight: 800; font-stretch: 75%; font-size: 2.75rem; letter-spacing: -.03em; margin-block: .125rem; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Carta de colores de la mercería",
+    "overview": "The site is the haberdashery thread card every embroiderer knows by heart: a white card-stock ground, a cool grey card, near-black ink, and five real thread colours, each numbered like a DMC skein and each owning one part of Cristina's offer. Talleres is 321 red, Comunidad is 699 green, Tienda is 725 topaz, Tutoriales is 798 blue, Sobre mí is 3607 pink. The skein, with its twisted face and paper band carrying the number, is the system's signature object: it is the hero menu, the marker beside every section heading, and the column beside every inner-page title.\n\nDensity is generous and calm for an audience of women aged 40-60 with little digital fluency: big type (body 19px), pill buttons at least 56px tall, one obvious action per block, and every path ending in a WhatsApp button. Colour comes in two doses: full-bleed colour fields for the sections that sell (green Comunidad, red closing contact, coloured inner-page heroes), and small doses everywhere else (nav underlines, skeins, step rules, one red word in the hero headline). The rest is paper and ink.\n\nThe world was chosen as a replacement for the cream-paper, elegant-italic-serif, pastel-doodle category default; the earlier pastel/doodle look in css/styles.css belongs only to the portal/ and admin/ pages and is not part of this system.",
+    "keyCharacteristics": [
+      "White card stock (paper), cool grey card, near-black ink; no cream, no beige.",
+      "Five thread colours, one per offering, never reassigned.",
+      "Condensed, heavy Bricolage Grotesque for headings and numbers; Atkinson Hyperlegible Next for everything read.",
+      "Pill buttons with a round icon \"dot\" on the right; 6px cards; 2px labels.",
+      "Motion with thread tension: short drops with a soft overshoot, once, never looping."
+    ],
+    "rules": [
+      {
+        "name": "The One Skein, One Section Rule",
+        "body": "Each thread colour belongs to exactly one offering (321 Talleres, 699 Comunidad, 725 Tienda, 798 Tutoriales, 3607 Sobre mí). A new surface for an offering inherits its colour; a colour is never borrowed for another offering's emphasis. Neutral surfaces (Contacto, footer, WhatsApp float) use ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Field Or Fleck Rule",
+        "body": "A thread colour appears either as a full-bleed field (community, closing, inner-page hero) or as a small fleck (underline, skein, rule, tag, one word). Never as a tinted mid-size panel or a gradient.",
+        "section": "colors"
+      },
+      {
+        "name": "The Topaz Never Writes Rule",
+        "body": "725 topaz is a background only; text set on it is ink, and topaz-coloured text or underlines on paper use t725-deep.",
+        "section": "colors"
+      },
+      {
+        "name": "The Narrow For Numbers Rule",
+        "body": "Bricolage is always condensed (font-stretch 75-85%) and negatively tracked; the narrowest widths (75%) are reserved for numbers on bands, chips and tags.",
+        "section": "typography"
+      },
+      {
+        "name": "The Nothing Small Rule",
+        "body": "No text under 16px (1rem), no uppercase labels, no letter-spaced small caps. Secondary information is quieter by colour (ink-2), never by size below 16px.",
+        "section": "typography"
+      },
+      {
+        "name": "The Lift Is A Response Rule",
+        "body": "Resting surfaces use Soft at most; Lift and stronger shadows appear on hover or on objects that are physically tilted (price tag, inset photo).",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do give every new offering surface its own thread colour from the existing five and use it as a field or a fleck, per The One Skein, One Section Rule.",
+      "Do end every block with one WhatsApp pill (ink or section colour, WhatsApp icon in the dot) that pre-fills a message to Cristina.",
+      "Do keep body at 19px (18px under 860px), labels at 16px or more, and every target at 48px or more (56px for primary pills).",
+      "Do use the skein with its numbered paper band to mark sections and page titles.",
+      "Do animate with thread tension: one short drop or reveal with expo.out or back.out, played once, and nothing when prefers-reduced-motion is set.",
+      "Do use Phosphor regular icons from images/icons.svg, inline via <use>.",
+      "Do use real photographs of Cristina and her pieces at 6px radius with a card-2 placeholder."
+    ],
+    "donts": [
+      "Don't use cream or beige grounds, italic serif display type, or pastel sewing doodles; that was the rejected category default and the old portal look.",
+      "Don't put text over the hero photo; the photo carries no caption or overlay.",
+      "Don't set topaz (725) as text or underline on paper; use t725-deep.",
+      "Don't use uppercase or letter-spaced labels, or any text under 16px.",
+      "Don't loop, float or bounce continuously; motion settles and stops.",
+      "Don't mix thread colours in gradients; the only multi-colour moments are the hero skeins and the footer thread strip.",
+      "Don't treat the CSS twisted-stripe skein face as final or copy it to new surfaces as texture; it is an interim stand-in until photographs of Cristina's own DMC skeins 321, 699, 725, 798 and 3607 replace it."
+    ]
+  }
+}

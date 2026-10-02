@@ -1,615 +1,150 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Galería — Marieta Vola Vola</title>
-  <meta name="description" content="Galería de trabajos y resultados de los talleres de bordado de Marieta Vola Vola." />
-  <link rel="icon" href="images/logo nuevo con fondo.png" type="image/png" />
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-
-    /* ── FILTROS ── */
-    .gallery-filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin: 0 auto 10px;
-      max-width: 700px;
-    }
-
-    .filter-btn {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      padding: 10px 22px;
-      border-radius: 30px;
-      border: 2px solid var(--rosa);
-      background: transparent;
-      color: var(--tierra);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .filter-btn:hover,
-    .filter-btn.active {
-      background: var(--tierra);
-      border-color: var(--tierra);
-      color: #fff;
-    }
-
-    /* ── CATEGORÍA ── */
-    .gallery-category {
-      max-width: 1200px;
-      margin: 0 auto 72px;
-      padding: 0 24px;
-      transition: opacity 0.3s ease;
-    }
-
-    .gallery-category.hidden {
-      display: none;
-    }
-
-    .category-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .category-header__icon {
-      font-size: 2.2rem;
-      line-height: 1;
-    }
-
-    .category-header__text {}
-
-    .category-header__label {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--tierra);
-      opacity: 0.6;
-      margin-bottom: 2px;
-    }
-
-    .category-header__title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 600;
-      color: var(--texto);
-      margin: 0;
-      line-height: 1.1;
-    }
-
-    .category-divider {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(to right, var(--rosa), transparent);
-    }
-
-    /* ── GRID MASONRY ── */
-    .masonry-grid {
-      columns: 2;
-      column-gap: 16px;
-    }
-
-    @media (min-width: 640px) {
-      .masonry-grid { columns: 3; column-gap: 18px; }
-    }
-
-    @media (min-width: 960px) {
-      .masonry-grid { columns: 4; column-gap: 20px; }
-    }
-
-    .masonry-item {
-      break-inside: avoid;
-      margin-bottom: 16px;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .masonry-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 14px 36px rgba(0,0,0,0.14);
-    }
-
-    .masonry-item img {
-      width: 100%;
-      display: block;
-    }
-
-    .masonry-item__overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(80,40,20,0.7) 0%, transparent 55%);
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      display: flex;
-      align-items: flex-end;
-      padding: 16px;
-    }
-
-    .masonry-item:hover .masonry-item__overlay {
-      opacity: 1;
-    }
-
-    .masonry-item__caption {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.3;
-    }
-
-    /* ── LIGHTBOX ── */
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(10, 5, 0, 0.92);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: opacity 0.25s ease, visibility 0.25s ease;
-    }
-
-    .lightbox.open {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: all;
-    }
-
-    .lightbox__img {
-      max-width: min(92vw, 860px);
-      max-height: 88vh;
-      object-fit: contain;
-      border-radius: 10px;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
-      transform: scale(0.95);
-      transition: transform 0.25s ease;
-    }
-
-    .lightbox.open .lightbox__img {
-      transform: scale(1);
-    }
-
-    .lightbox__caption {
-      position: absolute;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.75);
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    .lightbox__close {
-      position: absolute;
-      top: 20px;
-      right: 24px;
-      font-size: 2rem;
-      color: rgba(255,255,255,0.7);
-      cursor: pointer;
-      background: none;
-      border: none;
-      line-height: 1;
-      transition: color 0.2s;
-    }
-
-    .lightbox__close:hover { color: #fff; }
-
-    .lightbox__nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2.5rem;
-      color: rgba(255,255,255,0.6);
-      cursor: pointer;
-      background: none;
-      border: none;
-      line-height: 1;
-      padding: 12px;
-      transition: color 0.2s;
-      user-select: none;
-    }
-
-    .lightbox__nav:hover { color: #fff; }
-    .lightbox__nav--prev { left: 12px; }
-    .lightbox__nav--next { right: 12px; }
-
-    @media (max-width: 480px) {
-      .lightbox__nav { font-size: 1.8rem; padding: 8px; }
-    }
-
-    .gallery-page {
-      padding-bottom: 24px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mis trabajos · Marieta Vola Vola</title>
+  <meta name="description" content="Bordados, costura, patchwork y pintura hechos a mano por Cristina Robles, de Marieta Vola Vola." />
+  <meta property="og:title" content="Mis trabajos · Marieta Vola Vola" />
+  <meta property="og:description" content="Bordados, costura, patchwork y pintura hechos a mano por Cristina Robles, de Marieta Vola Vola." />
+  <meta property="og:image" content="images/web/cristina-chaleco-1000.webp" />
+  <meta name="theme-color" content="#FDFDFB" />
+  <link rel="icon" href="images/web/mariquita.png" type="image/png" />
+  <link rel="preload" href="fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/site.css" />
+  <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-motion');setTimeout(function(){document.documentElement.classList.remove('js-motion')},3000)}</script>
+  <script src="js/data.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/site.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <span data-header-sentinel></span>
 
-  <!-- NAVBAR -->
-  <header class="navbar" id="navbar">
-    <a href="index.html" class="navbar__logo">
-      <img src="images/icono marieta.png" alt="Marieta Vola Vola" class="navbar__logo-img" />
-      <span class="navbar__logo-text">Marieta Vola Vola</span>
-    </a>
-    <nav class="navbar__nav">
-      <a href="index.html" class="navbar__link">Inicio</a>
-      <a href="sobre-mi.html" class="navbar__link">Sobre mí</a>
-      <a href="cursos.html" class="navbar__link">Cursos</a>
-      <a href="galeria.html" class="navbar__link active">Galería</a>
-      <a href="contacto.html" class="navbar__link">Contacto</a>
-      <a href="portal/index.html" class="navbar__portal-btn">Mis cursos →</a>
-    </nav>
-    <button class="navbar__menu-btn" id="menuBtn" aria-label="Abrir menú">
-      <span></span><span></span><span></span>
-    </button>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="index.html" aria-label="Marieta Vola Vola, inicio">
+        <img src="images/web/mariquita.png" alt="" width="34" height="44" />
+        <span class="brand__name">Marieta Vola Vola</span>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a class="nav__link nav__link--321" href="cursos.html">Talleres</a>
+        <a class="nav__link nav__link--699" href="comunidad.html">Comunidad</a>
+        <a class="nav__link nav__link--725" href="tienda.html">Tienda</a>
+        <a class="nav__link nav__link--798" href="tutoriales.html">Tutoriales</a>
+        <a class="nav__link nav__link--3607" href="sobre-mi.html">Sobre mí</a>
+        <a class="nav__link" href="contacto.html">Contacto</a>
+        <a class="btn btn--small btn--699 nav__cta" href="portal/index.html" aria-label="Entrar a la Comunidad Marieta">Entrar<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#lock"></use></svg></span></a>
+      </nav>
+      <button class="menu-btn" type="button" data-menu-open aria-expanded="false" aria-controls="mobile-menu">
+        <svg class="icon" aria-hidden="true"><use href="images/icons.svg#menu"></use></svg>Menú
+      </button>
+    </div>
   </header>
 
-  <!-- MENÚ MÓVIL -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html" class="mobile-menu__link">Inicio</a>
-    <a href="cursos.html" class="mobile-menu__link">Cursos</a>
-    <a href="galeria.html" class="mobile-menu__link">Galería</a>
-    <a href="contacto.html" class="mobile-menu__link">Contacto</a>
-    <a href="portal/index.html" class="mobile-menu__link mobile-menu__link--portal">Mis cursos</a>
-    <div class="mobile-menu__cta">
-      <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="btn btn--whatsapp btn--full">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        WhatsApp
-      </a>
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú">
+    <div class="mobile-menu__top">
+      <a class="brand" href="index.html"><img src="images/web/mariquita.png" alt="" width="34" height="44" /><span class="brand__name">Marieta Vola Vola</span></a>
+      <button class="menu-btn" type="button" data-menu-close style="display:inline-flex">
+        <svg class="icon" aria-hidden="true"><use href="images/icons.svg#close"></use></svg>Cerrar
+      </button>
+    </div>
+    <ul class="mobile-menu__list">
+      <li><a class="mobile-menu__link" style="--c:var(--t321)" href="cursos.html">Talleres</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t699)" href="comunidad.html">Comunidad</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t725)" href="tienda.html">Tienda</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t798)" href="tutoriales.html">Tutoriales</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t3607)" href="sobre-mi.html">Sobre mí</a></li>
+      <li><a class="mobile-menu__link" href="contacto.html">Contacto</a></li>
+    </ul>
+    <div class="mobile-menu__actions">
+      <a class="btn" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20te%20escribo%20desde%20la%20web." target="_blank" rel="noopener">Escríbeme por WhatsApp<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
+      <a class="btn btn--699" href="portal/index.html">Entrar a la Comunidad<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#lock"></use></svg></span></a>
     </div>
   </div>
 
-  <main>
+  <main id="main">
 
-    <!-- PAGE HEADER -->
-    <section class="page-header">
-      <span class="label">Trabajos y resultados</span>
-      <h1 class="section-title">Galería</h1>
-      <div class="divider divider--center"></div>
-      <p class="section-subtitle">
-        Lo que se crea en los talleres. Bordado, costura, manualidades de tela y decoración.<br />
-        Cada pieza, única y hecha con las manos.
-      </p>
+    <section class="page-hero" aria-labelledby="page-title">
+      <div class="wrap page-hero__grid">
+        <span class="skein page-hero__skein" style="--c:var(--t3607)" aria-hidden="true"><span class="skein__band"><span class="skein__num">3607</span></span></span>
+        <div>
+          <h1 class="page-hero__title" id="page-title">Mis trabajos</h1>
+          <p class="lead">Bordados, costura y manualidades que he hecho con mis manos. Si te gusta alguno, pídemelo.</p>
+          <div class="btn-row page-hero__ctas">
+            <a class="btn btn--3607" href="tienda.html">Ir a la tienda<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#arrow"></use></svg></span></a>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- FILTROS -->
-    <div style="padding: 48px 24px 0;">
-      <div class="gallery-filters">
-        <button class="filter-btn active" data-filter="all">Todos</button>
-        <button class="filter-btn" data-filter="bordado">Bordado</button>
-        <button class="filter-btn" data-filter="tela">Manualidades de tela</button>
-        <button class="filter-btn" data-filter="decoracion">Decoración</button>
-      </div>
-    </div>
-
-    <section class="gallery-page">
-
-      <!-- CATEGORÍA: BORDADO -->
-      <div class="gallery-category" data-category="bordado">
-        <div class="category-header">
-          <div class="category-header__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:2rem;height:2rem;"><path d="M9.5 2a2.5 2.5 0 0 1 5 0v4M3 13c.6-5.5 4.3-9 9-9s8.4 3.5 9 9"/><path d="M12 6c0 5-3 9-3 13h6c0-4-3-8-3-13"/></svg></div>
-          <div class="category-header__text">
-            <div class="category-header__label">Categoría</div>
-            <h2 class="category-header__title">Bordado</h2>
-          </div>
-          <div class="category-divider"></div>
-        </div>
-
-        <div class="masonry-grid">
-
-          <div class="masonry-item" data-src="images/1.jpg" data-caption="Bastidor personalizado — Bienvenida bebé Gerard">
-            <img src="images/1.jpg" alt="Bastidor bordado personalizado con nombre Gerard y animales" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Bastidor personalizado — Gerard</span>
-            </div>
-          </div>
-
-          <div class="masonry-item" data-src="images/2.jpg" data-caption="Bastidor bordado — «Magia eres tú»">
-            <img src="images/2.jpg" alt="Bastidor bordado con hada y texto Magia eres tú" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">«Magia eres tú»</span>
-            </div>
-          </div>
-
-          <div class="masonry-item" data-src="images/otramanualidad.jpg" data-caption="Bastidor decorativo con letra L bordada y flores">
-            <img src="images/otramanualidad.jpg" alt="Bastidor decorativo con letra L bordada con flores" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Bastidor decorativo — Letra L</span>
-            </div>
-          </div>
-
-          <div class="masonry-item" data-src="images/puntoslibrosantjordi.jpg" data-caption="Punts de llibre de Sant Jordi bordados a mano">
-            <img src="images/puntoslibrosantjordi.jpg" alt="Puntos de libro de Sant Jordi bordados" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Punts de llibre — Sant Jordi</span>
-            </div>
-          </div>
-
-          <div class="masonry-item" data-src="images/proyecto.jpg" data-caption="Chaqueta vaquera personalizada con bordado artesanal">
-            <img src="images/proyecto.jpg" alt="Chaqueta vaquera personalizada con bordado" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Chaqueta vaquera bordada</span>
-            </div>
-          </div>
-
-          <div class="masonry-item" data-src="images/manualidad2.jpg" data-caption="Gorro y guantes con pequeñas flores bordadas">
-            <img src="images/manualidad2.jpg" alt="Gorro y guantes con flores bordadas" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Gorro y guantes bordados</span>
-            </div>
-          </div>
-
-          <div class="masonry-item" data-src="images/fotomarieta.jpg" data-caption="Marieta Vola Vola con su chaleco bordado artesanal">
-            <img src="images/fotomarieta.jpg" alt="Marieta con chaleco bordado artesanal" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Chaleco bordado artesanal</span>
-            </div>
-          </div>
-
-          <div class="masonry-item" data-src="images/otrotallerdisponible.jpg" data-caption="Coronas navideñas bordadas — Taller Brodat de Nadal">
-            <img src="images/otrotallerdisponible.jpg" alt="Coronas de Navidad bordadas Bon Nadal y Feliz Navidad" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Coronas navideñas bordadas</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- CATEGORÍA: MANUALIDADES DE TELA -->
-      <div class="gallery-category" data-category="tela">
-        <div class="category-header">
-          <div class="category-header__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:2rem;height:2rem;"><circle cx="12" cy="12" r="9"/><path d="M12 3c0 0-4 4-4 9s4 9 4 9"/><path d="M3 12h18"/></svg></div>
-          <div class="category-header__text">
-            <div class="category-header__label">Categoría</div>
-            <h2 class="category-header__title">Manualidades de tela</h2>
-          </div>
-          <div class="category-divider"></div>
-        </div>
-
-        <div class="masonry-grid">
-
-          <div class="masonry-item" data-src="images/manudalidadhecha.jpg" data-caption="Organizadores de tela artesanales con forma de casita">
-            <img src="images/manudalidadhecha.jpg" alt="Organizadores de tela artesanales con forma de casita" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Organizadores de tela — casitas</span>
-            </div>
-          </div>
-
-          <div class="masonry-item" data-src="images/otramanualidaade.jpg" data-caption="Portamóvil artesanal de tela con patrón geométrico">
-            <img src="images/otramanualidaade.jpg" alt="Portamóvil artesanal de tela con patrón geométrico" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Portamóvil de tela artesanal</span>
-            </div>
-          </div>
-
-          <div class="masonry-item" data-src="images/55.jpg" data-caption="Delantal artesanal de cuadros con apliques de tela">
-            <img src="images/55.jpg" alt="Delantal artesanal rojo a cuadros con apliques de tela" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Delantal artesanal con apliques</span>
-            </div>
-          </div>
-
-          <div class="masonry-item" data-src="images/tallerdisponible.jpg" data-caption="Calabazas de tela artesanales — Taller de Halloween">
-            <img src="images/tallerdisponible.jpg" alt="Calabazas de tela artesanales de Halloween" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Calabazas de tela artesanales</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- CATEGORÍA: DECORACIÓN -->
-      <div class="gallery-category" data-category="decoracion">
-        <div class="category-header">
-          <div class="category-header__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:2rem;height:2rem;"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/><circle cx="6.5" cy="11.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="10.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="16.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="20" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg></div>
-          <div class="category-header__text">
-            <div class="category-header__label">Categoría</div>
-            <h2 class="category-header__title">Decoración</h2>
-          </div>
-          <div class="category-divider"></div>
-        </div>
-
-        <div class="masonry-grid">
-
-          <div class="masonry-item" data-src="images/88.jpg" data-caption="Perchero de madera decorado con bolsos pintados a mano">
-            <img src="images/88.jpg" alt="Perchero de madera con bolsos pintados" loading="lazy" />
-            <div class="masonry-item__overlay">
-              <span class="masonry-item__caption">Perchero con bolsos pintados</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- CTA INSTAGRAM -->
-      <div style="text-align:center; margin: 16px auto 64px; max-width: 500px; padding: 0 24px;">
-        <p style="color:var(--texto-suave); font-size:0.95rem; margin-bottom:20px; line-height:1.6;">
-          ¿Quieres ver más trabajos y los próximos talleres?<br />Síguenos en Instagram.
-        </p>
-        <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="btn btn--instagram btn--lg">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          Ver en Instagram
-        </a>
-      </div>
-
+    <section class="section" aria-label="Galería de trabajos" style="padding-top:0">
+      <div class="wrap works"><figure class="work" data-reveal><img src="images/web/bastidor-nacimiento-640.webp" alt="Bastidor con el nombre Gerard, fecha de nacimiento y animales de la selva" width="640" height="640" loading="lazy" /><figcaption><strong>Bastidor de nacimiento</strong><span>Bordado a mano</span></figcaption></figure><figure class="work" data-reveal><img src="images/web/chaqueta-vaquera-640.webp" alt="Chaqueta vaquera con rosas, tulipanes, una mariposa y una mariquita bordadas" width="640" height="640" loading="lazy" /><figcaption><strong>Chaqueta vaquera</strong><span>Bordado sobre tela vaquera</span></figcaption></figure><figure class="work" data-reveal><img src="images/web/puntos-libro-sant-jordi-640.webp" alt="Dos puntos de libro de Sant Jordi 2025, uno con una rosa bordada" width="640" height="800" loading="lazy" /><figcaption><strong>Puntos de libro de Sant Jordi</strong><span>Bordado sobre papel</span></figcaption></figure><figure class="work" data-reveal><img src="images/web/inicial-floral-640.webp" alt="Letra L bordada con flores naranjas y hojas verdes en bastidor" width="640" height="640" loading="lazy" /><figcaption><strong>Inicial con flores</strong><span>Bordado a mano en bastidor</span></figcaption></figure><figure class="work" data-reveal><img src="images/web/organizadores-casitas-640.webp" alt="Tres cestitas de tela con forma de casa llenas de lápices y tijeras" width="640" height="640" loading="lazy" /><figcaption><strong>Organizadores casita</strong><span>Costura y patchwork</span></figcaption></figure><figure class="work" data-reveal><img src="images/web/bastidor-magia-640.webp" alt="Bastidor con una niña de pelo amarillo y las palabras Magia eres tú" width="640" height="640" loading="lazy" /><figcaption><strong>Magia eres tú</strong><span>Bordado a mano</span></figcaption></figure><figure class="work" data-reveal><img src="images/web/gorro-guantes-640.webp" alt="Gorro y guantes grises con flores bordadas" width="640" height="640" loading="lazy" /><figcaption><strong>Gorro y guantes</strong><span>Bordado sobre punto</span></figcaption></figure><figure class="work" data-reveal><img src="images/web/delantal-patchwork-640.webp" alt="Delantal de cuadros rojos con bolsillos de patchwork" width="640" height="640" loading="lazy" /><figcaption><strong>Delantal</strong><span>Costura y patchwork</span></figcaption></figure><figure class="work" data-reveal><img src="images/web/colgador-bolsos-640.webp" alt="Colgador de pared con cinco bolsos pintados" width="640" height="640" loading="lazy" /><figcaption><strong>Colgador de bolsos</strong><span>Pintura sobre madera</span></figcaption></figure><figure class="work" data-reveal><img src="images/web/soporte-movil-640.webp" alt="Cojín de tela triangular sujetando un móvil" width="640" height="640" loading="lazy" /><figcaption><strong>Soporte para el móvil</strong><span>Costura</span></figcaption></figure><figure class="work" data-reveal><img src="images/web/colgador-fresas-640.webp" alt="Colgador de yeso pintado con dos fresas y hojas" width="640" height="490" loading="lazy" /><figcaption><strong>Colgador de cocina</strong><span>Mi primera pintura sobre yeso</span></figcaption></figure><figure class="work" data-reveal><img src="images/web/primera-labor-640.webp" alt="Mantelito blanco con flores bordadas y puntilla" width="640" height="413" loading="lazy" /><figcaption><strong>Mi primera labor</strong><span>Bordado, con 10 años</span></figcaption></figure></div>
     </section>
-
-    <!-- CTA -->
-    <section class="cta-banner">
-      <div class="cta-banner__inner container--narrow">
-        <h2 class="cta-banner__title">¿Quieres crear algo<br /><em>así de bonito?</em></h2>
-        <p class="cta-banner__text">
-          Apúntate a un taller y en pocas horas tendrás tu propia pieza bordada.
-        </p>
-        <div class="cta-banner__actions">
-          <a href="cursos.html" class="btn btn--primary btn--lg">Ver talleres</a>
-          <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="btn btn--outline-blanco btn--lg">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            WhatsApp
-          </a>
+    <section class="section closing" aria-labelledby="closing-title">
+      <div class="wrap closing__grid">
+        <div>
+          <h2 class="closing__title" id="closing-title">¿Hablamos?</h2>
+          <p class="lead">Escríbeme por WhatsApp y te respondo yo misma, sea para un taller, un encargo o la comunidad.</p>
+          <div class="btn-row closing__ctas">
+            <a class="btn btn--paper" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20te%20escribo%20desde%20la%20web." target="_blank" rel="noopener">Escríbeme<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
+          </div>
         </div>
+        <ul class="contact-lines">
+          <li><a href="https://wa.me/34630050209" target="_blank" rel="noopener"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg><span>WhatsApp<small>630 05 02 09</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+          <li><a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" rel="noopener"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#ig"></use></svg><span>Instagram<small>@marieta.vola.vola.bordado</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+          <li><a href="https://www.youtube.com/@marieta.vola.vola.Bordado" target="_blank" rel="noopener"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#yt"></use></svg><span>YouTube<small>Tutoriales gratis</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+          <li><a href="mailto:cristina@marietavolavola.com"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#mail"></use></svg><span>Email<small>cristina@marietavolavola.com</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+        </ul>
       </div>
     </section>
 
   </main>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer__inner">
-      <div class="footer__brand">
-        <p class="footer__brand-name">Marieta Vola Vola</p>
-        <p class="footer__brand-desc">
-          Talleres de bordado creativo en un ambiente cálido y personal.
-        </p>
-        <div class="footer__social-links">
-          <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="footer__social-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            Instagram
-          </a>
-          <a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank" class="footer__social-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            Facebook
-          </a>
-          <a href="https://www.youtube.com/@marieta.vola.vola.Bordado" target="_blank" class="footer__social-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-            YouTube
-          </a>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="site-footer__grid">
+        <div class="site-footer__brand">
+          <img src="images/web/logo-marieta.png" alt="Marieta Vola Vola" width="340" height="323" loading="lazy" />
+          <p>Talleres de bordado y manualidades con Cristina Robles, en Sant Quirze del Vallès y Barcelona.</p>
+        </div>
+        <div>
+          <h2>Aprende</h2>
+          <ul>
+            <li><a href="cursos.html">Talleres</a></li>
+            <li><a href="comunidad.html">Comunidad Marieta</a></li>
+            <li><a href="tutoriales.html">Tutoriales gratis</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Marieta</h2>
+          <ul>
+            <li><a href="tienda.html">Tienda</a></li>
+            <li><a href="galeria.html">Mis trabajos</a></li>
+            <li><a href="sobre-mi.html">Sobre mí</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Sígueme</h2>
+          <ul>
+            <li><a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#ig"></use></svg>Instagram</a></li>
+            <li><a href="https://www.youtube.com/@marieta.vola.vola.Bordado" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#yt"></use></svg>YouTube</a></li>
+            <li><a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#fb"></use></svg>Facebook</a></li>
+            <li><a href="portal/index.html"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#lock"></use></svg>Entrar a la Comunidad</a></li>
+          </ul>
         </div>
       </div>
-      <div class="footer__col">
-        <p class="footer__col-heading">Navegación</p>
-        <ul class="footer__links">
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="cursos.html">Cursos</a></li>
-          <li><a href="galeria.html">Galería</a></li>
-          <li><a href="contacto.html">Contacto</a></li>
-          <li><a href="portal/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>Acceso alumnos</a></li>
-        </ul>
+      <div class="thread-strip" aria-hidden="true"><span style="background:var(--t321)"></span><span style="background:var(--t699)"></span><span style="background:var(--t725)"></span><span style="background:var(--t798)"></span><span style="background:var(--t3607)"></span></div>
+      <div class="site-footer__bottom">
+        <span>© 2026 Marieta Vola Vola · Cristina Robles</span>
+        <span style="display:inline-flex;align-items:center;gap:1rem"><img src="images/powered-by-optine-cream.png" alt="Powered by Optine" width="120" height="26" loading="lazy" /><a class="admin-link" href="admin/index.html">admin</a></span>
       </div>
-      <div class="footer__col">
-        <p class="footer__col-heading">Contacto</p>
-        <ul class="footer__links">
-          <li><a href="https://wa.me/34630050209?text=Hola%20Marieta%21" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>WhatsApp</a></li>
-          <li><a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram</a></li>
-          <li><a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a></li>
-          <li><a href="https://www.youtube.com/@marieta.vola.vola.Bordado" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>YouTube</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer__bottom">
-            <p style="display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;">
-        <span>© 2026 Marieta Vola Vola</span>
-        <img src="images/powered-by-optine-gray.png" alt="Powered by Optine" style="height:30px;width:auto;filter:brightness(0) saturate(200%) invert(18%) sepia(80%) saturate(700%) hue-rotate(200deg) brightness(80%);opacity:0.9;">
-        <a href="admin/index.html" style="opacity:0.3;font-size:0.75rem;text-decoration:none;color:inherit;">admin</a>
-      </p>
     </div>
   </footer>
 
-  <!-- WHATSAPP FLOTANTE -->
-  <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="whatsapp-float" aria-label="Contactar por WhatsApp">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-    </svg>
-  </a>
-
-  <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox__close" id="lbClose">✕</button>
-    <button class="lightbox__nav lightbox__nav--prev" id="lbPrev">‹</button>
-    <img class="lightbox__img" id="lbImg" src="" alt="" />
-    <button class="lightbox__nav lightbox__nav--next" id="lbNext">›</button>
-    <div class="lightbox__caption" id="lbCaption"></div>
-  </div>
-
-  <script src="js/main.js"></script>
-  <script>
-    (function () {
-      // ── FILTROS → scroll a la sección ──
-      document.querySelectorAll('.filter-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
-          btn.classList.add('active');
-          var filter = btn.dataset.filter;
-          if (filter === 'all') {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          } else {
-            var target = document.querySelector('.gallery-category[data-category="' + filter + '"]');
-            if (target) {
-              var offset = target.getBoundingClientRect().top + window.scrollY - 100;
-              window.scrollTo({ top: offset, behavior: 'smooth' });
-            }
-          }
-        });
-      });
-
-      // ── LIGHTBOX ──
-      var lb       = document.getElementById('lightbox');
-      var lbImg    = document.getElementById('lbImg');
-      var lbCap    = document.getElementById('lbCaption');
-      var items    = Array.from(document.querySelectorAll('.masonry-item'));
-      var current  = 0;
-
-      function open(index) {
-        current = index;
-        lbImg.src = items[index].dataset.src;
-        lbCap.textContent = items[index].dataset.caption || '';
-        lb.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function close() {
-        lb.classList.remove('open');
-        document.body.style.overflow = '';
-      }
-
-      items.forEach(function (item, i) {
-        item.addEventListener('click', function () { open(i); });
-      });
-
-      document.getElementById('lbClose').addEventListener('click', close);
-
-      document.getElementById('lbPrev').addEventListener('click', function (e) {
-        e.stopPropagation();
-        open((current - 1 + items.length) % items.length);
-      });
-
-      document.getElementById('lbNext').addEventListener('click', function (e) {
-        e.stopPropagation();
-        open((current + 1) % items.length);
-      });
-
-      lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
-
-      document.addEventListener('keydown', function (e) {
-        if (!lb.classList.contains('open')) return;
-        if (e.key === 'Escape')     close();
-        if (e.key === 'ArrowLeft')  open((current - 1 + items.length) % items.length);
-        if (e.key === 'ArrowRight') open((current + 1) % items.length);
-      });
-    })();
-  </script>
+  <a class="wa-float" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20te%20escribo%20desde%20la%20web." target="_blank" rel="noopener" aria-label="Escríbeme por WhatsApp"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></a>
 </body>
 </html>

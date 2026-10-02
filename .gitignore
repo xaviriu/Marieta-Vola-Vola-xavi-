@@ -15,3 +15,9 @@ Thumbs.db
 
 # Vercel
 .vercel/
+
+# Impeccable: capturas, borradores y contrato de diseño (solo uso local, no se publican)
+.impeccable/review/
+.impeccable/questions/
+.impeccable/surfaces/
+.impeccable/decision-direction.json

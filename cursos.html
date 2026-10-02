@@ -1,380 +1,231 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Talleres de Bordado — Marieta Vola Vola</title>
-  <meta name="description" content="Descubre los talleres de bordado de Marieta: Bordado Floral para Principiantes, Bastidor Decorativo y Sashiko japonés. Grupos pequeños, materiales incluidos." />
-  <link rel="icon" href="images/logo nuevo con fondo.png" type="image/png" />
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Talleres de bordado · Marieta Vola Vola</title>
+  <meta name="description" content="Talleres de bordado y manualidades en Sant Quirze del Vallès y Barcelona. Grupos pequeños, todo el material incluido y sin experiencia previa." />
+  <meta property="og:title" content="Talleres de bordado · Marieta Vola Vola" />
+  <meta property="og:description" content="Talleres de bordado y manualidades en Sant Quirze del Vallès y Barcelona. Grupos pequeños, todo el material incluido y sin experiencia previa." />
+  <meta property="og:image" content="images/web/cristina-chaleco-1000.webp" />
+  <meta name="theme-color" content="#FDFDFB" />
+  <link rel="icon" href="images/web/mariquita.png" type="image/png" />
+  <link rel="preload" href="fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/site.css" />
+  <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-motion');setTimeout(function(){document.documentElement.classList.remove('js-motion')},3000)}</script>
+  <script src="js/data.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/site.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <span data-header-sentinel></span>
 
-  <!-- NAVBAR -->
-  <header class="navbar" id="navbar">
-    <a href="index.html" class="navbar__logo">
-      <img src="images/icono marieta.png" alt="Marieta Vola Vola" class="navbar__logo-img" />
-      <span class="navbar__logo-text">Marieta Vola Vola</span>
-    </a>
-    <nav class="navbar__nav">
-      <a href="index.html" class="navbar__link">Inicio</a>
-      <a href="sobre-mi.html" class="navbar__link">Sobre mí</a>
-      <a href="cursos.html" class="navbar__link active">Cursos</a>
-      <a href="galeria.html" class="navbar__link">Galería</a>
-      <a href="contacto.html" class="navbar__link">Contacto</a>
-      <a href="portal/index.html" class="navbar__portal-btn">Mis cursos →</a>
-    </nav>
-    <button class="navbar__menu-btn" id="menuBtn" aria-label="Abrir menú">
-      <span></span><span></span><span></span>
-    </button>
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="index.html" aria-label="Marieta Vola Vola, inicio">
+        <img src="images/web/mariquita.png" alt="" width="34" height="44" />
+        <span class="brand__name">Marieta Vola Vola</span>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a class="nav__link nav__link--321" href="cursos.html" aria-current="page">Talleres</a>
+        <a class="nav__link nav__link--699" href="comunidad.html">Comunidad</a>
+        <a class="nav__link nav__link--725" href="tienda.html">Tienda</a>
+        <a class="nav__link nav__link--798" href="tutoriales.html">Tutoriales</a>
+        <a class="nav__link nav__link--3607" href="sobre-mi.html">Sobre mí</a>
+        <a class="nav__link" href="contacto.html">Contacto</a>
+        <a class="btn btn--small btn--699 nav__cta" href="portal/index.html" aria-label="Entrar a la Comunidad Marieta">Entrar<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#lock"></use></svg></span></a>
+      </nav>
+      <button class="menu-btn" type="button" data-menu-open aria-expanded="false" aria-controls="mobile-menu">
+        <svg class="icon" aria-hidden="true"><use href="images/icons.svg#menu"></use></svg>Menú
+      </button>
+    </div>
   </header>
 
-  <!-- MENÚ MÓVIL -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html" class="mobile-menu__link">Inicio</a>
-    <a href="cursos.html" class="mobile-menu__link">Cursos</a>
-    <a href="galeria.html" class="mobile-menu__link">Galería</a>
-    <a href="contacto.html" class="mobile-menu__link">Contacto</a>
-    <a href="portal/index.html" class="mobile-menu__link mobile-menu__link--portal">Mis cursos</a>
-    <div class="mobile-menu__cta">
-      <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="btn btn--whatsapp btn--full">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        WhatsApp
-      </a>
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú">
+    <div class="mobile-menu__top">
+      <a class="brand" href="index.html"><img src="images/web/mariquita.png" alt="" width="34" height="44" /><span class="brand__name">Marieta Vola Vola</span></a>
+      <button class="menu-btn" type="button" data-menu-close style="display:inline-flex">
+        <svg class="icon" aria-hidden="true"><use href="images/icons.svg#close"></use></svg>Cerrar
+      </button>
+    </div>
+    <ul class="mobile-menu__list">
+      <li><a class="mobile-menu__link" style="--c:var(--t321)" href="cursos.html">Talleres</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t699)" href="comunidad.html">Comunidad</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t725)" href="tienda.html">Tienda</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t798)" href="tutoriales.html">Tutoriales</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t3607)" href="sobre-mi.html">Sobre mí</a></li>
+      <li><a class="mobile-menu__link" href="contacto.html">Contacto</a></li>
+    </ul>
+    <div class="mobile-menu__actions">
+      <a class="btn" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20te%20escribo%20desde%20la%20web." target="_blank" rel="noopener">Escríbeme por WhatsApp<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
+      <a class="btn btn--699" href="portal/index.html">Entrar a la Comunidad<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#lock"></use></svg></span></a>
     </div>
   </div>
 
-  <main>
+  <main id="main">
 
-    <!-- PAGE HEADER -->
-    <section class="page-header">
-      <span class="label">Talleres presenciales</span>
-      <h1 class="section-title">Aprende a bordar</h1>
-      <div class="divider divider--center"></div>
-      <p class="section-subtitle">
-        Tres talleres distintos según tu nivel y lo que quieras crear.
-        Todos en grupos pequeños, con materiales incluidos y mucho buen ambiente.
-      </p>
-    </section>
-
-    <!-- CURSOS -->
-    <section class="courses-full">
-      <div class="courses-grid">
-
-        <!-- Curso 1: Bordado Floral -->
-        <article class="course-card" id="floral">
-          <div class="course-card__image course-card__image--1">
-            <div class="course-card__img-label">
-              Aquí irá foto del taller de Bordado Floral
-            </div>
-            <div class="course-card__badge">Más popular</div>
-            <div class="course-card__num">01</div>
-          </div>
-          <div class="course-card__body">
-            <h2 class="course-card__title">Bordado Floral para Principiantes</h2>
-            <p class="course-card__desc">
-              El punto de partida perfecto para adentrarse en el bordado. A lo largo de dos sesiones
-              aprenderás los puntos esenciales de mano — punto de tallo, nudo francés, punto raso,
-              punto de cadena y punto de relleno — mientras bordas un ramo de flores silvestres
-              sobre tela de lino natural.
-            </p>
-            <p class="course-card__desc">
-              Al terminar el taller te llevarás tu bordado montado en bastidor, listo para colgar,
-              y una ficha resumen con todos los puntos aprendidos para seguir practicando en casa.
-            </p>
-            <div class="course-card__meta">
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 2 sesiones de 3 horas</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Taller presencial</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Máx. 8 personas</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg> Nivel: Principiante</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Materiales incluidos</span>
-            </div>
-            <div class="course-card__price">65 € <small>por persona</small></div>
-            <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Estoy%20interesada%20en%20reservar%20el%20taller%20de%20Bordado%20Floral%20para%20Principiantes.%20%C2%BFPuedes%20darme%20m%C3%A1s%20informaci%C3%B3n%20sobre%20las%20pr%C3%B3ximas%20fechas%3F" target="_blank" class="btn btn--whatsapp btn--full">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-              Reservar plaza por WhatsApp
-            </a>
-          </div>
-        </article>
-
-        <!-- Curso 2: Bastidor -->
-        <article class="course-card" id="bastidor">
-          <div class="course-card__image course-card__image--2">
-            <div class="course-card__img-label">
-              Aquí irá foto del taller de Bastidor
-            </div>
-            <div class="course-card__badge">Nivel medio</div>
-            <div class="course-card__num">02</div>
-          </div>
-          <div class="course-card__body">
-            <h2 class="course-card__title">Bastidor Decorativo</h2>
-            <p class="course-card__desc">
-              Crea un cuadro de bordado en bastidor para decorar tu hogar. En este taller de jornada
-              completa exploraremos el diseño textil libre, combinando técnicas de bordado con diseños
-              botánicos y geométricos en diferentes tipos de hilo — lana, seda, algodón perlé.
-            </p>
-            <p class="course-card__desc">
-              Cada alumna trabaja su propio diseño con orientación personalizada. Te llevarás tu pieza
-              terminada, lista para colgar y admirar.
-            </p>
-            <div class="course-card__meta">
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1 jornada de 5 horas</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Taller presencial</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Máx. 8 personas</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg> Nivel: Básico-Medio</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Materiales incluidos</span>
-            </div>
-            <div class="course-card__price">55 € <small>por persona</small></div>
-            <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Estoy%20interesada%20en%20reservar%20el%20taller%20de%20Bastidor%20Decorativo.%20%C2%BFPuedes%20darme%20m%C3%A1s%20informaci%C3%B3n%20sobre%20las%20pr%C3%B3ximas%20fechas%3F" target="_blank" class="btn btn--whatsapp btn--full">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-              Reservar plaza por WhatsApp
-            </a>
-          </div>
-        </article>
-
-        <!-- Curso 3: Sashiko -->
-        <article class="course-card" id="sashiko">
-          <div class="course-card__image course-card__image--3">
-            <div class="course-card__img-label">
-              Aquí irá foto del taller de Sashiko
-            </div>
-            <div class="course-card__badge">Todos los niveles</div>
-            <div class="course-card__num">03</div>
-          </div>
-          <div class="course-card__body">
-            <h2 class="course-card__title">Sashiko: Bordado Japonés</h2>
-            <p class="course-card__desc">
-              El sashiko es un arte textil japonés basado en patrones geométricos que se bordan con
-              un hilo blanco grueso sobre tela índigo oscura. El resultado es hipnótico, elegante y
-              muy personal. La técnica es sencilla pero el efecto es impresionante.
-            </p>
-            <p class="course-card__desc">
-              En esta tarde aprenderás los fundamentos del sashiko y te llevarás un posavasos
-              o un pequeño cuadro enmarcado completamente terminado.
-            </p>
-            <div class="course-card__meta">
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1 tarde de 3 horas</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Taller presencial</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Máx. 8 personas</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg> Nivel: Todos</span>
-              <span class="course-card__meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Materiales incluidos</span>
-            </div>
-            <div class="course-card__price">40 € <small>por persona</small></div>
-            <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Estoy%20interesada%20en%20reservar%20el%20taller%20de%20Sashiko%20%28bordado%20japon%C3%A9s%29.%20%C2%BFPuedes%20darme%20m%C3%A1s%20informaci%C3%B3n%20sobre%20las%20pr%C3%B3ximas%20fechas%3F" target="_blank" class="btn btn--whatsapp btn--full">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-              Reservar plaza por WhatsApp
-            </a>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- INFO BOXES -->
-    <section class="courses-info">
-      <div class="container">
-        <div style="text-align:center; margin-bottom: 48px;">
-          <span class="label">Antes de apuntarte</span>
-          <h2 class="section-title section-title--center">Todo lo que necesitas saber</h2>
-          <div class="divider divider--center"></div>
-        </div>
-        <div class="courses-info__grid">
-          <div class="info-box">
-            <div class="info-box__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-            <h3 class="info-box__title">Materiales incluidos</h3>
-            <p class="info-box__text">
-              Todos los talleres incluyen bastidor, tela, hilos DMC, aguja y el patrón del diseño.
-              Solo tienes que venir con ganas — de todo lo demás me encargo yo.
-            </p>
-          </div>
-          <div class="info-box">
-            <div class="info-box__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-            <h3 class="info-box__title">Próximas fechas</h3>
-            <p class="info-box__text">
-              Las fechas se anuncian por Instagram y WhatsApp. Escríbeme para apuntarte a la
-              lista de espera y recibirás aviso prioritario cuando abra plazas nuevas.
-            </p>
-          </div>
-          <div class="info-box">
-            <div class="info-box__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
-            <h3 class="info-box__title">Reserva y pago</h3>
-            <p class="info-box__text">
-              La plaza se reserva con un pequeño adelanto por Bizum o transferencia.
-              El resto se paga el día del taller. Escríbeme y te explico el proceso.
-            </p>
+    <section class="page-hero" aria-labelledby="page-title">
+      <div class="wrap page-hero__grid">
+        <span class="skein page-hero__skein" style="--c:var(--t321)" aria-hidden="true"><span class="skein__band"><span class="skein__num">321</span></span></span>
+        <div>
+          <h1 class="page-hero__title" id="page-title">Talleres de bordado y manualidades</h1>
+          <p class="lead">Tres horas, un grupo pequeño y todo el material encima de la mesa. No hace falta que hayas bordado nunca.</p>
+          <div class="btn-row page-hero__ctas">
+            <a class="btn btn--321" href="#programa">Ver fechas<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#arrow"></use></svg></span></a>
+            <a class="btn" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20quiero%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" rel="noopener">Escríbeme<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- TESTIMONIOS -->
-    <section class="testimonials">
-      <div class="testimonials__header container--narrow">
-        <span class="label">Experiencias reales</span>
-        <h2 class="section-title section-title--center">Lo que dicen las alumnas</h2>
-        <div class="divider divider--center"></div>
-      </div>
-      <div class="testimonials__grid">
-
-        <div class="testimonial-card">
-          <span class="testimonial-card__quote-mark">"</span>
-          <p class="testimonial-card__text">
-            Nunca pensé que podría bordar, y en un solo fin de semana ya tenía mi primer bastidor
-            terminado. Marieta lo hace todo muy fácil y el ambiente del taller es una maravilla.
-            Ya he recomendado el taller a todas mis amigas.
-          </p>
-          <div class="testimonial-card__footer">
-            <div class="testimonial-card__avatar testimonial-card__avatar--1">
-MJ
-            </div>
-            <div class="testimonial-card__author">
-              <strong>María José</strong>
-              <span>48 años · Bordado Floral</span>
-              <div class="testimonial-card__stars">★★★★★</div>
-            </div>
-          </div>
+    <section class="section" id="programa" aria-labelledby="programa-title" style="padding-top:clamp(1.5rem,3vw,2.5rem)">
+      <div class="wrap">
+        <h2 class="h2" id="programa-title" style="margin-bottom:1.5rem">Próximos talleres</h2>
+        <div data-programme>
+          <noscript><p class="notice">Para saber las fechas, <a href="https://wa.me/34630050209">escríbeme por WhatsApp</a>.</p></noscript>
         </div>
-
-        <div class="testimonial-card">
-          <span class="testimonial-card__quote-mark">"</span>
-          <p class="testimonial-card__text">
-            El taller de sashiko fue una experiencia increíble. Es meditativo, casi zen. Marieta
-            explica con una paciencia infinita y el resultado quedó precioso. Ya he reservado
-            el taller de bastidor para el mes que viene.
-          </p>
-          <div class="testimonial-card__footer">
-            <div class="testimonial-card__avatar testimonial-card__avatar--2">
-C
-            </div>
-            <div class="testimonial-card__author">
-              <strong>Carmen</strong>
-              <span>52 años · Sashiko</span>
-              <div class="testimonial-card__stars">★★★★★</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <span class="testimonial-card__quote-mark">"</span>
-          <p class="testimonial-card__text">
-            Llevaba años queriendo aprender bordado y no me decidía. El taller de bastidor superó
-            todas mis expectativas. Volví a casa con algo hermoso hecho con mis propias manos.
-            ¡Volveré seguro!
-          </p>
-          <div class="testimonial-card__footer">
-            <div class="testimonial-card__avatar testimonial-card__avatar--3">
-L
-            </div>
-            <div class="testimonial-card__author">
-              <strong>Lucía</strong>
-              <span>44 años · Bastidor Decorativo</span>
-              <div class="testimonial-card__stars">★★★★★</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <span class="testimonial-card__quote-mark">"</span>
-          <p class="testimonial-card__text">
-            Fui al taller floral con mi madre y fue un plan perfecto para las dos. Un ambiente
-            muy acogedor, mucho mimo en los detalles y me fui con muchas ganas de seguir bordando
-            en casa. Totalmente recomendable.
-          </p>
-          <div class="testimonial-card__footer">
-            <div class="testimonial-card__avatar testimonial-card__avatar--4">
-A
-            </div>
-            <div class="testimonial-card__author">
-              <strong>Ana</strong>
-              <span>38 años · Bordado Floral</span>
-              <div class="testimonial-card__stars">★★★★★</div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </section>
 
-    <!-- CTA FINAL -->
-    <section class="cta-banner">
-      <div class="cta-banner__inner container--narrow">
-        <h2 class="cta-banner__title">¿Lista para<br /><em>empezar a bordar?</em></h2>
-        <p class="cta-banner__text">
-          Escríbeme por WhatsApp, cuéntame qué taller te interesa y buscamos la fecha perfecta para ti.
-        </p>
-        <div class="cta-banner__actions">
-          <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres%20y%20las%20pr%C3%B3ximas%20fechas." target="_blank" class="btn btn--whatsapp btn--lg">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            Escríbeme por WhatsApp
-          </a>
+    <section class="section section--card" aria-labelledby="tipos-title">
+      <div class="wrap">
+        <h2 class="h2" id="tipos-title">Los talleres que hago</h2>
+        <p class="lead measure" style="margin-top:1rem">Cambian con la temporada, pero siempre son de uno de estos tres tipos.</p>
+        <div class="formats" style="margin-top:clamp(2rem,4vw,3rem)">
+          <article class="format" data-reveal>
+            <div class="format__img"><img src="images/web/puntos-libro-sant-jordi-640.webp" alt="Dos puntos de libro de Sant Jordi, uno con una rosa bordada con hilo" width="640" height="800" loading="lazy" /></div>
+            <div class="format__body">
+              <h3>Bordado de temporada</h3>
+              <p>Coronas de Navidad, puntos de libro para Sant Jordi y otros diseños de cada época, con puntos sencillos.</p>
+              <ul class="format__facts"><li>3 horas</li><li>Adultos</li><li>Sin experiencia</li></ul>
+            </div>
+          </article>
+          <article class="format" data-reveal>
+            <div class="format__img"><img src="images/web/cartel-calabaza-640.webp" alt="Cartel del taller de mini calabazas de tela" width="640" height="640" loading="lazy" style="object-position:10% 100%" /></div>
+            <div class="format__body">
+              <h3>Manualidades de tela</h3>
+              <p>Cosemos piezas decorativas, como las calabazas de otoño. Se cose un poco y se usa silicona caliente.</p>
+              <ul class="format__facts"><li>3 horas</li><li>Adultos o menores acompañados</li></ul>
+            </div>
+          </article>
+          <article class="format" data-reveal>
+            <div class="format__img"><img src="images/web/cartel-infantil-640.webp" alt="Bastidores infantiles con los nombres Sara y África bordados" width="640" height="671" loading="lazy" style="object-position:100% 0%" /></div>
+            <div class="format__body">
+              <h3>Bordado infantil</h3>
+              <p>Los peques aprenden a bordar su nombre con diferentes puntos de bordado.</p>
+              <ul class="format__facts"><li>2 horas</li><li>Niños y niñas</li><li>Sin experiencia</li></ul>
+            </div>
+          </article>
         </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="como-title">
+      <div class="wrap">
+        <h2 class="h2" id="como-title" style="margin-bottom:clamp(2rem,4vw,3rem)">Así funciona</h2>
+        <ol class="steps">
+          <li style="--c:var(--t321)" data-reveal><h3>Me escribes</h3><p>Por WhatsApp te digo fechas, precio y si quedan plazas.</p></li>
+          <li style="--c:var(--t321)" data-reveal><h3>Vienes con las manos vacías</h3><p>Todo el material está incluido. Solo tienes que traer ganas.</p></li>
+          <li style="--c:var(--t321)" data-reveal><h3>Te llevas tu labor</h3><p>Aprendes los puntos mientras haces tu pieza, y te la llevas a casa.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--card" aria-labelledby="online-title">
+      <div class="wrap split">
+        <div>
+          <h2 class="h2" id="online-title">¿No puedes venir? Hazlo desde casa</h2>
+          <p class="lead" style="margin-top:1rem">Algunos talleres los tengo grabados en vídeo, paso a paso, para que los hagas a tu ritmo.</p>
+          <div class="btn-row" style="margin-top:2rem">
+            <a class="btn btn--321" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20me%20interesan%20tus%20cursos%20online.%20%C2%BFQu%C3%A9%20tienes%20ahora%3F" target="_blank" rel="noopener">Pregúntame por los cursos<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
+          </div>
+        </div>
+        <ul class="benefits" style="grid-template-columns:minmax(0,1fr)">
+          <li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#play"></use></svg>Corona bordada de Navidad</li>
+          <li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#play"></use></svg>Pintar con lápices acuarelables y bordar</li>
+          <li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#play"></use></svg>Bisutería bordada: un medallón</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-title">
+      <div class="wrap split">
+        <h2 class="h2" id="faq-title">Preguntas que me hacéis</h2>
+        <div class="faq">
+          <details><summary>¿Necesito saber bordar?</summary><div><p>No. Los talleres están pensados para empezar desde cero. Te enseño cada punto a tu lado.</p></div></details>
+          <details><summary>¿El material está incluido?</summary><div><p>Sí, todo el material está incluido en todos los talleres.</p></div></details>
+          <details><summary>¿Cuánto cuesta un taller?</summary><div><p>Depende del taller. Escríbeme por WhatsApp y te paso el precio y las fechas.</p></div></details>
+          <details><summary>¿Pueden venir niños?</summary><div><p>Al taller de manualidades de tela pueden venir menores acompañados de un adulto, y el de bordado infantil es para ellos.</p></div></details>
+          <details><summary>¿Dónde se hacen?</summary><div><p>Normalmente en el Cercle Cultura de Sant Quirze del Vallès (Carrer Nou, 10) y en La Merceria dels Encants, en Barcelona. En cada taller te indico el lugar.</p></div></details>
+          <details><summary>¿Cómo reservo mi plaza?</summary><div><p>Escríbeme por WhatsApp al 630 05 02 09 y te apunto.</p></div></details>
+        </div>
+      </div>
+    </section>
+    <section class="section closing" aria-labelledby="closing-title">
+      <div class="wrap closing__grid">
+        <div>
+          <h2 class="closing__title" id="closing-title">¿Hablamos?</h2>
+          <p class="lead">Escríbeme por WhatsApp y te respondo yo misma, sea para un taller, un encargo o la comunidad.</p>
+          <div class="btn-row closing__ctas">
+            <a class="btn btn--paper" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20te%20escribo%20desde%20la%20web." target="_blank" rel="noopener">Escríbeme<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
+          </div>
+        </div>
+        <ul class="contact-lines">
+          <li><a href="https://wa.me/34630050209" target="_blank" rel="noopener"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg><span>WhatsApp<small>630 05 02 09</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+          <li><a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" rel="noopener"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#ig"></use></svg><span>Instagram<small>@marieta.vola.vola.bordado</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+          <li><a href="https://www.youtube.com/@marieta.vola.vola.Bordado" target="_blank" rel="noopener"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#yt"></use></svg><span>YouTube<small>Tutoriales gratis</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+          <li><a href="mailto:cristina@marietavolavola.com"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#mail"></use></svg><span>Email<small>cristina@marietavolavola.com</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+        </ul>
       </div>
     </section>
 
   </main>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer__inner">
-      <div class="footer__brand">
-        <p class="footer__brand-name">Marieta Vola Vola</p>
-        <p class="footer__brand-desc">
-          Talleres de bordado creativo en un ambiente cálido y personal.
-        </p>
-        <div class="footer__social-links">
-          <a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" class="footer__social-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            Instagram
-          </a>
-          <a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank" class="footer__social-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            Facebook
-          </a>
-          <a href="https://www.youtube.com/@marieta.vola.vola.Bordado" target="_blank" class="footer__social-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-            YouTube
-          </a>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="site-footer__grid">
+        <div class="site-footer__brand">
+          <img src="images/web/logo-marieta.png" alt="Marieta Vola Vola" width="340" height="323" loading="lazy" />
+          <p>Talleres de bordado y manualidades con Cristina Robles, en Sant Quirze del Vallès y Barcelona.</p>
+        </div>
+        <div>
+          <h2>Aprende</h2>
+          <ul>
+            <li><a href="cursos.html">Talleres</a></li>
+            <li><a href="comunidad.html">Comunidad Marieta</a></li>
+            <li><a href="tutoriales.html">Tutoriales gratis</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Marieta</h2>
+          <ul>
+            <li><a href="tienda.html">Tienda</a></li>
+            <li><a href="galeria.html">Mis trabajos</a></li>
+            <li><a href="sobre-mi.html">Sobre mí</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Sígueme</h2>
+          <ul>
+            <li><a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#ig"></use></svg>Instagram</a></li>
+            <li><a href="https://www.youtube.com/@marieta.vola.vola.Bordado" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#yt"></use></svg>YouTube</a></li>
+            <li><a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#fb"></use></svg>Facebook</a></li>
+            <li><a href="portal/index.html"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#lock"></use></svg>Entrar a la Comunidad</a></li>
+          </ul>
         </div>
       </div>
-      <div class="footer__col">
-        <p class="footer__col-heading">Navegación</p>
-        <ul class="footer__links">
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="cursos.html">Cursos</a></li>
-          <li><a href="galeria.html">Galería</a></li>
-          <li><a href="contacto.html">Contacto</a></li>
-          <li><a href="portal/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>Acceso alumnos</a></li>
-        </ul>
+      <div class="thread-strip" aria-hidden="true"><span style="background:var(--t321)"></span><span style="background:var(--t699)"></span><span style="background:var(--t725)"></span><span style="background:var(--t798)"></span><span style="background:var(--t3607)"></span></div>
+      <div class="site-footer__bottom">
+        <span>© 2026 Marieta Vola Vola · Cristina Robles</span>
+        <span style="display:inline-flex;align-items:center;gap:1rem"><img src="images/powered-by-optine-cream.png" alt="Powered by Optine" width="120" height="26" loading="lazy" /><a class="admin-link" href="admin/index.html">admin</a></span>
       </div>
-      <div class="footer__col">
-        <p class="footer__col-heading">Contacto</p>
-        <ul class="footer__links">
-          <li><a href="https://wa.me/34630050209?text=Hola%20Marieta%21" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>WhatsApp</a></li>
-          <li><a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram</a></li>
-          <li><a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook</a></li>
-          <li><a href="https://www.youtube.com/@marieta.vola.vola.Bordado" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>YouTube</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer__bottom">
-            <p style="display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;">
-        <span>© 2026 Marieta Vola Vola</span>
-        <img src="images/powered-by-optine-gray.png" alt="Powered by Optine" style="height:30px;width:auto;filter:brightness(0) saturate(200%) invert(18%) sepia(80%) saturate(700%) hue-rotate(200deg) brightness(80%);opacity:0.9;">
-        <a href="admin/index.html" style="opacity:0.3;font-size:0.75rem;text-decoration:none;color:inherit;">admin</a>
-      </p>
     </div>
   </footer>
 
-  <!-- WHATSAPP FLOTANTE -->
-  <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20tus%20talleres." target="_blank" class="whatsapp-float" aria-label="Contactar por WhatsApp">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-    </svg>
-  </a>
-
-  <script src="js/main.js"></script>
+  <a class="wa-float" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20te%20escribo%20desde%20la%20web." target="_blank" rel="noopener" aria-label="Escríbeme por WhatsApp"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></a>
 </body>
 </html>
