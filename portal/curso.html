@@ -36,6 +36,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
   <script>
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const safeUrl = (u) => /^https:\/\//i.test(u || '') ? esc(u) : '#';
+
     function getYoutubeId(url) {
       const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
       return m ? m[1] : null;
@@ -61,8 +64,8 @@
               referrerpolicy="strict-origin-when-cross-origin">
             </iframe>
           </div>
-          <h2 class="course-player__title">${v.titulo}</h2>
-          ${v.descripcion ? `<p class="course-player__desc">${v.descripcion}</p>` : ''}`;
+          <h2 class="course-player__title">${esc(v.titulo)}</h2>
+          ${v.descripcion ? `<p class="course-player__desc">${esc(v.descripcion)}</p>` : ''}`;
       } else {
         playerEl.innerHTML = `<div class="course-player__empty"><div class="course-player__empty-inner"><span><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#close"></use></svg></span>URL de video no válida</div></div>`;
       }
@@ -140,12 +143,12 @@
 
       if (materiales && materiales.length > 0) {
         const materialesHtml = materiales.map(m => `
-          <a href="${m.archivo_url}" target="_blank" download
+          <a href="${safeUrl(m.archivo_url)}" rel="noopener" target="_blank" download
             style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--crema-2);border:1px solid var(--rosa);border-radius:10px;text-decoration:none;color:var(--texto);transition:background 0.2s;"
             onmouseover="this.style.background='var(--rosa-cl)'" onmouseout="this.style.background='var(--crema-2)'">
             <span style="font-size:2rem;">${m.tipo === 'pdf' ? 'PDF' : 'Imagen'}</span>
             <div style="flex:1;">
-              <div style="font-weight:700;font-size:0.95rem;">${m.nombre}</div>
+              <div style="font-weight:700;font-size:0.95rem;">${esc(m.nombre)}</div>
               <div style="font-size:0.8rem;color:var(--texto-suave);margin-top:2px;">${m.tipo === 'pdf' ? 'PDF descargable' : 'Imagen descargable'}</div>
             </div>
             <span style="font-size:0.85rem;font-weight:700;color:var(--tierra);background:var(--rosa-cl);border:1px solid var(--rosa);padding:6px 14px;border-radius:20px;">⬇ Descargar</span>
@@ -183,7 +186,7 @@
           <div class="video-item ${i === 0 ? 'active' : ''}" data-index="${i}">
             ${thumb}
             <div class="video-item__info">
-              <div class="video-item__title">${v.titulo}</div>
+              <div class="video-item__title">${esc(v.titulo)}</div>
               <div class="video-item__date">${formatDate(v.created_at)}</div>
             </div>
             <div class="video-item__play">▶</div>

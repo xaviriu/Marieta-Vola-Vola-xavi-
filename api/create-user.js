@@ -32,7 +32,7 @@ module.exports = async function handler(req, res) {
     .eq('id', user.id)
     .single();
 
-  if (!profile?.es_admin) {
+  if (!profile?.es_admin || user.email?.toLowerCase() !== 'cristina@marietavolavola.com') {
     return res.status(403).json({ error: 'No tienes permisos de administrador' });
   }
 
@@ -41,6 +41,16 @@ module.exports = async function handler(req, res) {
 
   if (!email || !password || !nombre) {
     return res.status(400).json({ error: 'Email, contraseña y nombre son obligatorios' });
+  }
+
+  if (typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ error: 'El email no es válido' });
+  }
+  if (typeof password !== 'string' || password.length < 8) {
+    return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
+  }
+  if (!Array.isArray(cursoIds)) {
+    return res.status(400).json({ error: 'cursoIds no es válido' });
   }
 
   const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({

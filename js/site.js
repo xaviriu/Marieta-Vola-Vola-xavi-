@@ -232,7 +232,7 @@
     var total = cifras.items.reduce(function (s, it) { return s + (it.suma ? it.valor : 0); }, 0);
     var rounded = Math.floor(total / 100) * 100;
     var totalEl = document.querySelector('[data-stats-total]');
-    if (totalEl) { totalEl.setAttribute('data-count', rounded); totalEl.textContent = fmtNum.format(rounded); }
+    if (totalEl) { totalEl.setAttribute('data-count', rounded); totalEl.setAttribute('data-final', fmtNum.format(rounded)); totalEl.textContent = fmtNum.format(rounded); }
   }
 
   /* ---------- Movimiento ---------- */

@@ -54,10 +54,18 @@ alter table public.matriculas enable row level security;
 create policy "Usuarios ven su propio perfil" on public.profiles
   for select using (id = auth.uid());
 
+-- Función auxiliar (security definer) para evitar recursión infinita de RLS en profiles
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer set search_path = public
+stable
+as $$
+  select coalesce((select es_admin from public.profiles where id = auth.uid()), false);
+$$;
+
 create policy "Admins ven todos los perfiles" on public.profiles
-  for select using (
-    exists (select 1 from public.profiles p where p.id = auth.uid() and p.es_admin = true)
-  );
+  for select using (public.is_admin());
 
 -- CURSOS ----------------------------------------------------
 

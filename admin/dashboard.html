@@ -676,7 +676,11 @@
       const { data: profile } = await supabase
         .from('profiles').select('es_admin').eq('id', session.user.id).single();
 
-      if (!profile?.es_admin) { window.location.href = '../portal/dashboard.html'; return; }
+      if (session.user.email.toLowerCase() === 'cristina@marietavolavola.com' && !profile?.es_admin) {
+        document.body.innerHTML = '<p style="padding:2rem;font:18px sans-serif">Tu cuenta aún no tiene permisos de administradora en Supabase. Falta marcar <b>es_admin = true</b> en la tabla profiles.</p>';
+        return;
+      }
+      if (!profile?.es_admin || session.user.email.toLowerCase() !== 'cristina@marietavolavola.com') { window.location.href = '../portal/dashboard.html'; return; }
 
       adminSession = session;
 

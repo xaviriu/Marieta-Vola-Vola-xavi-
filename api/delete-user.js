@@ -31,7 +31,7 @@ module.exports = async function handler(req, res) {
     .eq('id', user.id)
     .single();
 
-  if (!profile?.es_admin) {
+  if (!profile?.es_admin || user.email?.toLowerCase() !== 'cristina@marietavolavola.com') {
     return res.status(403).json({ error: 'No tienes permisos de administrador' });
   }
 

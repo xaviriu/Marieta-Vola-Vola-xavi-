@@ -7,6 +7,7 @@
   <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
   <link rel="stylesheet" href="../css/fonts.css" />
   <link rel="stylesheet" href="../css/app.css" />
+  <style>[hidden] { display: none !important; }</style>
 </head>
 <body class="portal-body">
 
@@ -33,6 +34,20 @@
         </button>
       </form>
 
+      <p style="text-align:center;margin-top:18px">
+        <a href="#" id="forgotLink" style="font-size:1.0625rem;font-weight:700;text-decoration:underline">¿Has olvidado tu contraseña?</a>
+      </p>
+
+      <form id="resetForm" hidden style="margin-top:18px">
+        <p style="margin-bottom:12px">Escribe tu email y te enviaremos un enlace para elegir una contraseña nueva.</p>
+        <div class="alert alert--success" id="resetOk" role="status"></div>
+        <div class="form-field">
+          <label for="resetEmail">Tu email</label>
+          <input type="email" id="resetEmail" placeholder="tu@email.com" required autocomplete="email" />
+        </div>
+        <button type="submit" class="btn btn--primary btn--full btn--lg" id="resetBtn">Enviarme el enlace</button>
+      </form>
+
       <a href="../index.html" class="login-card__back">← Volver a la web</a>
     </div>
   </div>
@@ -53,7 +68,9 @@
         .select('es_admin')
         .eq('id', userId)
         .single();
-      window.location.href = profile?.es_admin
+      const { data: { user } } = await supabase.auth.getUser();
+      const esCristina = user?.email?.toLowerCase() === 'cristina@marietavolavola.com';
+      window.location.href = (profile?.es_admin || esCristina)
         ? '../admin/dashboard.html'
         : 'dashboard.html';
     }
@@ -82,6 +99,34 @@
       }
 
       await checkAdminAndRedirect(data.user.id);
+    });
+
+    // Restablecer contraseña por email
+    const resetForm = document.getElementById('resetForm');
+    const resetOk   = document.getElementById('resetOk');
+    const resetBtn  = document.getElementById('resetBtn');
+
+    document.getElementById('forgotLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      resetForm.hidden = !resetForm.hidden;
+      if (!resetForm.hidden) {
+        document.getElementById('resetEmail').value = document.getElementById('email').value;
+        document.getElementById('resetEmail').focus();
+      }
+    });
+
+    resetForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      resetBtn.disabled = true;
+      resetBtn.textContent = 'Enviando...';
+      const email = document.getElementById('resetEmail').value.trim();
+      const redirectTo = new URL('restablecer.html', window.location.href).href;
+      await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+      // Mensaje siempre igual: no revela si el email existe o no
+      resetOk.textContent = 'Si ese email está registrado, te hemos enviado un enlace. Mira también en spam. El enlace caduca en 1 hora.';
+      resetOk.classList.add('visible');
+      resetBtn.disabled = false;
+      resetBtn.textContent = 'Enviarme el enlace';
     });
   </script>
 </body>

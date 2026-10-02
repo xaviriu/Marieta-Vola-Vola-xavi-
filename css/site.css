@@ -975,7 +975,9 @@ html { scrollbar-color: var(--ink-3) var(--card); }
 .stats { padding-bottom: clamp(4.5rem, 8vw, 7rem); }
 .stats + .section { padding-top: clamp(5rem, 10vw, 9rem); }
 .stats__title { max-width: 18ch; font-size: clamp(2.5rem, 5.4vw, 4.75rem); font-weight: 800; font-stretch: 78%; letter-spacing: -.03em; line-height: .98; }
-.stats__total { color: var(--t699); }
+/* El número cuenta desde 0: se reserva el ancho final para que el título no se recoloque. */
+.stats__total { display: inline-block; color: var(--t699); font-variant-numeric: tabular-nums; text-align: left; }
+.stats__total::before { content: attr(data-final); display: block; height: 0; overflow: hidden; visibility: hidden; }
 .stats__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: clamp(2.5rem, 5vw, 4rem) 0 0; padding: 0; list-style: none; }
 .stats__grid > li + li { border-left: 1px solid var(--rule); }
 .stat {

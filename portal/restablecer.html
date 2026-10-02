@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Nueva contraseña — Marieta Vola Vola</title>
+  <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
+  <link rel="stylesheet" href="../css/fonts.css" />
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>[hidden] { display: none !important; }</style>
+</head>
+<body class="portal-body">
+
+  <div class="login-page">
+    <div class="login-card">
+      <img src="../images/web/mariquita.png" alt="Comunidad Marieta" class="login-card__logo" />
+      <h1 class="login-card__title">Nueva contraseña</h1>
+
+      <p id="waiting" class="login-card__subtitle">Comprobando tu enlace...</p>
+
+      <div class="alert alert--error" id="errorMsg" role="alert"></div>
+
+      <form id="newPassForm" hidden>
+        <p class="login-card__subtitle" style="margin-bottom:18px">Elige una contraseña nueva (mínimo 8 caracteres).</p>
+        <div class="form-field">
+          <label for="pass1">Contraseña nueva</label>
+          <input type="password" id="pass1" required minlength="8" autocomplete="new-password" />
+        </div>
+        <div class="form-field">
+          <label for="pass2">Repite la contraseña</label>
+          <input type="password" id="pass2" required minlength="8" autocomplete="new-password" />
+        </div>
+        <button type="submit" class="btn btn--primary btn--full btn--lg" id="saveBtn">Guardar contraseña</button>
+      </form>
+
+      <a href="index.html" class="login-card__back">← Volver al acceso</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script>
+    const form     = document.getElementById('newPassForm');
+    const errorMsg = document.getElementById('errorMsg');
+    const waiting  = document.getElementById('waiting');
+    const saveBtn  = document.getElementById('saveBtn');
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.classList.add('visible');
+    }
+
+    // Supabase lee el enlace del email y lanza PASSWORD_RECOVERY con una sesión temporal
+    let recovery = false;
+    supabase.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        recovery = true;
+        waiting.hidden = true;
+        form.hidden = false;
+      }
+    });
+
+    setTimeout(() => {
+      if (!recovery) {
+        waiting.hidden = true;
+        showError('Este enlace no es válido o ha caducado. Vuelve al acceso y pide uno nuevo.');
+      }
+    }, 3000);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.classList.remove('visible');
+      const p1 = document.getElementById('pass1').value;
+      const p2 = document.getElementById('pass2').value;
+      if (p1.length < 8) return showError('La contraseña debe tener al menos 8 caracteres.');
+      if (p1 !== p2)     return showError('Las dos contraseñas no coinciden.');
+
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Guardando...';
+      const { error } = await supabase.auth.updateUser({ password: p1, data: { password_changed: true } });
+      if (error) {
+        showError('No se ha podido guardar: ' + error.message);
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Guardar contraseña';
+        return;
+      }
+      await supabase.auth.signOut();
+      form.hidden = true;
+      waiting.hidden = false;
+      waiting.textContent = '¡Listo! Contraseña cambiada. Te llevamos al acceso...';
+      setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+    });
+  </script>
+</body>
+</html>

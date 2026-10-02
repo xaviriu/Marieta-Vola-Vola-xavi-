@@ -39,8 +39,10 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
   <script>
+    const ADMIN_EMAIL = 'cristina@marietavolavola.com';
+
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (!session) return;
+      if (!session || session.user.email.toLowerCase() !== ADMIN_EMAIL) return;
       const { data: profile } = await supabase
         .from('profiles').select('es_admin').eq('id', session.user.id).single();
       if (profile?.es_admin) window.location.href = 'dashboard.html';
@@ -72,7 +74,7 @@
       const { data: profile } = await supabase
         .from('profiles').select('es_admin').eq('id', data.user.id).single();
 
-      if (!profile?.es_admin) {
+      if (!profile?.es_admin || data.user.email.toLowerCase() !== ADMIN_EMAIL) {
         await supabase.auth.signOut();
         errorMsg.textContent = 'Esta cuenta no tiene permisos de administrador.';
         errorMsg.classList.add('visible');

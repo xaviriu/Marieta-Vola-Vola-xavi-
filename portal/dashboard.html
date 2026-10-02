@@ -7,6 +7,7 @@
   <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
   <link rel="stylesheet" href="../css/fonts.css" />
   <link rel="stylesheet" href="../css/app.css" />
+  <style>[hidden] { display: none !important; }</style>
 </head>
 <body class="portal-body">
 
@@ -18,6 +19,7 @@
     </a>
     <div class="portal-navbar__right">
       <span class="portal-navbar__user" id="userGreeting">Hola</span>
+      <button class="portal-navbar__logout" id="passLink" type="button" hidden>Cambiar contraseña provisional</button>
       <button class="portal-navbar__logout" id="logoutBtn">Salir</button>
     </div>
   </header>
@@ -39,9 +41,37 @@
 
   </main>
 
+  <dialog id="passDialog" aria-labelledby="passTitle" style="border:0;border-radius:16px;padding:28px;max-width:520px;width:calc(100% - 32px);box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div>
+      <h2 id="passTitle" style="font-size:1.5rem;font-weight:800;margin-bottom:6px">Cambiar contraseña provisional</h2>
+      <p style="margin-bottom:18px">Elige una contraseña que solo conozcas tú. No es obligatorio, pero te lo recomendamos.</p>
+      <div class="alert alert--error" id="passError" role="alert"></div>
+      <div class="alert alert--success" id="passOk" role="status"></div>
+      <form id="passForm">
+        <div class="form-field">
+          <label for="curPass">Contraseña actual</label>
+          <input type="password" id="curPass" required autocomplete="current-password" />
+        </div>
+        <div class="form-field">
+          <label for="newPass1">Contraseña nueva (mínimo 8 caracteres)</label>
+          <input type="password" id="newPass1" required minlength="8" autocomplete="new-password" />
+        </div>
+        <div class="form-field">
+          <label for="newPass2">Repite la contraseña nueva</label>
+          <input type="password" id="newPass2" required minlength="8" autocomplete="new-password" />
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button type="submit" class="btn btn--primary btn--lg" id="passBtn">Guardar contraseña</button>
+          <button type="button" class="btn btn--lg" id="passCancel" style="background:none;border:2px solid currentColor">Ahora no</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
   <script>
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const COURSE_ICONS = ['needle', 'scissors', 'play', 'gift', 'box', 'needle'];
     const COURSE_IMG_CLASSES = ['', '--2', '--3'];
 
@@ -59,6 +89,9 @@
         .single();
 
       if (profile?.es_admin) { window.location.href = '../admin/dashboard.html'; return; }
+
+      // El botón solo aparece mientras no haya cambiado la contraseña provisional
+      document.getElementById('passLink').hidden = !!user.user_metadata?.password_changed;
 
       const nombre = profile?.nombre || user.email.split('@')[0];
       const firstName = nombre.split(' ')[0];
@@ -111,13 +144,13 @@
           const icon  = COURSE_ICONS[i % COURSE_ICONS.length];
           const imgClass = COURSE_IMG_CLASSES[i % COURSE_IMG_CLASSES.length];
           return `
-            <a href="curso.html?id=${c.id}" class="portal-course-card">
+            <a href="curso.html?id=${encodeURIComponent(c.id)}" class="portal-course-card">
               <div class="portal-course-card__image portal-course-card__image${imgClass}">
                 <div class="portal-course-card__image-label"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#${icon}"></use></svg></div>
               </div>
               <div class="portal-course-card__body">
-                <h2 class="portal-course-card__title">${c.nombre}</h2>
-                <p class="portal-course-card__desc">${c.descripcion || ''}</p>
+                <h2 class="portal-course-card__title">${esc(c.nombre)}</h2>
+                <p class="portal-course-card__desc">${esc(c.descripcion)}</p>
                 <p class="portal-course-card__meta"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#play"></use></svg> ${count} ${count === 1 ? 'video' : 'videos'} disponibles</p>
               </div>
               <div class="portal-course-card__arrow">
@@ -128,6 +161,55 @@
         }).join('')
       }</div>`;
     }
+
+    const passLink   = document.getElementById('passLink');
+    const passDialog = document.getElementById('passDialog');
+    passLink.addEventListener('click', () => {
+      passError.classList.remove('visible');
+      passOk.classList.remove('visible');
+      passDialog.showModal();
+    });
+    document.getElementById('passCancel').addEventListener('click', () => passDialog.close());
+
+    const passForm  = document.getElementById('passForm');
+    const passError = document.getElementById('passError');
+    const passOk    = document.getElementById('passOk');
+    const passBtn   = document.getElementById('passBtn');
+
+    passForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      passError.classList.remove('visible');
+      passOk.classList.remove('visible');
+      const cur = document.getElementById('curPass').value;
+      const p1  = document.getElementById('newPass1').value;
+      const p2  = document.getElementById('newPass2').value;
+
+      const fail = (msg) => { passError.textContent = msg; passError.classList.add('visible'); };
+      if (p1.length < 8) return fail('La contraseña nueva debe tener al menos 8 caracteres.');
+      if (p1 !== p2)     return fail('Las dos contraseñas nuevas no coinciden.');
+      if (p1 === cur)    return fail('La contraseña nueva debe ser distinta de la actual.');
+
+      passBtn.disabled = true;
+      passBtn.textContent = 'Guardando...';
+      try {
+        // Se vuelve a pedir la contraseña actual: así nadie puede cambiarla desde un móvil o PC que se haya dejado abierto
+        const { data: { user } } = await supabase.auth.getUser();
+        const { error: authErr } = await supabase.auth.signInWithPassword({ email: user.email, password: cur });
+        if (authErr) return fail('La contraseña actual no es correcta.');
+
+        const { error } = await supabase.auth.updateUser({ password: p1, data: { password_changed: true } });
+        if (error) return fail('No se ha podido guardar: ' + error.message);
+
+        passForm.reset();
+        passOk.textContent = '¡Listo! Tu contraseña se ha cambiado. Desde ahora entra con la nueva.';
+        passOk.classList.add('visible');
+        passLink.hidden = true;
+        setTimeout(() => passDialog.close(), 2500);
+      } finally {
+        passBtn.disabled = false;
+        passBtn.textContent = 'Guardar contraseña';
+      }
+    });
 
     document.getElementById('logoutBtn').addEventListener('click', async () => {
       await supabase.auth.signOut();
