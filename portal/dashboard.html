@@ -4,23 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mis Cursos — Marieta Vola Vola</title>
-  <link rel="icon" href="../images/logo nuevo con fondo.png" type="image/png" />
-  <link rel="stylesheet" href="../css/styles.css" />
-  <link rel="stylesheet" href="../css/portal.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
+  <link rel="stylesheet" href="../css/fonts.css" />
+  <link rel="stylesheet" href="../css/app.css" />
 </head>
 <body class="portal-body">
 
   <!-- NAVBAR -->
   <header class="portal-navbar">
     <a href="../index.html" class="portal-navbar__brand">
-      <img src="../images/logo nuevo con fondo.png" alt="Logo" class="portal-navbar__logo" />
+      <img src="../images/web/mariquita.png" alt="Logo" class="portal-navbar__logo" />
       <span class="portal-navbar__name">Marieta Vola Vola</span>
     </a>
     <div class="portal-navbar__right">
-      <span class="portal-navbar__user" id="userGreeting">Hola 👋</span>
+      <span class="portal-navbar__user" id="userGreeting">Hola</span>
       <button class="portal-navbar__logout" id="logoutBtn">Salir</button>
     </div>
   </header>
@@ -45,7 +42,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
   <script>
-    const COURSE_ICONS = ['🌸', '🪡', '🔵', '🧵', '🌿', '✂️'];
+    const COURSE_ICONS = ['needle', 'scissors', 'play', 'gift', 'box', 'needle'];
     const COURSE_IMG_CLASSES = ['', '--2', '--3'];
 
     async function init() {
@@ -65,7 +62,7 @@
 
       const nombre = profile?.nombre || user.email.split('@')[0];
       const firstName = nombre.split(' ')[0];
-      document.getElementById('userGreeting').textContent = `Hola, ${firstName} 👋`;
+      document.getElementById('userGreeting').textContent = `Hola, ${firstName}`;
       document.getElementById('pageTitle').textContent = `Aquí tienes tus cursos, ${firstName}`;
       document.getElementById('pageSubtitle').textContent = `Solo tú tienes acceso a este contenido. Aquí encontrarás los vídeos de los talleres en los que estás inscrita.`;
 
@@ -80,7 +77,7 @@
       if (error || !matriculas || matriculas.length === 0) {
         container.innerHTML = `
           <div class="empty-state">
-            <span class="empty-state__icon">🧵</span>
+            <span class="empty-state__icon"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#needle"></use></svg></span>
             <h2 class="empty-state__title">Aún no tienes cursos</h2>
             <p class="empty-state__text">
               Cuando reserves y pagues un taller, Marieta te dará acceso aquí.
@@ -88,7 +85,7 @@
             </p>
             <a href="https://wa.me/34630050209?text=Hola%20Marieta%21%20Me%20gustar%C3%ADa%20acceder%20a%20un%20curso."
                target="_blank" style="margin-top:24px" class="btn btn--primary">
-              💬 Escribir a Marieta
+              <svg class="icon" aria-hidden="true"><use href="../images/icons.svg#wa"></use></svg> Escribir a Marieta
             </a>
           </div>`;
         return;
@@ -116,12 +113,12 @@
           return `
             <a href="curso.html?id=${c.id}" class="portal-course-card">
               <div class="portal-course-card__image portal-course-card__image${imgClass}">
-                <div class="portal-course-card__image-label">${icon}</div>
+                <div class="portal-course-card__image-label"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#${icon}"></use></svg></div>
               </div>
               <div class="portal-course-card__body">
                 <h2 class="portal-course-card__title">${c.nombre}</h2>
                 <p class="portal-course-card__desc">${c.descripcion || ''}</p>
-                <p class="portal-course-card__meta">📹 ${count} ${count === 1 ? 'video' : 'videos'} disponibles</p>
+                <p class="portal-course-card__meta"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#play"></use></svg> ${count} ${count === 1 ? 'video' : 'videos'} disponibles</p>
               </div>
               <div class="portal-course-card__arrow">
                 <span>Ver videos del curso</span>

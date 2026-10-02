@@ -4,19 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Curso — Marieta Vola Vola</title>
-  <link rel="icon" href="../images/logo nuevo con fondo.png" type="image/png" />
-  <link rel="stylesheet" href="../css/styles.css" />
-  <link rel="stylesheet" href="../css/portal.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
+  <link rel="stylesheet" href="../css/fonts.css" />
+  <link rel="stylesheet" href="../css/app.css" />
 </head>
 <body class="portal-body">
 
   <!-- NAVBAR -->
   <header class="portal-navbar">
     <a href="../index.html" class="portal-navbar__brand">
-      <img src="../images/logo nuevo con fondo.png" alt="Logo" class="portal-navbar__logo" />
+      <img src="../images/web/mariquita.png" alt="Logo" class="portal-navbar__logo" />
       <span class="portal-navbar__name">Marieta Vola Vola</span>
     </a>
     <div class="portal-navbar__right">
@@ -28,7 +25,7 @@
   <main style="padding: 32px 24px 80px; max-width: 1300px; margin: 0 auto;">
 
     <a href="dashboard.html" class="course-back">← Mis cursos</a>
-    <h1 id="courseTitle" style="font-family:'Cormorant Garamond',serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:600; color:var(--texto); margin-bottom:32px;"></h1>
+    <h1 id="courseTitle" style="font-family:var(--display); font-size:clamp(1.8rem,4vw,2.8rem); font-weight:600; color:var(--texto); margin-bottom:32px;"></h1>
 
     <div id="content">
       <div class="loading"><div class="spinner"></div>Cargando...</div>
@@ -67,7 +64,7 @@
           <h2 class="course-player__title">${v.titulo}</h2>
           ${v.descripcion ? `<p class="course-player__desc">${v.descripcion}</p>` : ''}`;
       } else {
-        playerEl.innerHTML = `<div class="course-player__empty"><div class="course-player__empty-inner"><span>⚠️</span>URL de video no válida</div></div>`;
+        playerEl.innerHTML = `<div class="course-player__empty"><div class="course-player__empty-inner"><span><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#close"></use></svg></span>URL de video no válida</div></div>`;
       }
 
       // Actualizar lista activa
@@ -107,7 +104,7 @@
       if (!matricula) {
         document.getElementById('content').innerHTML = `
           <div class="empty-state">
-            <span class="empty-state__icon">🔒</span>
+            <span class="empty-state__icon"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#lock"></use></svg></span>
             <h2 class="empty-state__title">Sin acceso</h2>
             <p class="empty-state__text">No tienes acceso a este curso. Contacta con Marieta si crees que es un error.</p>
           </div>`;
@@ -146,7 +143,7 @@
           <a href="${m.archivo_url}" target="_blank" download
             style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--crema-2);border:1px solid var(--rosa);border-radius:10px;text-decoration:none;color:var(--texto);transition:background 0.2s;"
             onmouseover="this.style.background='var(--rosa-cl)'" onmouseout="this.style.background='var(--crema-2)'">
-            <span style="font-size:2rem;">${m.tipo === 'pdf' ? '📄' : '🖼️'}</span>
+            <span style="font-size:2rem;">${m.tipo === 'pdf' ? 'PDF' : 'Imagen'}</span>
             <div style="flex:1;">
               <div style="font-weight:700;font-size:0.95rem;">${m.nombre}</div>
               <div style="font-size:0.8rem;color:var(--texto-suave);margin-top:2px;">${m.tipo === 'pdf' ? 'PDF descargable' : 'Imagen descargable'}</div>
@@ -157,7 +154,7 @@
         const materialesSection = document.createElement('div');
         materialesSection.style.cssText = 'margin-top:48px;';
         materialesSection.innerHTML = `
-          <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--texto);margin-bottom:16px;">📎 Materiales del curso</h2>
+          <h2 style="font-family:var(--display);font-size:1.6rem;font-weight:600;color:var(--texto);margin-bottom:16px;">Materiales del curso</h2>
           <div style="display:flex;flex-direction:column;gap:12px;">${materialesHtml}</div>`;
         document.querySelector('main').appendChild(materialesSection);
       }
@@ -167,7 +164,7 @@
       if (videos.length === 0) {
         content.innerHTML = `
           <div class="empty-state">
-            <span class="empty-state__icon">🎬</span>
+            <span class="empty-state__icon"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#play"></use></svg></span>
             <h2 class="empty-state__title">Próximamente</h2>
             <p class="empty-state__text">
               Marieta aún no ha subido videos para este curso. Vuelve pronto —
@@ -181,7 +178,7 @@
         const ytId = getYoutubeId(v.youtube_url);
         const thumb = ytId
           ? `<img src="https://img.youtube.com/vi/${ytId}/mqdefault.jpg" class="video-item__thumb" alt="" />`
-          : `<div class="video-item__thumb" style="display:flex;align-items:center;justify-content:center;font-size:1.4rem;">🎬</div>`;
+          : `<div class="video-item__thumb" style="display:flex;align-items:center;justify-content:center;font-size:1.4rem;"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#play"></use></svg></div>`;
         return `
           <div class="video-item ${i === 0 ? 'active' : ''}" data-index="${i}">
             ${thumb}

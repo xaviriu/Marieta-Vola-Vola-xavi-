@@ -208,6 +208,33 @@
     document.querySelectorAll('main a[href*="wa.me"]').forEach(function (a) { io.observe(a); });
   }
 
+  /* ---------- Cifras ---------- */
+  var fmtNum = new Intl.NumberFormat('es-ES', { useGrouping: 'always' });
+  function statText(it, n) {
+    var scale = it.escala || 1, dec = it.decimales || 0;
+    var v = n / scale;
+    return new Intl.NumberFormat('es-ES', { useGrouping: 'always', minimumFractionDigits: dec, maximumFractionDigits: dec }).format(v) + (it.sufijo || '');
+  }
+  var statsEl = document.querySelector('[data-stats]');
+  var cifras = D.cifras;
+  if (statsEl && cifras && cifras.items) {
+    statsEl.innerHTML = cifras.items.map(function (it, i) {
+      var ext = /^https?:/.test(it.url) ? ' target="_blank" rel="noopener"' : '';
+      var logos = it.logos.map(function (src) {
+        return '<img src="' + esc(src) + '" alt="" height="48" loading="lazy" />';
+      }).join('');
+      var texto = it.nombre === 'Comunidad Marieta' ? '<span class="stat__logo-text">Comunidad<br />Marieta</span>' : '';
+      return '<li data-reveal><a class="stat" href="' + esc(it.url) + '"' + ext + ' aria-label="' + esc(it.nombre) + ': ' + statText(it, it.valor) + ' ' + esc(it.etiqueta) + '">' +
+        '<span class="stat__logo" aria-hidden="true">' + logos + texto + '</span>' +
+        '<span class="stat__num" data-count="' + it.valor + '" data-i="' + i + '">' + statText(it, it.valor) + '</span>' +
+        '<span class="stat__label">' + esc(it.etiqueta) + '</span></a></li>';
+    }).join('');
+    var total = cifras.items.reduce(function (s, it) { return s + (it.suma ? it.valor : 0); }, 0);
+    var rounded = Math.floor(total / 100) * 100;
+    var totalEl = document.querySelector('[data-stats-total]');
+    if (totalEl) { totalEl.setAttribute('data-count', rounded); totalEl.textContent = fmtNum.format(rounded); }
+  }
+
   /* ---------- Movimiento ---------- */
   var root = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -218,22 +245,19 @@
   var gsap = window.gsap;
   if (window.ScrollTrigger) gsap.registerPlugin(window.ScrollTrigger);
 
-  // Firma: las madejas se cuelgan una tras otra y asientan con la tensión del hilo.
-  var heroSkeins = gsap.utils.toArray('.hero .skein-link');
+  // Firma: el título se revela, la foto cae y los hilos se tiran de lado a lado.
   var titleLines = gsap.utils.toArray('.hero__title .line');
-  if (titleLines.length) gsap.set(titleLines, { clipPath: 'inset(0 0 100% 0)' });
-  if (heroSkeins.length || titleLines.length) {
-    var tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-    if (titleLines.length) {
-      tl.to(titleLines, { clipPath: 'inset(0 0 0% 0)', duration: 1, stagger: .12 }, 0);
-      tl.from(titleLines, { yPercent: 40, duration: 1, stagger: .12 }, 0);
-    }
-    tl.from('.hero__text, .hero__ctas', { y: 18, opacity: 0, duration: .9, stagger: .08 }, .35);
-    tl.from('.carta__photo', { y: 24, opacity: 0, duration: 1.1 }, .1);
-    if (heroSkeins.length) {
-      tl.from(heroSkeins, { yPercent: -112, duration: 1.15, ease: 'back.out(1.5)', stagger: .09, clearProps: 'transform' }, .25);
-      tl.from('.hero .skein__band', { scaleY: 0, transformOrigin: '50% 0%', duration: .5, stagger: .09, ease: 'power3.out', clearProps: 'transform' }, .85);
-    }
+  var threads = gsap.utils.toArray('.hero__threads path');
+  var tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+  if (titleLines.length) {
+    gsap.set(titleLines, { clipPath: 'inset(0 0 100% 0)' });
+    tl.to(titleLines, { clipPath: 'inset(0 0 0% 0)', duration: 1, stagger: .12 }, 0);
+    tl.from(titleLines, { yPercent: 40, duration: 1, stagger: .12 }, 0);
+  }
+  tl.fromTo('.hero__text, .hero__ctas, .channel', { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .9, stagger: .1, clearProps: 'transform,opacity' }, .45);
+  tl.fromTo('.hero__photo', { y: -70, rotation: -6, opacity: 0 }, { y: 0, rotation: 3, opacity: 1, duration: 1.3, ease: 'back.out(1.4)', clearProps: 'transform,opacity' }, .2);
+  if (threads.length) {
+    tl.fromTo(threads, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.4, stagger: .1, ease: 'power3.out' }, .3);
   }
   root.classList.remove('js-motion');
 
@@ -269,6 +293,27 @@
       scrollTrigger: { trigger: inset, start: 'top 90%', once: true }
     });
   }
+
+  // Hilo cosido: cada sección empieza con una costura que se dibuja al bajar.
+  gsap.utils.toArray('.stitch').forEach(function (el) {
+    gsap.fromTo(el, { clipPath: 'inset(-8px 100% -8px 0)' }, {
+      clipPath: 'inset(-8px 0% -8px 0)', ease: 'none',
+      scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 55%', scrub: true }
+    });
+  });
+
+  // Cifras: cuentan desde cero cuando llegan a la pantalla.
+  gsap.utils.toArray('[data-count]').forEach(function (el) {
+    var target = +el.getAttribute('data-count');
+    var item = cifras && cifras.items ? cifras.items[+el.getAttribute('data-i')] : null;
+    var obj = { v: 0 };
+    el.textContent = item ? statText(item, 0) : fmtNum.format(0);
+    gsap.to(obj, {
+      v: target, duration: 1.8, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+      onUpdate: function () { var n = Math.round(obj.v); el.textContent = item ? statText(item, n) : fmtNum.format(n); }
+    });
+  });
 
   window.addEventListener('load', function () { ST.refresh(); });
 })();

@@ -3,12 +3,25 @@
 
 window.MARIETA = {
   contacto: {
+    canalWhatsApp: 'https://www.whatsapp.com/channel/0029VbBE6U29hXF9e8IVsQ00',
     whatsapp: '34630050209',
     telefonoVisible: '630 05 02 09',
     email: 'cristina@marietavolavola.com',
     instagram: 'https://www.instagram.com/marieta.vola.vola.bordado/',
     youtube: 'https://www.youtube.com/@marieta.vola.vola.Bordado',
     facebook: 'https://www.facebook.com/Lady.Bug.CR/'
+  },
+
+  // Cifras reales. Actualiza el número y la fecha cuando quieras; el total se calcula solo.
+  // suma: true => cuenta para el total de seguidores. Los números se muestran tal cual, con punto de miles.
+  cifras: {
+    fecha: 'octubre de 2026',
+    items: [
+      { logos: ['images/web/logos/facebook.svg'], nombre: 'Facebook', valor: 4927, etiqueta: 'seguidores en Facebook', url: 'https://www.facebook.com/Lady.Bug.CR/', color: '--t699', suma: true },
+      { logos: ['images/web/logos/instagram-icono.svg', 'images/web/logos/instagram-texto.svg'], nombre: 'Instagram', valor: 4677, etiqueta: 'seguidores en Instagram', url: 'https://www.instagram.com/marieta.vola.vola.bordado/', color: '--t321', suma: true },
+      { logos: ['images/web/logos/youtube.svg'], nombre: 'YouTube', valor: 1900, etiqueta: 'suscriptores en YouTube', url: 'https://www.youtube.com/@marieta.vola.vola.Bordado', color: '--t3328', suma: true },
+      { logos: ['images/web/logos/comunidad-sello.webp'], nombre: 'Comunidad Marieta', valor: 95, etiqueta: 'miembros', url: 'comunidad.html', color: '--t368' }
+    ]
   },
 
   comunidad: {
