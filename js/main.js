@@ -49,17 +49,4 @@ document.querySelectorAll('.reveal').forEach(el => {
   revealObserver.observe(el);
 });
 
-// Efecto sutil en los doodles al hacer scroll (parallax ligero)
-const heroEl = document.querySelector('.hero');
-const doodlesEl = document.querySelector('.hero__doodles');
-
-if (heroEl && doodlesEl) {
-  const revealObserverHero = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      revealObserverHero.unobserve(entry.target);
-    });
-  }, { threshold: 0 });
-  revealObserverHero.observe(heroEl);
-}
 

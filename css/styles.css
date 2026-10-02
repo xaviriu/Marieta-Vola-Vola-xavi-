@@ -480,301 +480,191 @@ main {
 .mobile-menu__cta { margin-top: 20px; }
 
 /* ================================================
-   HERO — Split layout (cartel artesanal con foto)
+   HERO — Fiel a EJEMPLO.jpeg
    ================================================ */
 .hero {
   margin-top: -68px;
   min-height: 100svh;
-  /* Verde cálido — mismo tono cartel pero menos eléctrico en pantalla */
-  background:
-    radial-gradient(ellipse 75% 65% at 38% 52%, rgba(240, 255, 140, 0.11) 0%, transparent 65%),
-    #B4CC30;
+  background-color: var(--crema);
+  background-image: url('../images/fondo.png');
+  background-size: cover;
+  background-position: top center;
   position: relative;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 
-/* Doodles decorativos de bordado */
-.hero__doodles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
+.hero-art {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
 }
 
-/* Grano/textura SVG para quitar el look "pantalla radiactiva" */
-.doodle-grain {
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.045;
+.hero-art__grain {
+  display: none; /* fondo.png ya tiene textura propia */
 }
 
-.doodle { position: absolute; }
+.hart { position: absolute; }
+.hart--thread  { top: 4%;    left: 3.5%; width: 68px; }
+.hart--spool   { bottom: 9%; left: 2.5%; width: 50px; }
+.hart--flake   { bottom: 14%; left: 7%;  width: 36px; }
+.hart--btn-left { top: 34%;  left: 1.5%; width: 34px; }
+.hart--btn-mid  { top: 18%;  left: 49%;  width: 30px; }
+.hart--thimble  { bottom: 7%; left: 45%; width: 42px; }
+.hart--tape     { bottom: 5%; right: 3%; width: 140px; }
 
-.doodle--frame-tr { top: 14px; right: 14px; width: 210px; }
-.doodle--frame-bl { bottom: 58px; left: 12px; width: 142px; }
-.doodle--needle   { top: 12%; left: 6%; width: 38px; transform: rotate(-24deg); }
-.doodle--button-1 { top: 63%; left: 3%; width: 50px; }
-.doodle--button-2 { top: 21%; left: 1.8%; width: 34px; }
-.doodle--scissors { bottom: 18%; right: 2.5%; width: 54px; transform: rotate(16deg); }
-.doodle--thimble  { top: 46%; left: 6.5%; width: 36px; }
-.doodle--star-1   { bottom: 26%; left: 14%; width: 27px; }
-.doodle--star-2   { top: 35%; left: 43%; width: 19px; }
-.doodle--hoop     { bottom: 14%; left: 16%; width: 60px; opacity: 0.8; }
-.doodle--spool    { top: 68%; right: 4%; width: 42px; }
-.doodle--tape     { bottom: 6%; right: 5%; width: 130px; }
-
-/* Layout interior: grid 2 columnas */
-.hero__inner {
-  position: relative;
-  z-index: 1;
-  flex: 1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 96px 56px 72px;
-  gap: 52px;
+.hero-grid {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 54% 46%;
   min-height: 100svh;
-  box-sizing: border-box;
 }
 
-/* Columna izquierda */
-.hero__left {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.hero-copy {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 100px 32px 80px 60px;
 }
 
-.hero__icon {
-  width: 76px;
-  height: 76px;
-  object-fit: contain;
-  margin-bottom: 22px;
-  filter: drop-shadow(0 4px 14px rgba(0,0,0,0.18));
-  animation: heroIconIn 0.8s 0.1s var(--ease-out) both;
+.hero-copy__icon {
+  width: 120px; height: 120px; object-fit: contain; margin-bottom: 20px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.12));
+  animation: hCopyIn 0.7s 0.1s var(--ease-out) both;
 }
 
-@keyframes heroIconIn {
-  from { opacity: 0; transform: translateY(-14px) scale(0.88); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.hero__title {
+.hero-copy__title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.6rem, 4.6vw, 4.1rem);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.022em;
-  color: #1A3D06;
-  margin-bottom: 18px;
-  animation: heroTextIn 0.85s 0.28s var(--ease-out) both;
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 700; line-height: 1.08; letter-spacing: -0.01em; color: #2A4A08;
+  margin-bottom: 20px;
+  animation: hCopyIn 0.75s 0.22s var(--ease-out) both;
 }
 
-.hero__title em {
-  font-style: italic;
-  color: #8C1B14;
-  display: block;
-  line-height: 1.1;
-  padding-bottom: 2px;
+.hero-copy__desc {
+  font-family: 'Nunito', sans-serif; font-size: 1rem; line-height: 1.72;
+  color: rgba(36, 60, 8, 0.82); max-width: 46ch; margin-bottom: 36px;
+  animation: hCopyIn 0.75s 0.36s var(--ease-out) both;
 }
 
-@keyframes heroTextIn {
-  from { opacity: 0; transform: translateY(22px); }
+.hero-copy__ctas {
+  display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+  animation: hCopyIn 0.75s 0.50s var(--ease-out) both;
+}
+
+/* Botón idéntico a EJEMPLO: fondo blanco semiopaco, borde verde oscuro, texto bold */
+.hero-copy__btn {
+  display: inline-flex; align-items: center; padding: 13px 34px;
+  background: rgba(255,255,255,0.72); border: 2px solid #2A4A08;
+  border-radius: 4px; color: #2A4A08; font-family: 'Nunito', sans-serif;
+  font-weight: 700; font-size: 1rem; letter-spacing: 0.01em;
+  text-decoration: none; white-space: nowrap;
+  transition: background 160ms ease, transform 150ms var(--ease-out);
+}
+
+.hero-copy__btn:hover { background: rgba(255,255,255,0.92); transform: translateY(-2px); }
+.hero-copy__btn:active { transform: translateY(0) scale(0.98); }
+
+/* Enlace texto plano como en EJEMPLO */
+.hero-copy__link {
+  font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 600;
+  color: #2A4A08; text-decoration: none;
+  transition: opacity 160ms ease;
+}
+
+.hero-copy__link:hover { opacity: 0.7; }
+
+@keyframes hCopyIn {
+  from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.hero__sub {
-  font-family: 'Nunito', sans-serif;
-  font-size: 1rem;
-  line-height: 1.68;
-  color: rgba(26, 61, 6, 0.78);
-  max-width: 40ch;
-  margin-bottom: 34px;
-  animation: heroTextIn 0.85s 0.42s var(--ease-out) both;
-}
-
-.hero__ctas {
-  display: flex;
-  align-items: center;
-  gap: 26px;
-  flex-wrap: wrap;
-  animation: heroTextIn 0.85s 0.56s var(--ease-out) both;
-}
-
-.hero__btn {
-  display: inline-flex;
-  align-items: center;
-  padding: 12px 28px;
-  background: #1A3D06;
-  color: #E0F55E;
-  border: 2px solid #1A3D06;
-  border-radius: 5px;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800;
-  font-size: 0.88rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition:
-    transform 180ms var(--ease-out),
-    background 160ms ease;
-  white-space: nowrap;
-}
-
-.hero__btn:hover {
-  background: #243F0A;
-  transform: translateY(-2px);
-}
-
-.hero__btn:active {
-  transform: translateY(1px) scale(0.98);
-}
-
-.hero__link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: #1A3D06;
-  text-decoration: none;
-  border-bottom: 1.5px solid rgba(26, 61, 6, 0.38);
-  padding-bottom: 2px;
-  transition: gap 200ms var(--ease-out), border-color 180ms ease;
-}
-
-.hero__link:hover {
-  gap: 10px;
-  border-color: #1A3D06;
-}
-
-/* Columna derecha: foto con marco de bordado */
-.hero__right {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: heroPhotoIn 1s 0.2s var(--ease-out) both;
-}
-
-@keyframes heroPhotoIn {
-  from { opacity: 0; transform: translateX(30px) scale(0.96); }
-  to   { opacity: 1; transform: translateX(0) scale(1); }
-}
-
-/* Contenedor externo que da espacio al marco decorativo */
-.hero__photo-card {
+.hero-photo {
   position: relative;
-  padding: 22px;
-  width: 100%;
-  max-width: 430px;
+  align-self: stretch;
 }
 
-/* Marco SVG decorativo — ocupa toda la card (foto + padding) */
-.hero__photo-frame-svg {
+.hero-photo__wrap {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  top: 82px;
+  left: 8px;
+  right: 52px;
+  bottom: 80px;
 }
 
-/* Foto cuadrada */
-.hero__photo-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.16);
-}
-
-.hero__photo {
+.hero-photo__img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  transition: transform 0.55s var(--ease-out);
+  border-radius: 10px;
+  box-shadow: 0 4px 28px rgba(0,0,0,0.15);
+  animation: hPhotoIn 0.9s 0.18s var(--ease-out) both;
 }
 
-.hero__photo-wrap:hover .hero__photo {
-  transform: scale(1.04);
-}
-
-/* Fade inferior — difuminado suave hacia la siguiente sección */
-.hero__fade {
+.hero-photo__deco {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 22%;
-  background: linear-gradient(
-    to bottom,
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-photo__deco--tr {
+  top: -18px;
+  right: -18px;
+  width: 130px;
+}
+
+.hero-photo__deco--bl {
+  bottom: -14px;
+  left: -14px;
+  width: 90px;
+}
+
+@keyframes hPhotoIn {
+  from { opacity: 0; transform: translateX(22px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.hero-fade {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 28%; z-index: 4; pointer-events: none;
+  background: linear-gradient(to bottom,
     transparent 0%,
-    rgba(250, 247, 242, 0.45) 55%,
+    rgba(250,247,242,0.35) 40%,
+    rgba(250,247,242,0.75) 70%,
     var(--crema) 100%
   );
-  z-index: 2;
-  pointer-events: none;
 }
 
-/* Mobile */
 @media (max-width: 840px) {
-  .hero__inner {
-    grid-template-columns: 1fr;
-    padding: 88px 24px 80px;
-    gap: 28px;
-    align-items: start;
-    min-height: auto;
+  /* Layout: columna única, foto arriba */
+  .hero-grid { grid-template-columns: 1fr; min-height: auto; }
+
+  /* Foto: flujo normal, entera, sin recorte */
+  .hero-photo { position: relative; align-self: auto; order: -1; }
+  .hero-photo__wrap {
+    position: relative;
+    top: auto; left: auto; right: auto; bottom: auto;
+    margin: 68px 16px 0;
   }
-
-  .hero__left {
-    align-items: center;
-    text-align: center;
-    order: 2;
+  .hero-photo__img {
+    width: 100%;
+    height: auto;
+    object-fit: unset;
   }
+  .hero-photo__deco--tr { width: 72px; top: -10px; right: -10px; }
+  .hero-photo__deco--bl { width: 54px; bottom: -10px; left: -10px; }
 
-  .hero__right { order: 1; }
+  /* Texto: centrado, sin icono mariquita */
+  .hero-copy { padding: 24px 24px 64px; text-align: center; align-items: center; }
+  .hero-copy__icon { display: none; }
+  .hero-copy__title { font-size: clamp(2rem, 7vw, 2.6rem); }
+  .hero-copy__desc { max-width: 100%; }
+  .hero-copy__ctas { justify-content: center; flex-wrap: wrap; }
 
-  .hero__icon { width: 62px; height: 62px; margin-bottom: 0; }
-
-  .hero__title { font-size: clamp(2.2rem, 8vw, 2.8rem); }
-
-  .hero__sub {
-    max-width: 100%;
-    font-size: 0.95rem;
-  }
-
-  .hero__ctas { justify-content: center; }
-
-  .hero__photo-card {
-    max-width: 100%;
-    padding: 14px;
-  }
-
-  .doodle--frame-tr { width: 130px; }
-  .doodle--frame-bl,
-  .doodle--needle,
-  .doodle--button-1,
-  .doodle--button-2,
-  .doodle--scissors,
-  .doodle--thimble,
-  .doodle--hoop,
-  .doodle--spool,
-  .doodle--tape { display: none; }
+  /* Doodles: ocultar los que no caben */
+  .hart--thread, .hart--spool, .hart--flake, .hart--btn-left,
+  .hart--btn-mid, .hart--thimble { display: none; }
+  .hart--tape { width: 90px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__icon,
-  .hero__title,
-  .hero__sub,
-  .hero__ctas,
-  .hero__right { animation: none; opacity: 1; }
-  .hero__photo { transition: none; }
+  .hero-copy__icon, .hero-copy__title, .hero-copy__desc,
+  .hero-copy__ctas, .hero-photo__img { animation: none; opacity: 1; }
 }
 
 
