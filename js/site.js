@@ -92,7 +92,7 @@
           '<a class="btn btn--321 btn--small" href="' + waLink(msg) + '" target="_blank" rel="noopener">' +
           (full ? 'Lista de espera' : 'Reservar plaza') + '<span class="btn__dot">' + icon('wa') + '</span></a></li>';
       }).join('') + '</ol>';
-    } else {
+    } else if (!el.hasAttribute('data-hide-empty')) {
       html += '<div class="empty-state" data-reveal>' +
         '<span class="empty-state__icon">' + icon('needle') + '</span>' +
         '<div><h3>Estoy preparando los próximos talleres</h3>' +

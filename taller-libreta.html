@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tienda · Bordados hechos a mano · Marieta Vola Vola</title>
-  <meta name="description" content="Bastidores de nacimiento, iniciales con flores, chaquetas bordadas y piezas de tela hechas a mano por Cristina Robles. Pedidos por WhatsApp." />
-  <meta property="og:title" content="Tienda · Bordados hechos a mano · Marieta Vola Vola" />
-  <meta property="og:description" content="Bastidores de nacimiento, iniciales con flores, chaquetas bordadas y piezas de tela hechas a mano por Cristina Robles. Pedidos por WhatsApp." />
-  <meta property="og:image" content="images/web/cristina-chaleco-1000.webp" />
+  <title>Borda tu libreta · Marieta Vola Vola</title>
+  <meta name="description" content="Taller presencial de bordado en la provincia de Barcelona: bordas y personalizas tu propia libreta. Para todos los niveles." />
+  <meta property="og:title" content="Borda tu libreta · Marieta Vola Vola" />
+  <meta property="og:description" content="Taller presencial de bordado en la provincia de Barcelona: bordas y personalizas tu propia libreta. Para todos los niveles." />
+  <meta property="og:image" content="images/web/cartel-libreta-1000.webp" />
   <meta name="theme-color" content="#FDFDFB" />
   <link rel="icon" href="images/web/mariquita.png" type="image/png" />
   <link rel="preload" href="fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin />
@@ -30,9 +30,9 @@
         <span class="brand__name">Marieta Vola Vola</span>
       </a>
       <nav class="nav" aria-label="Principal">
-        <a class="nav__link nav__link--321" href="cursos.html">Talleres</a>
+        <a class="nav__link nav__link--321" href="cursos.html" aria-current="page">Talleres</a>
         <a class="nav__link nav__link--699" href="comunidad.html">Comunidad</a>
-        <a class="nav__link nav__link--704" href="tienda.html" aria-current="page">Tienda</a>
+        <a class="nav__link nav__link--704" href="tienda.html">Tienda</a>
         <a class="nav__link nav__link--3328" href="tutoriales.html">Tutoriales</a>
         <a class="nav__link nav__link--368" href="sobre-mi.html">Sobre mí</a>
         <a class="nav__link" href="contacto.html">Contacto</a>
@@ -67,48 +67,106 @@
 
   <main id="main">
 
-    <section class="page-hero" aria-labelledby="page-title">
-      <div class="wrap page-hero__grid">
-        <span class="skein page-hero__skein" style="--c:var(--t704)" aria-hidden="true"><span class="skein__band"><span class="skein__num">704</span></span></span>
+    <section class="page-hero page-hero--field field-321 ws-hero dt-hero" aria-labelledby="page-title">
+      <div class="wrap">
+        <a class="dt-back" href="cursos.html"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#arrow"></use></svg>Todos los talleres</a>
+        <div class="dt-hero__grid">
+          <div>
+            <span class="wk__tag wk__tag--321">Presencial · Provincia de Barcelona</span>
+            <h1 class="dt-title" id="page-title">Borda tu libreta</h1>
+            <p class="lead">Un rato creativo para aprender a bordar y llevarte a casa una libreta hecha por ti.</p>
+            <ul class="dt-pills"><li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#pin"></use></svg>Provincia de Barcelona</li><li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#check"></use></svg>Para todos los niveles</li><li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#gift"></use></svg>Te la llevas a casa</li></ul>
+            <div class="btn-row">
+              <a class="btn btn--321" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20taller%20Borda%20tu%20libreta." target="_blank" rel="noopener">Quiero venir<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
+              <a class="btn btn--ghost" href="#detalle">Ver cómo es</a>
+            </div>
+          </div>
+          <figure class="dt-figure dt-figure--poster "><img src="images/web/cartel-libreta-1000.webp" alt="Cartel del taller Borda tu libreta, con una libreta de cartón bordada con una mariposa rosa y lavanda" width="1000" height="1500" fetchpriority="high" /></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="detalle" aria-labelledby="intro-title">
+      <div class="wrap dt-intro">
         <div>
-          <h1 class="page-hero__title" id="page-title">Tienda</h1>
-          <p class="lead">Piezas hechas a mano y encargos personalizados. No hay carrito: me escribes, lo hablamos y te lo preparo.</p>
+          <h2 class="h2" id="intro-title">Bordar va más allá de la tela</h2>
+        </div>
+        <div data-reveal>
+          <p class="dt-big">La idea es disfrutar, aprender y descubrir que podemos llevar el bordado mucho más allá de la tela.</p>
+          <p>Decoramos y personalizamos una libreta utilizando diferentes puntos y técnicas de bordado.</p><p>Es un taller para todos los niveles: tanto si nunca has cogido una aguja como si ya bordas y te apetece aprender ideas nuevas.</p>
+          <ul class="dt-badges"><li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#pin"></use></svg>Taller presencial en la provincia de Barcelona</li><li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#check"></use></svg>Plazas limitadas para acompañarte de cerca</li></ul>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-label="Piezas" style="padding-top:0">
+    <section class="section section--card" aria-labelledby="feats-title">
       <div class="wrap">
-        <div class="filters" data-filters role="group" aria-label="Filtrar piezas">
-          <button class="chip" type="button" aria-pressed="true" data-kind="">Todo</button>
-          <button class="chip" type="button" aria-pressed="false" data-kind="Por encargo">Por encargo</button>
-          <button class="chip" type="button" aria-pressed="false" data-kind="Hecho a mano">Hecho a mano</button>
-        </div>
-        <ul class="catalog" data-shop aria-label="Piezas de la tienda"></ul>
-        <noscript><p class="notice">Para ver las piezas disponibles, <a href="https://wa.me/34630050209">escríbeme por WhatsApp</a>.</p></noscript>
-      </div>
-    </section>
-
-    <section class="section section--card" aria-labelledby="encargo-title">
-      <div class="wrap">
-        <h2 class="h2" id="encargo-title" style="margin-bottom:clamp(2rem,4vw,3rem)">Cómo funciona un encargo</h2>
-        <ol class="steps">
-          <li style="--c:var(--t704)" data-reveal><h3>Me cuentas tu idea</h3><p>Un nombre, una fecha, unas flores, tu chaqueta. Mándame fotos si las tienes.</p></li>
-          <li style="--c:var(--t704)" data-reveal><h3>Te paso precio y plazo</h3><p>Cada pieza es artesanal y lleva su tiempo. Te digo cuándo estará lista.</p></li>
-          <li style="--c:var(--t704)" data-reveal><h3>Lo hago para ti</h3><p>La bordo con mimo y te cuento cómo hacértela llegar.</p></li>
+        <h2 class="h2" id="feats-title" style="margin-bottom:clamp(2rem,4vw,3rem)">Qué haremos</h2>
+        <ol class="dt-feats">
+          <li data-reveal><h3>Puntos de bordado</h3><p>Aprenderás diferentes puntos de bordado.</p></li>
+          <li data-reveal><h3>Motivos decorativos</h3><p>Crearemos pequeños motivos para decorar.</p></li>
+          <li data-reveal><h3>Tu propia libreta</h3><p>Bordarás y personalizarás tu libreta.</p></li>
+          <li data-reveal><h3>Te acompaño</h3><p>Voy a tu lado durante todo el proceso, a tu ritmo.</p></li>
         </ol>
-        <div class="btn-row" style="margin-top:clamp(2rem,4vw,3rem)">
-          <a class="btn btn--704" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20quiero%20hacerte%20un%20encargo." target="_blank" rel="noopener">Quiero un encargo<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="como-title">
+      <div class="wrap">
+        <h2 class="h2" id="como-title" style="margin-bottom:clamp(2rem,4vw,3rem)">Cómo funciona</h2>
+        <ol class="steps">
+          <li style="--c:var(--t321)" data-reveal><h3>Me escribes</h3><p>Por WhatsApp te digo las próximas fechas, el lugar, el horario y si quedan plazas.</p></li>
+          <li style="--c:var(--t321)" data-reveal><h3>Vienes a bordar</h3><p>Un rato para desconectar y crear con tus propias manos.</p></li>
+          <li style="--c:var(--t321)" data-reveal><h3>Te llevas tu libreta</h3><p>Una libreta única, hecha por ti.</p></li>
+        </ol>
+        <p class="wk__quote" style="margin-top:2rem;font-size:1.375rem">Pequeños proyectos, grandes momentos.</p>
+        <p class="wk__ask" style="margin-top:2.5rem">¿Quieres venir?</p>
+        <div class="btn-row wk__cta"><a class="btn btn--321" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20taller%20Borda%20tu%20libreta." target="_blank" rel="noopener">Quiero venir<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="otros-title">
+      <div class="wrap">
+        <h2 class="h2" id="otros-title" style="margin-bottom:clamp(2rem,4vw,3rem)">Otros talleres</h2>
+        <div class="formats" style="margin-top:0">
+          <a class="format" href="taller-anuario.html" style="text-decoration:none" data-reveal>
+            <div class="format__img format__img--sq"><img src="images/web/anuario-rueda-640.webp" alt="" width="640" height="640" loading="lazy" /></div>
+            <div class="format__body">
+              <span class="format__tag format__tag--321">Online</span>
+              <h3>Anuario Bordado</h3>
+              <p>12 meses, 12 flores y muchos puntos por aprender.</p>
+              <span class="text-link" style="--link-c:var(--t321)">Ver el taller<svg class="icon" aria-hidden="true"><use href="images/icons.svg#arrow"></use></svg></span>
+            </div>
+          </a>
+          <a class="format" href="taller-heartstring.html" style="text-decoration:none" data-reveal>
+            <div class="format__img format__img--sq"><img src="images/web/heartstring-sellos-640.webp" alt="" width="640" height="542" loading="lazy" style="object-position:50% 40%" /></div>
+            <div class="format__body">
+              <span class="format__tag format__tag--321">Online</span>
+              <h3>Heartstring</h3>
+              <p>Transformamos el precioso panel de Natalie Bird combinando pintura y bordado.</p>
+              <span class="text-link" style="--link-c:var(--t321)">Ver el taller<svg class="icon" aria-hidden="true"><use href="images/icons.svg#arrow"></use></svg></span>
+            </div>
+          </a>
+          <a class="format" href="taller-fotografia.html" style="text-decoration:none" data-reveal>
+            <div class="format__img format__img--sq"><img src="images/web/cartel-fotografia-640.webp" alt="" width="640" height="960" loading="lazy" style="object-position:50% 0%" /></div>
+            <div class="format__body">
+              <span class="format__tag format__tag--321">Presencial</span>
+              <h3>Bordado sobre fotografía</h3>
+              <p>Convierte una fotografía especial en una pieza única.</p>
+              <span class="text-link" style="--link-c:var(--t321)">Ver el taller<svg class="icon" aria-hidden="true"><use href="images/icons.svg#arrow"></use></svg></span>
+            </div>
+          </a>
         </div>
       </div>
     </section>
+
     <section class="section closing" aria-labelledby="closing-title">
       <div class="wrap closing__grid">
         <div>
-          <h2 class="closing__title" id="closing-title">¿Hablamos?</h2>
-          <p class="lead">Escríbeme por WhatsApp y te respondo yo misma, sea para un taller, un encargo o la comunidad.</p>
+          <h2 class="closing__title" id="closing-title">¿Te apuntas?</h2>
+          <p class="lead">Escríbeme por WhatsApp al 630 05 02 09 y te informo de las próximas fechas, el lugar, el horario y las plazas.</p>
           <div class="btn-row closing__ctas">
-            <a class="btn btn--paper" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20te%20escribo%20desde%20la%20web." target="_blank" rel="noopener">Escríbeme<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
+            <a class="btn btn--paper" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20taller%20Borda%20tu%20libreta." target="_blank" rel="noopener">Escríbeme<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
           </div>
         </div>
         <ul class="contact-lines">

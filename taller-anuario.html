@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Anuario Bordado · Marieta Vola Vola</title>
+  <meta name="description" content="Anuario Bordado: un taller online de bordado de 12 meses. Cada mes una flor nueva, con mis explicaciones y tutoriales, a tu ritmo." />
+  <meta property="og:title" content="Anuario Bordado · Marieta Vola Vola" />
+  <meta property="og:description" content="Anuario Bordado: un taller online de bordado de 12 meses. Cada mes una flor nueva, con mis explicaciones y tutoriales, a tu ritmo." />
+  <meta property="og:image" content="images/web/anuario-rueda-1000.webp" />
+  <meta name="theme-color" content="#FDFDFB" />
+  <link rel="icon" href="images/web/mariquita.png" type="image/png" />
+  <link rel="preload" href="fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/site.css" />
+  <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-motion');setTimeout(function(){document.documentElement.classList.remove('js-motion')},3000)}</script>
+  <script src="js/data.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <span data-header-sentinel></span>
+
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="index.html" aria-label="Marieta Vola Vola, inicio">
+        <img src="images/web/mariquita.png" alt="" width="34" height="44" />
+        <span class="brand__name">Marieta Vola Vola</span>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a class="nav__link nav__link--321" href="cursos.html" aria-current="page">Talleres</a>
+        <a class="nav__link nav__link--699" href="comunidad.html">Comunidad</a>
+        <a class="nav__link nav__link--704" href="tienda.html">Tienda</a>
+        <a class="nav__link nav__link--3328" href="tutoriales.html">Tutoriales</a>
+        <a class="nav__link nav__link--368" href="sobre-mi.html">Sobre mí</a>
+        <a class="nav__link" href="contacto.html">Contacto</a>
+        <a class="btn btn--small btn--699 nav__cta" href="portal/index.html" aria-label="Acceso alumnas, zona privada de la Comunidad Marieta">Acceso alumnas<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#lock"></use></svg></span></a>
+      </nav>
+      <button class="menu-btn" type="button" data-menu-open aria-expanded="false" aria-controls="mobile-menu">
+        <svg class="icon" aria-hidden="true"><use href="images/icons.svg#menu"></use></svg>Menú
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú">
+    <div class="mobile-menu__top">
+      <a class="brand" href="index.html"><img src="images/web/mariquita.png" alt="" width="34" height="44" /><span class="brand__name">Marieta Vola Vola</span></a>
+      <button class="menu-btn" type="button" data-menu-close style="display:inline-flex">
+        <svg class="icon" aria-hidden="true"><use href="images/icons.svg#close"></use></svg>Cerrar
+      </button>
+    </div>
+    <ul class="mobile-menu__list">
+      <li><a class="mobile-menu__link" style="--c:var(--t321)" href="cursos.html">Talleres</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t699)" href="comunidad.html">Comunidad</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t704)" href="tienda.html">Tienda</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t3328)" href="tutoriales.html">Tutoriales</a></li>
+      <li><a class="mobile-menu__link" style="--c:var(--t368)" href="sobre-mi.html">Sobre mí</a></li>
+      <li><a class="mobile-menu__link" href="contacto.html">Contacto</a></li>
+    </ul>
+    <div class="mobile-menu__actions">
+      <a class="btn" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20te%20escribo%20desde%20la%20web." target="_blank" rel="noopener">Escríbeme por WhatsApp<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
+      <a class="btn btn--699" href="portal/index.html">Acceso alumnas<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#lock"></use></svg></span></a>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <section class="page-hero page-hero--field field-321 ws-hero dt-hero" aria-labelledby="page-title">
+      <div class="wrap">
+        <a class="dt-back" href="cursos.html"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#arrow"></use></svg>Todos los talleres</a>
+        <div class="dt-hero__grid">
+          <div>
+            <span class="wk__tag wk__tag--321">Online · Empieza cuando quieras</span>
+            <h1 class="dt-title" id="page-title">Anuario Bordado</h1>
+            <p class="lead">12 meses, 12 flores y muchos puntos por aprender.</p>
+            <ul class="dt-pills"><li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#play"></use></svg>Online</li><li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#cal"></use></svg>Empieza cuando quieras</li><li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#needle"></use></svg>Sin experiencia</li></ul>
+            <div class="btn-row">
+              <a class="btn btn--321" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Anuario%20Bordado." target="_blank" rel="noopener">Quiero apuntarme<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
+              <a class="btn btn--ghost" href="#detalle">Ver cómo es</a>
+            </div>
+          </div>
+          <figure class="dt-figure  "><img src="images/web/anuario-rueda-1000.webp" alt="Anuario Bordado: un bastidor redondo dividido en doce meses, con una flor y un detalle bordado en cada mes" width="1000" height="1000" fetchpriority="high" /></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="detalle" aria-labelledby="intro-title">
+      <div class="wrap dt-intro">
+        <div>
+          <h2 class="h2" id="intro-title">Un proyecto para todo el año</h2>
+        </div>
+        <div data-reveal>
+          <p class="dt-big">Una flor nueva cada mes y un montón de puntos por aprender.</p>
+          <p>Cada mes bordamos juntas una flor diferente. Aprovecho ese proyecto para enseñarte puntos y técnicas de bordado nuevos, y poco a poco vas completando tu propio anuario.</p><p>Puedes empezar cuando quieras y disfrutar del bordado mes a mes, sin prisas.</p>
+          <ul class="dt-badges"><li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#check"></use></svg>No necesitas experiencia previa</li><li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#play"></use></svg>Con mis tutoriales</li><li><svg class="icon" aria-hidden="true"><use href="images/icons.svg#cal"></use></svg>Empiezas cuando quieras</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--card" aria-labelledby="feats-title">
+      <div class="wrap">
+        <h2 class="h2" id="feats-title" style="margin-bottom:clamp(2rem,4vw,3rem)">Qué vas a encontrar</h2>
+        <ol class="dt-feats">
+          <li data-reveal><h3>Una flor nueva cada mes</h3><p>Cada mes bordamos juntas una flor diferente, todas dentro del mismo anuario.</p></li>
+          <li data-reveal><h3>Puntos y técnicas nuevas</h3><p>Aprovecho cada proyecto para enseñarte diferentes puntos de bordado.</p></li>
+          <li data-reveal><h3>Mis explicaciones en vídeo</h3><p>Con mis explicaciones y tutoriales para que puedas seguirlo con calma.</p></li>
+          <li data-reveal><h3>A tu ritmo y sin prisas</h3><p>Bordas cuando te viene bien. No necesitas experiencia previa.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="gal-title">
+      <div class="wrap">
+        <h2 class="h2" id="gal-title" style="margin-bottom:clamp(2rem,4vw,3rem)">Así es el anuario</h2>
+        <ul class="dt-gallery dt-gallery--2"><li data-reveal><figure><img src="images/web/anuario-rueda-1000.webp" alt="El anuario completo: un mes en cada porción del bastidor, con flores y detalles bordados" width="1000" height="1000" loading="lazy" /><figcaption>El anuario completo, un mes en cada porción del bastidor</figcaption></figure></li><li data-reveal><figure><img src="images/web/anuario-detalle-1000.webp" alt="Detalle de septiembre y octubre: rosas, un girasol, una calabaza y una bellota bordados" width="1000" height="995" loading="lazy" /><figcaption>Detalle de septiembre y octubre</figcaption></figure></li></ul>
+      </div>
+    </section>
+
+    <section class="section section--card" aria-labelledby="como-title">
+      <div class="wrap">
+        <h2 class="h2" id="como-title" style="margin-bottom:clamp(2rem,4vw,3rem)">Cómo funciona</h2>
+        <ol class="steps">
+          <li style="--c:var(--t321)" data-reveal><h3>Me escribes</h3><p>Por WhatsApp te cuento cómo apuntarte.</p></li>
+          <li style="--c:var(--t321)" data-reveal><h3>Cada mes, una flor</h3><p>Bordamos la flor del mes con mis explicaciones y tutoriales.</p></li>
+          <li style="--c:var(--t321)" data-reveal><h3>Tu anuario crece</h3><p>A tu ritmo, mes a mes, hasta completar los doce.</p></li>
+        </ol>
+        
+        <p class="wk__ask" style="margin-top:2.5rem">¿Te apetece crear tu propio Anuario Bordado conmigo?</p>
+        <div class="btn-row wk__cta"><a class="btn btn--321" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Anuario%20Bordado." target="_blank" rel="noopener">Quiero apuntarme<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a></div>
+      </div>
+    </section>
+
+    <section class="section section--card" aria-labelledby="otros-title">
+      <div class="wrap">
+        <h2 class="h2" id="otros-title" style="margin-bottom:clamp(2rem,4vw,3rem)">Otros talleres</h2>
+        <div class="formats" style="margin-top:0">
+          <a class="format" href="taller-heartstring.html" style="text-decoration:none" data-reveal>
+            <div class="format__img format__img--sq"><img src="images/web/heartstring-sellos-640.webp" alt="" width="640" height="542" loading="lazy" style="object-position:50% 40%" /></div>
+            <div class="format__body">
+              <span class="format__tag format__tag--321">Online</span>
+              <h3>Heartstring</h3>
+              <p>Transformamos el precioso panel de Natalie Bird combinando pintura y bordado.</p>
+              <span class="text-link" style="--link-c:var(--t321)">Ver el taller<svg class="icon" aria-hidden="true"><use href="images/icons.svg#arrow"></use></svg></span>
+            </div>
+          </a>
+          <a class="format" href="taller-libreta.html" style="text-decoration:none" data-reveal>
+            <div class="format__img format__img--sq"><img src="images/web/cartel-libreta-640.webp" alt="" width="640" height="960" loading="lazy" style="object-position:50% 0%" /></div>
+            <div class="format__body">
+              <span class="format__tag format__tag--321">Presencial</span>
+              <h3>Borda tu libreta</h3>
+              <p>Un rato creativo para aprender a bordar y llevarte a casa una libreta hecha por ti.</p>
+              <span class="text-link" style="--link-c:var(--t321)">Ver el taller<svg class="icon" aria-hidden="true"><use href="images/icons.svg#arrow"></use></svg></span>
+            </div>
+          </a>
+          <a class="format" href="taller-fotografia.html" style="text-decoration:none" data-reveal>
+            <div class="format__img format__img--sq"><img src="images/web/cartel-fotografia-640.webp" alt="" width="640" height="960" loading="lazy" style="object-position:50% 0%" /></div>
+            <div class="format__body">
+              <span class="format__tag format__tag--321">Presencial</span>
+              <h3>Bordado sobre fotografía</h3>
+              <p>Convierte una fotografía especial en una pieza única.</p>
+              <span class="text-link" style="--link-c:var(--t321)">Ver el taller<svg class="icon" aria-hidden="true"><use href="images/icons.svg#arrow"></use></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section closing" aria-labelledby="closing-title">
+      <div class="wrap closing__grid">
+        <div>
+          <h2 class="closing__title" id="closing-title">¿Te apuntas?</h2>
+          <p class="lead">Escríbeme por WhatsApp y te cuento cómo apuntarte al Anuario Bordado.</p>
+          <div class="btn-row closing__ctas">
+            <a class="btn btn--paper" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Anuario%20Bordado." target="_blank" rel="noopener">Escríbeme<span class="btn__dot"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></span></a>
+          </div>
+        </div>
+        <ul class="contact-lines">
+          <li><a href="https://wa.me/34630050209" target="_blank" rel="noopener"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg><span>WhatsApp<small>630 05 02 09</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+          <li><a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" rel="noopener"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#ig"></use></svg><span>Instagram<small>@marieta.vola.vola.bordado</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+          <li><a href="https://www.youtube.com/@marieta.vola.vola.Bordado" target="_blank" rel="noopener"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#yt"></use></svg><span>YouTube<small>Tutoriales gratis</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+          <li><a href="mailto:cristina@marietavolavola.com"><span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#mail"></use></svg><span>Email<small>cristina@marietavolavola.com</small></span></span><svg class="icon" aria-hidden="true"><use href="images/icons.svg#out"></use></svg></a></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="site-footer__grid">
+        <div class="site-footer__brand">
+          <img src="images/web/logo-marieta.png" alt="Marieta Vola Vola" width="340" height="323" loading="lazy" />
+          <p>Talleres de bordado y manualidades con Cristina Robles, en Sant Quirze del Vallès y Barcelona.</p>
+        </div>
+        <div>
+          <h2>Aprende</h2>
+          <ul>
+            <li><a href="cursos.html">Talleres</a></li>
+            <li><a href="comunidad.html">Comunidad Marieta</a></li>
+            <li><a href="tutoriales.html">Tutoriales gratis</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Marieta</h2>
+          <ul>
+            <li><a href="tienda.html">Tienda</a></li>
+            <li><a href="galeria.html">Mis trabajos</a></li>
+            <li><a href="sobre-mi.html">Sobre mí</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Sígueme</h2>
+          <ul>
+            <li><a href="https://www.instagram.com/marieta.vola.vola.bordado/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#ig"></use></svg>Instagram</a></li>
+            <li><a href="https://www.youtube.com/@marieta.vola.vola.Bordado" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#yt"></use></svg>YouTube</a></li>
+            <li><a href="https://www.whatsapp.com/channel/0029VbBE6U29hXF9e8IVsQ00" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg>Canal de WhatsApp</a></li>
+            <li><a href="https://www.facebook.com/Lady.Bug.CR/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#fb"></use></svg>Facebook</a></li>
+            <li><a href="portal/index.html"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#lock"></use></svg>Acceso alumnas</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="thread-strip" aria-hidden="true"><span style="background:var(--t321)"></span><span style="background:var(--t699)"></span><span style="background:var(--t704)"></span><span style="background:var(--t3328)"></span><span style="background:var(--t368)"></span></div>
+      <div class="site-footer__bottom">
+        <span>© 2026 Marieta Vola Vola · Cristina Robles</span>
+        <span style="display:inline-flex;align-items:center;gap:1rem"><img src="images/powered-by-optine-cream.png" alt="Powered by Optine" width="120" height="26" loading="lazy" /></span>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" href="https://wa.me/34630050209?text=Hola%20Cristina%2C%20te%20escribo%20desde%20la%20web." target="_blank" rel="noopener" aria-label="Escríbeme por WhatsApp"><svg class="icon" aria-hidden="true"><use href="images/icons.svg#wa"></use></svg></a>
+</body>
+</html>

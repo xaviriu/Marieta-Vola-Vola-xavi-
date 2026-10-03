@@ -182,3 +182,18 @@ Cuando me pidas construir cualquier cosa nueva, combina automáticamente:
 
 No esperes a que yo invoque las skills manualmente. Lée lo que te pido, 
 decide cuál encaja mejor y aplícala directamente.
+
+## Checklist antes de publicar la web (lanzamiento)
+
+Cuando el usuario diga "vamos a publicar / lanzar la web / deploy", recordarle estos pasos pendientes:
+
+- [ ] **Supabase → Authentication → URL Configuration → Redirect URLs:** añadir `https://DOMINIO-REAL/portal/restablecer.html` (sin esto el email de "restablecer contraseña" no funciona en producción). Cambiar también la **Site URL** al dominio real.
+- [ ] **Supabase → Authentication → SMTP Settings:** configurar un correo propio (el envío por defecto de Supabase tiene un límite muy bajo de emails por hora).
+- [ ] **Supabase → Authentication → Sign In / Providers → Email:** longitud mínima de contraseña 8 y activar "Prevent use of leaked passwords".
+- [ ] **Vercel:** definir las variables de entorno `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY` (las usan `api/create-user.js` y `api/delete-user.js`).
+- [ ] **Clave `service_role`:** `js/admin-secret.js` es solo para uso local y está en `.gitignore`. No subirlo nunca; si alguna vez se expone, regenerar la clave en Supabase → Settings → API.
+- [ ] Comprobar en Supabase que **solo** `cristina@marietavolavola.com` tiene `es_admin = true` en la tabla `profiles`.
+- [ ] Ejecutar `supabase/schema.sql` actualizado (incluye la función `is_admin()` que evita la recursión de RLS).
+- [ ] Probar en el dominio real: login de alumna, login admin, cambio de contraseña provisional y restablecer por email.
+- [ ] Revisar HTTPS activo y pasar `/security-review` antes del deploy.
+- [ ] Opcional: ejecutar `gh auth login` una vez para que Claude pueda crear Pull Requests.
