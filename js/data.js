@@ -2,6 +2,12 @@
 // copia un bloque existente, cámbialo y guarda.
 
 window.MARIETA = {
+  // Datos públicos para leer la tienda desde Supabase (la clave anon es pública por diseño).
+  supabase: {
+    url: 'https://iktdggvtvbvkmprjfmcx.supabase.co',
+    key: 'sb_publishable_IhvUuyPNSxm5Wl_-VwRt4A_ZEB9x5WR'
+  },
+
   contacto: {
     canalWhatsApp: 'https://www.whatsapp.com/channel/0029VbBE6U29hXF9e8IVsQ00',
     whatsapp: '34630050209',
@@ -20,7 +26,7 @@ window.MARIETA = {
       { logos: ['images/web/logos/facebook.svg'], nombre: 'Facebook', valor: 4927, etiqueta: 'seguidores en Facebook', url: 'https://www.facebook.com/Lady.Bug.CR/', color: '--t699', suma: true },
       { logos: ['images/web/logos/instagram-icono.svg', 'images/web/logos/instagram-texto.svg'], nombre: 'Instagram', valor: 4677, etiqueta: 'seguidores en Instagram', url: 'https://www.instagram.com/marieta.vola.vola.bordado/', color: '--t321', suma: true },
       { logos: ['images/web/logos/youtube.svg'], nombre: 'YouTube', valor: 1900, etiqueta: 'suscriptores en YouTube', url: 'https://www.youtube.com/@marieta.vola.vola.Bordado', color: '--t3328', suma: true },
-      { logos: ['images/web/logos/comunidad-sello.webp'], nombre: 'Comunidad Marieta', valor: 95, etiqueta: 'miembros', url: 'comunidad.html', color: '--t368' }
+      { logos: ['images/web/comunidad-logo-256.png'], nombre: 'Comunidad Marieta', valor: 95, etiqueta: 'miembros', url: 'comunidad.html', color: '--t368' }
     ]
   },
 
@@ -64,7 +70,9 @@ window.MARIETA = {
     }
   ],
 
-  // Tienda. precio: escribe por ejemplo '35 €' o deja null para "Pregúntame el precio".
+  // Tienda de respaldo. Los productos reales se gestionan desde el panel de admin (pestaña Tienda);
+  // estos solo se muestran si la tienda de Supabase está vacía o no responde.
+  // precio: escribe por ejemplo '35 €' o deja null para "Pregúntame el precio".
   // tipo: 'Por encargo' o 'Hecho a mano'.
   productos: [
     {

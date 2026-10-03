@@ -194,6 +194,12 @@ Cuando el usuario diga "vamos a publicar / lanzar la web / deploy", recordarle e
 - [ ] **Clave `service_role`:** `js/admin-secret.js` es solo para uso local y está en `.gitignore`. No subirlo nunca; si alguna vez se expone, regenerar la clave en Supabase → Settings → API.
 - [ ] Comprobar en Supabase que **solo** `cristina@marietavolavola.com` tiene `es_admin = true` en la tabla `profiles`.
 - [ ] Ejecutar `supabase/schema.sql` actualizado (incluye la función `is_admin()` que evita la recursión de RLS).
+- [ ] Ejecutar `supabase/curso_bloques.sql` en Supabase (bloques de contenido de los cursos + almacén privado `curso-archivos`). Después, borrar o dejar privado el antiguo almacén público `materials`.
+- [ ] Ejecutar `supabase/progreso.sql` en Supabase (tablas del progreso de las alumnas: marcar vídeos/archivos hechos y cursos terminados).
+- [ ] Ejecutar `supabase/extras_alumnas.sql` en Supabase (miniaturas, notas personales y panel de seguimiento).
+- [ ] Ejecutar `supabase/labores.sql` en Supabase (fotos de las labores terminadas que las alumnas envían a Cristina).
+- [ ] Ejecutar `supabase/pagos_fichas.sql` en Supabase (fichas de alumnas con datos extra, rol Comunidad Marietas y libro de pagos).
+- [ ] Ejecutar `supabase/tienda.sql` en Supabase (tienda editable desde el panel: productos, fotos, precios y orden). Después, en Admin → Tienda, pulsar "Traer los productos actuales de la web".
 - [ ] Probar en el dominio real: login de alumna, login admin, cambio de contraseña provisional y restablecer por email.
 - [ ] Revisar HTTPS activo y pasar `/security-review` antes del deploy.
 - [ ] Opcional: ejecutar `gh auth login` una vez para que Claude pueda crear Pull Requests.

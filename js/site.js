@@ -129,10 +129,36 @@
       '<a class="btn btn--small" href="' + waLink(msg) + '" target="_blank" rel="noopener" aria-label="Lo quiero: ' + esc(p.nombre) + '">Lo quiero<span class="btn__dot">' + icon('wa') + '</span></a></div>' +
       '</div></article></li>';
   }
-  document.querySelectorAll('[data-shop]').forEach(function (el) {
-    var limit = parseInt(el.getAttribute('data-limit') || '99', 10);
-    el.innerHTML = (D.productos || []).slice(0, limit).map(productCard).join('');
-  });
+  function fmtPrecio(v) {
+    if (v == null || v === '') return '';
+    if (typeof v === 'number') return v.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' €';
+    return v;
+  }
+  // Productos desde Supabase (los gestiona Cristina en el panel). Si no hay o falla, se usan los de data.js.
+  function loadProductos() {
+    var cfg = D.supabase, fallback = D.productos || [];
+    if (!cfg || !window.fetch) return Promise.resolve(fallback);
+    var ctl = window.AbortController ? new AbortController() : null;
+    var to = ctl ? setTimeout(function () { ctl.abort(); }, 3500) : null;
+    return fetch(cfg.url + '/rest/v1/productos?select=*&visible=eq.true&order=orden.asc,created_at.asc', {
+      headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key }, signal: ctl ? ctl.signal : undefined
+    }).then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (rows) {
+        if (to) clearTimeout(to);
+        if (!Array.isArray(rows) || !rows.length) return fallback;
+        return rows.map(function (p) { return { nombre: p.nombre, tipo: p.tipo, descripcion: p.descripcion || '', precio: fmtPrecio(p.precio), imagen: p.imagen_url || '' }; });
+      })
+      .catch(function () { return fallback; });
+  }
+  var shopEls = document.querySelectorAll('[data-shop]');
+  if (shopEls.length) {
+    loadProductos().then(function (list) {
+      shopEls.forEach(function (el) {
+        var limit = parseInt(el.getAttribute('data-limit') || '99', 10);
+        el.innerHTML = list.slice(0, limit).map(productCard).join('');
+      });
+    });
+  }
   var filterBox = document.querySelector('[data-filters]');
   if (filterBox) {
     filterBox.addEventListener('click', function (e) {
@@ -223,7 +249,7 @@
       var logos = it.logos.map(function (src) {
         return '<img src="' + esc(src) + '" alt="" height="48" loading="lazy" />';
       }).join('');
-      var texto = it.nombre === 'Comunidad Marieta' ? '<span class="stat__logo-text">Comunidad<br />Marieta</span>' : '';
+      var texto = '';
       return '<li data-reveal><a class="stat" href="' + esc(it.url) + '"' + ext + ' aria-label="' + esc(it.nombre) + ': ' + statText(it, it.valor) + ' ' + esc(it.etiqueta) + '">' +
         '<span class="stat__logo" aria-hidden="true">' + logos + texto + '</span>' +
         '<span class="stat__num" data-count="' + it.valor + '" data-i="' + i + '">' + statText(it, it.valor) + '</span>' +

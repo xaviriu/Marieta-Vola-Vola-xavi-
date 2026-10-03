@@ -3,17 +3,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
   <title>Curso — Marieta Vola Vola</title>
-  <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
+  <link rel="icon" href="../images/web/comunidad-logo-256.png" type="image/png" />
   <link rel="stylesheet" href="../css/fonts.css" />
   <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    [hidden] { display: none !important; }
+    .cv { max-width: 860px; margin: 0 auto; padding: 24px 16px 96px; }
+    .cv h1 { font-family: var(--display); font-weight: 800; font-stretch: 78%; letter-spacing: -.03em; line-height: 1; font-size: clamp(2.25rem, 6vw, 3.5rem); margin: 8px 0 12px; }
+    .cv-desc { font-size: 1.1875rem; color: var(--texto-medio); max-width: 60ch; white-space: pre-line; }
+    .cv-preview { margin: 0 0 20px; padding: 12px 16px; border-radius: 10px; background: var(--rosa-cl); border-left: 4px solid var(--t321); font-weight: 700; }
+    .cv-tools { display: flex; gap: 10px; margin: 24px 0 8px; }
+    .cv-tools button { min-height: 48px; padding: 0 18px; border-radius: 999px; border: 2px solid var(--texto); background: #fff; font-weight: 700; font-size: 1.0625rem; cursor: pointer; }
+    .cv-tools button:hover { background: var(--texto); color: #fff; }
+    .cv-list { display: grid; gap: 16px; margin-top: 24px; }
+    details.sec { background: var(--crema-2); border-radius: 14px; border: 1px solid var(--crema-3); }
+    details.sec > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; padding: 14px 20px; cursor: pointer; border-radius: 14px; }
+    details.sec > summary::-webkit-details-marker { display: none; }
+    details.sec > summary:hover { background: var(--crema-3); }
+    .sec__title { font-family: var(--display); font-weight: 800; font-stretch: 82%; font-size: clamp(1.5rem, 4vw, 2rem); letter-spacing: -.02em; line-height: 1.05; }
+    .sec__count { color: var(--texto-suave); font-weight: 700; font-size: 1rem; white-space: nowrap; }
+    .sec__chev { flex: none; width: 28px; height: 28px; transition: transform .3s var(--ease-out); }
+    details.sec[open] .sec__chev { transform: rotate(180deg); }
+    .sec__desc { padding: 0 20px 4px; color: var(--texto-medio); font-size: 1.125rem; white-space: pre-line; }
+    .sec__body { display: grid; gap: 16px; padding: 16px 20px 24px; }
+    .it { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 2px var(--shadow), 0 10px 26px -16px var(--shadow-md); }
+    .it__body { padding: 16px 18px 18px; }
+    .it__title { font-weight: 800; font-size: 1.25rem; line-height: 1.2; }
+    .it__desc { margin-top: 6px; color: var(--texto-medio); font-size: 1.0625rem; white-space: pre-line; overflow-wrap: anywhere; }
+    .vid { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; background: #000 center / cover no-repeat; cursor: pointer; }
+    .vid iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .vid__play { position: absolute; left: 50%; top: 50%; width: 76px; height: 76px; margin: -38px 0 0 -38px; border-radius: 50%; background: var(--t321); display: grid; place-items: center; box-shadow: 0 10px 30px rgba(0,0,0,.4); transition: transform .3s var(--ease-out); }
+    .vid:hover .vid__play { transform: scale(1.08); }
+    .vid__play::after { content: ""; margin-left: 6px; border-style: solid; border-width: 14px 0 14px 24px; border-color: transparent transparent transparent #fff; }
+    .it--text { padding: 16px 18px; background: transparent; box-shadow: none; }
+    .it--text .it__title { font-size: 1.375rem; }
+    .it--text .it__desc { font-size: 1.1875rem; color: var(--texto); }
+    .dl { display: flex; align-items: center; gap: 14px; padding: 16px 18px; text-decoration: none; color: var(--texto); }
+    .dl:hover { background: var(--crema-2); }
+    .dl__ico { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 10px; background: var(--tint-321); color: var(--t321-deep); font-weight: 800; font-size: .9375rem; }
+    .dl__txt { flex: 1; min-width: 0; }
+    .dl__btn { flex: none; min-height: 48px; display: inline-flex; align-items: center; padding: 0 18px; border-radius: 999px; background: var(--t321); color: #fff; font-weight: 700; }
+    .dl:hover .dl__btn { background: var(--t321-deep); }
+    .cv-progress { margin-top: 24px; padding: 18px 20px; background: #fff; border-radius: 14px; box-shadow: 0 1px 2px var(--shadow), 0 10px 26px -16px var(--shadow-md); }
+    .cv-progress__top { display: flex; justify-content: space-between; gap: 12px; font-size: 1.125rem; margin-bottom: 10px; }
+    .pc-bar { height: 12px; border-radius: 999px; background: var(--crema-3); overflow: hidden; }
+    .pc-bar span { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--t699); transition: width .6s var(--ease-out); }
+    .cv-congrats { margin-top: 14px; padding: 12px 16px; border-radius: 10px; background: var(--tint-699); color: var(--t699-deep); font-weight: 700; }
+    .fin { margin-top: 14px; min-height: 52px; padding: 0 22px; border-radius: 999px; border: 2px solid var(--t699); background: #fff; color: var(--t699-deep); font-weight: 700; font-size: 1.0625rem; cursor: pointer; }
+    .fin:hover { background: var(--t699); color: #fff; }
+    .fin[aria-pressed="true"] { background: var(--t699); color: #fff; }
+    .it__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding: 0 18px 16px; }
+    .chk { min-height: 48px; padding: 0 18px; border-radius: 999px; border: 2px solid var(--texto); background: #fff; color: var(--texto); font-weight: 700; font-size: 1.0625rem; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
+    .chk::before { content: ""; width: 22px; height: 22px; border-radius: 50%; border: 2px solid currentColor; box-sizing: border-box; }
+    .chk:hover { background: var(--crema-2); }
+    .chk[aria-pressed="true"] { background: var(--t699); border-color: var(--t699); color: #fff; }
+    .chk[aria-pressed="true"]::before { border-color: #fff; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231F6B33' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='5 12 10 17 19 7'/%3E%3C/svg%3E") center / 80% no-repeat; }
+    .ask { font-weight: 700; color: var(--texto-medio); text-decoration: underline; text-underline-offset: .25em; }
+    .ask:hover { color: var(--t321-deep); }
+    .it.is-done { opacity: .55; transition: opacity .3s; }
+    .it.is-done:hover, .it.is-done:focus-within { opacity: 1; }
+    .new { display: inline-block; margin-left: 8px; padding: 1px 10px; border-radius: 4px; background: var(--t321); color: #fff; font-size: .9375rem; font-weight: 700; vertical-align: middle; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .note-btn { min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--texto-medio); font-weight: 700; font-size: 1.0625rem; text-decoration: underline; text-underline-offset: .25em; cursor: pointer; }
+    .note-btn:hover { color: var(--t321-deep); }
+    .note-btn.has::after { content: ""; display: inline-block; width: 9px; height: 9px; margin-left: 8px; border-radius: 50%; background: var(--t321); vertical-align: middle; }
+    .note { padding: 0 18px 18px; }
+    .note textarea { width: 100%; min-height: 110px; padding: 12px 14px; border: 2px solid var(--crema-3); border-radius: 12px; font: inherit; font-size: 1.0625rem; background: var(--crema); resize: vertical; }
+    .note textarea:focus { outline: none; border-color: var(--t699); }
+    .note__st { margin-top: 6px; color: var(--texto-suave); font-size: 1rem; }
+    .fin-row { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
+    .celeb { border: 0; padding: 0; width: 100%; max-width: 100%; height: 100%; max-height: 100%; background: rgba(24, 36, 26, .72); }
+    .celeb::backdrop { background: rgba(24, 36, 26, .72); }
+    .celeb canvas#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+    .celeb__wrap { position: relative; z-index: 2; min-height: 100%; display: grid; place-items: center; padding: 16px; }
+    .celeb__box { position: relative; width: 100%; max-width: 640px; background: var(--crema); border-radius: 20px; padding: 28px 22px 24px; text-align: center; box-shadow: 0 30px 80px rgba(0,0,0,.45); animation: celebIn .7s var(--ease-out) both; }
+    @keyframes celebIn { from { opacity: 0; transform: translateY(30px) scale(.94); } to { opacity: 1; transform: none; } }
+    .celeb__bug { display: block; margin: 0 auto; width: 112px; height: auto; animation: bugFly 1.4s var(--ease-out) both .2s; }
+    @keyframes bugFly { from { transform: translateY(40px) rotate(-18deg); opacity: 0; } to { transform: none; opacity: 1; } }
+    .celeb h2 { font-family: var(--display); font-weight: 800; font-stretch: 78%; letter-spacing: -.03em; line-height: 1; font-size: clamp(2.25rem, 8vw, 3.25rem); margin: 8px 0; }
+    .celeb__sub { font-size: 1.1875rem; color: var(--texto-medio); }
+    .celeb__x { position: absolute; top: 10px; right: 10px; width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--crema-2); font-size: 1.75rem; cursor: pointer; line-height: 1; }
+    .celeb__sec { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--crema-3); }
+    .celeb__sec h3 { font-size: 1.375rem; font-weight: 800; margin-bottom: 6px; }
+    .celeb__sec p { color: var(--texto-medio); }
+    .celeb__ok { margin-top: 10px; padding: 10px 14px; border-radius: 10px; background: var(--tint-699); color: var(--t699-deep); font-weight: 700; }
+    .celeb__row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 12px; }
+    .celeb__cv { width: 100%; max-width: 360px; height: auto; border-radius: 10px; margin: 14px auto 0; display: block; box-shadow: 0 14px 30px -16px var(--shadow-md); }
+    .celeb__chk { display: inline-flex; align-items: center; gap: 10px; margin-top: 12px; font-weight: 700; }
+    .celeb__chk input { width: 22px; height: 22px; }
+    .celeb textarea { width: 100%; min-height: 96px; margin-top: 8px; padding: 10px 12px; border: 2px solid var(--crema-3); border-radius: 12px; font: inherit; font-size: 1rem; background: #fff; }
+    @media (max-width: 560px) {
+      .chk, .fin { width: 100%; justify-content: center; }
+      .dl { flex-wrap: wrap; }
+      .dl__btn { width: 100%; justify-content: center; }
+      .sec__body { padding: 12px 12px 20px; }
+      .vid__play { width: 64px; height: 64px; margin: -32px 0 0 -32px; }
+    }
+  </style>
 </head>
 <body class="portal-body">
 
-  <!-- NAVBAR -->
   <header class="portal-navbar">
     <a href="../index.html" class="portal-navbar__brand">
-      <img src="../images/web/mariquita.png" alt="Logo" class="portal-navbar__logo" />
+      <img src="../images/web/comunidad-logo.png" alt="Comunidad Marieta" class="portal-navbar__logo" />
       <span class="portal-navbar__name">Marieta Vola Vola</span>
     </a>
     <div class="portal-navbar__right">
@@ -22,199 +116,479 @@
     </div>
   </header>
 
-  <main style="padding: 32px 24px 80px; max-width: 1300px; margin: 0 auto;">
-
-    <a href="dashboard.html" class="course-back">← Mis cursos</a>
-    <h1 id="courseTitle" style="font-family:var(--display); font-size:clamp(1.8rem,4vw,2.8rem); font-weight:600; color:var(--texto); margin-bottom:32px;"></h1>
-
+  <main class="cv">
+    <p class="cv-preview" id="previewBar" hidden>Vista previa: así es como lo ven las alumnas. <a href="#" id="backEdit" style="text-decoration:underline">Volver a editar el curso</a></p>
+    <a href="dashboard.html" class="course-back" id="backLink">← Mis cursos</a>
+    <h1 id="courseTitle"></h1>
+    <p class="cv-desc" id="courseDesc"></p>
+    <section class="cv-progress" id="progress" aria-label="Tu progreso" hidden>
+      <div class="cv-progress__top"><strong id="progText"></strong><span id="progPct"></span></div>
+      <div class="pc-bar"><span id="progBar"></span></div>
+      <p class="cv-congrats" id="congrats" hidden>¡Enhorabuena! Ya has hecho todo lo de este curso.</p>
+      <div class="fin-row">
+        <button type="button" class="fin" id="finBtn" aria-pressed="false">Marcar el curso como terminado</button>
+        <button type="button" class="fin" id="celebBtn" hidden>Enseñar mi labor</button>
+      </div>
+    </section>
+    <div class="cv-tools" id="tools" hidden>
+      <button type="button" id="openAll">Abrir todo</button>
+      <button type="button" id="closeAll">Cerrar todo</button>
+    </div>
     <div id="content">
       <div class="loading"><div class="spinner"></div>Cargando...</div>
     </div>
-
   </main>
+
+  <dialog class="celeb" id="celeb" aria-labelledby="celebT">
+    <canvas id="confetti" aria-hidden="true"></canvas>
+    <div class="celeb__wrap">
+      <div class="celeb__box">
+        <button type="button" class="celeb__x" id="celebX" aria-label="Cerrar">×</button>
+        <img class="celeb__bug" src="../images/web/comunidad-logo.png" alt="" />
+        <h2 id="celebT">¡Enhorabuena!</h2>
+        <p class="celeb__sub" id="celebSub"></p>
+
+        <div class="celeb__sec">
+          <h3>Enséñanos tu labor</h3>
+          <p>Haz una foto de lo que has bordado. Marieta la recibirá y le hará mucha ilusión verla.</p>
+          <p id="sentPrev" class="celeb__ok" hidden></p>
+          <div class="celeb__row">
+            <label class="btn btn--primary" for="photoIn" style="cursor:pointer" id="photoLbl">Elegir una foto</label>
+            <input type="file" id="photoIn" accept="image/*" hidden />
+          </div>
+          <div id="shareOut" hidden>
+            <canvas class="celeb__cv" id="shareCv" width="1080" height="1350" aria-label="Vista previa de tu imagen para compartir"></canvas>
+            <div class="celeb__row">
+              <button type="button" class="btn btn--primary" id="sendBtn">Enviar mi foto a Marieta</button>
+            </div>
+            <p class="celeb__ok" id="sendSt" aria-live="polite" hidden></p>
+          </div>
+        </div>
+
+        <div class="celeb__sec" id="redesSec" hidden>
+          <h3>Compártela en tus redes</h3>
+          <p>Súbela a Instagram o Facebook y <strong>menciona a @marieta.vola.vola.bordado</strong>. Así la vemos y la celebramos contigo.</p>
+          <div class="celeb__row">
+            <button type="button" class="btn btn--outline" id="shareBtn">Compartir</button>
+            <button type="button" class="btn btn--outline" id="shareDl">Descargar imagen</button>
+          </div>
+        </div>
+
+        <div class="celeb__row" style="margin-top:22px"><button type="button" class="btn btn--outline" id="celebClose">Cerrar</button></div>
+      </div>
+    </div>
+  </dialog>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
   <script>
+    const ADMIN_EMAIL = 'cristina@marietavolavola.com';
+    const BUCKET = 'curso-archivos';
+    const $ = (id) => document.getElementById(id);
     const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    const safeUrl = (u) => /^https:\/\//i.test(u || '') ? esc(u) : '#';
-
-    function getYoutubeId(url) {
-      const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    const safeUrl = (u) => /^https?:\/\//i.test(u || '') ? esc(u) : '#';
+    function ytId(url) {
+      const m = String(url || '').match(/(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/);
       return m ? m[1] : null;
     }
+    const CHEV = '<svg class="sec__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
 
-    function formatDate(iso) {
-      return new Date(iso).toLocaleDateString('es-ES', { day:'numeric', month:'long', year:'numeric' });
+    function fileExt(name) {
+      const m = String(name || '').match(/\.([a-zA-Z0-9]{1,5})$/);
+      return m ? m[1].toUpperCase() : 'ARCHIVO';
     }
 
-    let videos = [];
-    let currentIndex = 0;
+    const COMPLETABLE = ['video', 'archivo', 'enlace'];
+    const state = { bloques: [], urls: {}, done: new Set(), finished: false, track: false, userId: null, cursoId: null, cursoNombre: '', open: {}, notes: {}, notesOpen: new Set(), curso: null, alumna: '' };
+    const isNew = (b) => b.created_at && (Date.now() - new Date(b.created_at).getTime()) < 14 * 86400000;
 
-    function renderPlayer(index) {
-      const v = videos[index];
-      const ytId = getYoutubeId(v.youtube_url);
-      const playerEl = document.getElementById('playerArea');
+    function foot(b, extra) {
+      if (!state.track || !COMPLETABLE.includes(b.tipo)) return extra ? `<div class="it__foot">${extra}</div>` : '';
+      const on = state.done.has(b.id);
+      return `<div class="it__foot"><button type="button" class="chk" data-chk="${b.id}" aria-pressed="${on}">${on ? 'Hecho (quitar)' : 'Marcar como hecho'}</button>${extra || ''}</div>`;
+    }
 
-      if (ytId) {
-        playerEl.innerHTML = `
-          <div class="course-player__video-wrap">
-            <iframe src="https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&color=white"
-              allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              referrerpolicy="strict-origin-when-cross-origin">
-            </iframe>
-          </div>
-          <h2 class="course-player__title">${esc(v.titulo)}</h2>
-          ${v.descripcion ? `<p class="course-player__desc">${esc(v.descripcion)}</p>` : ''}`;
-      } else {
-        playerEl.innerHTML = `<div class="course-player__empty"><div class="course-player__empty-inner"><span><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#close"></use></svg></span>URL de video no válida</div></div>`;
+    function renderItem(b, urls) {
+      const done = state.track && state.done.has(b.id);
+      const nuevo = !done && isNew(b) && COMPLETABLE.includes(b.tipo) ? '<span class="new">Nuevo</span>' : '';
+      const titulo = b.titulo ? `<div class="it__title">${esc(b.titulo)}${nuevo}</div>` : '';
+      const desc = b.contenido ? `<p class="it__desc">${esc(b.contenido)}</p>` : '';
+      const cls = 'it' + (done ? ' is-done' : '');
+      if (b.tipo === 'texto') {
+        return `<div class="it it--text">${titulo}${desc}</div>`;
       }
-
-      // Actualizar lista activa
-      document.querySelectorAll('.video-item').forEach((el, i) => {
-        el.classList.toggle('active', i === index);
-      });
-      currentIndex = index;
+      if (b.tipo === 'video') {
+        const id = ytId(b.url);
+        if (!id) return `<div class="${cls}"><div class="it__body">${titulo}<p class="it__desc">Este vídeo no está disponible.</p></div></div>`;
+        const msg = encodeURIComponent(`Hola Marieta, tengo una duda sobre «${b.titulo || 'un vídeo'}» del curso «${state.cursoNombre}».`);
+        const hasNote = !!(state.notes[b.id] || '').trim();
+        const noteBtn = state.track ? `<button type="button" class="note-btn${hasNote ? ' has' : ''}" data-note="${b.id}" aria-expanded="${state.notesOpen.has(b.id)}">Mis notas</button>` : '';
+        const ask = noteBtn + (state.track ? `<a class="ask" href="https://wa.me/34630050209?text=${msg}" target="_blank" rel="noopener">¿Dudas? Pregúntale a Marieta</a>` : '');
+        const noteBox = state.track && state.notesOpen.has(b.id)
+          ? `<div class="note"><label class="sr-only" for="n-${b.id}">Mis notas</label><textarea id="n-${b.id}" data-note-text="${b.id}" rows="4" maxlength="5000" placeholder="Escribe aquí lo que quieras recordar. Solo lo ves tú.">${esc(state.notes[b.id] || '')}</textarea><p class="note__st" id="ns-${b.id}" aria-live="polite">Solo lo ves tú. Se guarda solo.</p></div>`
+          : '';
+        return `<div class="${cls}">
+          <button type="button" class="vid" data-yt="${id}" style="background-image:url('https://img.youtube.com/vi/${id}/hqdefault.jpg')" aria-label="Reproducir: ${esc(b.titulo || 'vídeo')}"><span class="vid__play"></span></button>
+          <div class="it__body">${titulo}${desc}</div>${foot(b, ask)}${noteBox}</div>`;
+      }
+      if (b.tipo === 'archivo') {
+        const href = b.archivo_path ? (urls[b.archivo_path] || '#') : safeUrl(b.url);
+        return `<div class="${cls}"><a class="dl" href="${esc(href)}" target="_blank" rel="noopener" download>
+          <span class="dl__ico">${esc(fileExt(b.archivo_nombre || b.titulo))}</span>
+          <span class="dl__txt">${titulo}${desc}</span>
+          <span class="dl__btn">Descargar</span></a>${foot(b)}</div>`;
+      }
+      if (b.tipo === 'enlace') {
+        return `<div class="${cls}"><a class="dl" href="${safeUrl(b.url)}" target="_blank" rel="noopener noreferrer">
+          <span class="dl__ico">WEB</span>
+          <span class="dl__txt">${titulo}${desc}</span>
+          <span class="dl__btn">Abrir</span></a>${foot(b)}</div>`;
+      }
+      return '';
     }
+
+    // Lo pendiente primero (en el orden de Marieta) y lo hecho al final, atenuado
+    function pendientesPrimero(items) {
+      if (!state.track) return items;
+      return items.filter(b => !state.done.has(b.id)).concat(items.filter(b => state.done.has(b.id)));
+    }
+
+    function renderProgress() {
+      const comp = state.bloques.filter(b => COMPLETABLE.includes(b.tipo));
+      const total = comp.length;
+      const n = comp.filter(b => state.done.has(b.id)).length;
+      const pct = total ? Math.round(n / total * 100) : 0;
+      $('progress').hidden = !state.track || (!total && !state.finished);
+      $('progText').textContent = state.finished ? 'Curso terminado' : `Llevas ${n} de ${total} hechos`;
+      $('progPct').textContent = (state.finished ? 100 : pct) + '%';
+      $('progBar').style.width = (state.finished ? 100 : pct) + '%';
+      $('congrats').hidden = !(total && n === total && !state.finished);
+      $('finBtn').setAttribute('aria-pressed', state.finished);
+      $('finBtn').textContent = state.finished ? 'Curso terminado (quitar)' : 'Marcar el curso como terminado';
+      $('celebBtn').hidden = !state.finished;
+    }
+
+    function render() {
+      const { bloques, urls } = state;
+      const content = $('content');
+      if (!bloques.length) {
+        content.innerHTML = `<div class="empty-state">
+          <h2 class="empty-state__title">Próximamente</h2>
+          <p class="empty-state__text">Marieta aún no ha subido contenido a este curso. Vuelve pronto.</p></div>`;
+        return;
+      }
+      const intro = []; const secs = [];
+      bloques.forEach(b => {
+        if (b.tipo === 'seccion') secs.push({ head: b, items: [] });
+        else if (secs.length) secs[secs.length - 1].items.push(b);
+        else intro.push(b);
+      });
+      const total = bloques.filter(b => b.tipo !== 'seccion').length;
+      const openDefault = total <= 15 || secs.length <= 2;
+      let html = '<div class="cv-list">';
+      if (intro.length) html += pendientesPrimero(intro).map(b => renderItem(b, urls)).join('');
+      html += secs.map((s, i) => {
+        const comp = s.items.filter(b => COMPLETABLE.includes(b.tipo));
+        const hechos = comp.filter(b => state.done.has(b.id)).length;
+        const todo = state.track && comp.length > 0 && hechos === comp.length;
+        const id = s.head.id;
+        const open = id in state.open ? state.open[id] : (todo ? false : (openDefault || i === 0));
+        const count = comp.length && state.track
+          ? (todo ? 'Completada' : `${hechos} de ${comp.length}`)
+          : `${s.items.length} ${s.items.length === 1 ? 'contenido' : 'contenidos'}`;
+        return `<details class="sec" data-sec="${id}"${open ? ' open' : ''}>
+          <summary><span class="sec__title">${esc(s.head.titulo || 'Sección')}</span><span class="sec__count">${count}</span>${CHEV}</summary>
+          ${s.head.contenido ? `<p class="sec__desc">${esc(s.head.contenido)}</p>` : ''}
+          <div class="sec__body">${pendientesPrimero(s.items).map(b => renderItem(b, urls)).join('') || '<p class="it__desc">Aún no hay nada en esta sección.</p>'}</div>
+        </details>`;
+      }).join('');
+      html += '</div>';
+      content.innerHTML = html;
+      $('tools').hidden = secs.length < 2;
+      renderProgress();
+    }
+
+    // Marcar / desmarcar como hecho
+    async function toggleDone(id) {
+      const was = state.done.has(id);
+      if (was) state.done.delete(id); else state.done.add(id);
+      render();
+      const btn = document.querySelector(`[data-chk="${id}"]`);
+      if (btn) { btn.focus({ preventScroll: true }); btn.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+      const { error } = was
+        ? await supabase.from('progreso_bloques').delete().eq('user_id', state.userId).eq('bloque_id', id)
+        : await supabase.from('progreso_bloques').insert({ user_id: state.userId, bloque_id: id });
+      if (error) {
+        if (was) state.done.add(id); else state.done.delete(id);
+        render();
+        alert('No se ha podido guardar. Inténtalo de nuevo.');
+      }
+    }
+    async function toggleFinished() {
+      const was = state.finished;
+      state.finished = !was;
+      renderProgress();
+      const { error } = was
+        ? await supabase.from('progreso_cursos').delete().eq('user_id', state.userId).eq('curso_id', state.cursoId)
+        : await supabase.from('progreso_cursos').insert({ user_id: state.userId, curso_id: state.cursoId });
+      if (error) { state.finished = was; renderProgress(); alert('No se ha podido guardar. Inténtalo de nuevo.'); return; }
+      if (!was) openCelebration(true);
+    }
+    $('finBtn').addEventListener('click', toggleFinished);
+    $('celebBtn').addEventListener('click', () => openCelebration(false));
+
+    // ---------- Notas personales ----------
+    const noteTimers = {};
+    function setNoteStatus(id, txt) { const el = document.getElementById('ns-' + id); if (el) el.textContent = txt; }
+    async function saveNote(id) {
+      clearTimeout(noteTimers[id]);
+      const t = (state.notes[id] || '').trim();
+      setNoteStatus(id, 'Guardando...');
+      const { error } = t
+        ? await supabase.from('notas_alumna').upsert({ user_id: state.userId, bloque_id: id, texto: t, updated_at: new Date().toISOString() }, { onConflict: 'user_id,bloque_id' })
+        : await supabase.from('notas_alumna').delete().eq('user_id', state.userId).eq('bloque_id', id);
+      setNoteStatus(id, error ? 'No se ha podido guardar. Inténtalo de nuevo.' : 'Guardado. Solo lo ves tú.');
+      const btn = document.querySelector(`[data-note="${id}"]`); if (btn) btn.classList.toggle('has', !!t);
+    }
+    $('content').addEventListener('input', (e) => {
+      const id = e.target.dataset && e.target.dataset.noteText;
+      if (!id) return;
+      state.notes[id] = e.target.value;
+      setNoteStatus(id, 'Escribiendo...');
+      clearTimeout(noteTimers[id]);
+      noteTimers[id] = setTimeout(() => saveNote(id), 900);
+    });
+    $('content').addEventListener('focusout', (e) => {
+      const id = e.target.dataset && e.target.dataset.noteText;
+      if (id) saveNote(id);
+    });
+    $('content').addEventListener('click', (e) => {
+      const nb = e.target.closest('[data-note]');
+      if (!nb) return;
+      const id = nb.dataset.note;
+      if (state.notesOpen.has(id)) state.notesOpen.delete(id); else state.notesOpen.add(id);
+      render();
+      if (state.notesOpen.has(id)) { const ta = document.getElementById('n-' + id); if (ta) ta.focus(); }
+      else { const b = document.querySelector(`[data-note="${id}"]`); if (b) b.focus(); }
+    });
+
+    // ---------- Pantalla de celebración: enseñar la labor y compartirla ----------
+    let photoFile = null, photoImg = null, shareBlob = null;
+    const cv = $('shareCv');
+
+    async function loadFonts() {
+      try { await Promise.all([document.fonts.load('800 60px "Bricolage Grotesque"'), document.fonts.load('400 30px "Atkinson Hyperlegible Next"')]); } catch (e) {}
+    }
+    function toBlob(canvas, type = 'image/png', q) { return new Promise(r => canvas.toBlob(r, type, q)); }
+    function download(blob, name) {
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    }
+    const slug = () => (state.cursoNombre || 'curso').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase();
+
+    function wrapText(x, text, maxW, lineH, startY, maxLines) {
+      const words = text.split(' '); let line = '', lines = [];
+      words.forEach(w => { const t = line ? line + ' ' + w : w; if (x.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; });
+      lines.push(line);
+      lines.slice(0, maxLines).forEach((l, i) => { x.fillText(l, 60, startY + i * lineH); });
+    }
+    // Imagen vertical para redes: la foto, el nombre del curso y la mención a Marieta
+    async function drawShare() {
+      await loadFonts();
+      const W = 1080, H = 1350, x = cv.getContext('2d');
+      x.clearRect(0, 0, W, H);
+      const k = Math.max(W / photoImg.width, H / photoImg.height);
+      const iw = photoImg.width * k, ih = photoImg.height * k;
+      x.drawImage(photoImg, (W - iw) / 2, (H - ih) / 2, iw, ih);
+      const g = x.createLinearGradient(0, H * 0.5, 0, H);
+      g.addColorStop(0, 'rgba(24,36,26,0)'); g.addColorStop(1, 'rgba(24,36,26,.88)');
+      x.fillStyle = g; x.fillRect(0, H * 0.5, W, H * 0.5);
+      const logo = await new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = '../images/web/comunidad-logo.png'; });
+      if (logo) { x.shadowColor = 'rgba(0,0,0,.35)'; x.shadowBlur = 18; x.drawImage(logo, 48, 48, 170, 170); x.shadowColor = 'transparent'; }
+      x.fillStyle = '#fff'; x.textAlign = 'left'; x.textBaseline = 'alphabetic';
+      x.font = '400 40px "Atkinson Hyperlegible Next", sans-serif';
+      x.fillText('¡He terminado el curso!', 60, H - 330);
+      x.font = '800 92px "Bricolage Grotesque", sans-serif';
+      wrapText(x, state.cursoNombre, W - 120, 96, H - 240, 2);
+      x.font = '400 38px "Atkinson Hyperlegible Next", sans-serif';
+      x.fillText('con Marieta Vola Vola  ·  @marieta.vola.vola.bordado', 60, H - 70);
+      shareBlob = await toBlob(cv);
+    }
+
+    // Foto reducida (máx. 1600 px) para enviarla a Marieta sin gastar datos de más
+    async function resizedPhoto(bmp) {
+      const k = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+      const c = document.createElement('canvas'); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+      c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+      return toBlob(c, 'image/jpeg', 0.85);
+    }
+
+    $('photoIn').addEventListener('change', async (e) => {
+      const f = e.target.files[0]; e.target.value = '';
+      if (!f) return;
+      try { photoImg = await createImageBitmap(f); photoFile = f; } catch (err) { alert('No se ha podido abrir esa foto.'); return; }
+      $('shareOut').hidden = false; $('redesSec').hidden = false;
+      $('sendBtn').disabled = false; $('sendBtn').textContent = 'Enviar mi foto a Marieta';
+      $('sendSt').hidden = true;
+      $('photoLbl').textContent = 'Elegir otra foto';
+      await drawShare();
+    });
+
+    $('sendBtn').addEventListener('click', async () => {
+      if (!photoImg) return;
+      $('sendBtn').disabled = true; $('sendBtn').textContent = 'Enviando...';
+      try {
+        const blob = await resizedPhoto(photoImg);
+        const path = state.userId + '/' + state.cursoId + '/' + crypto.randomUUID() + '.jpg';
+        const up = await supabase.storage.from('labores').upload(path, blob, { contentType: 'image/jpeg' });
+        if (up.error) throw up.error;
+        const ins = await supabase.from('labores').insert({ user_id: state.userId, curso_id: state.cursoId, foto_path: path });
+        if (ins.error) { await supabase.storage.from('labores').remove([path]); throw ins.error; }
+        $('sendSt').textContent = '¡Enviada! Marieta la verá. Gracias por enseñárnosla.';
+        $('sendSt').hidden = false; $('sendBtn').textContent = 'Enviada';
+      } catch (err) {
+        $('sendBtn').disabled = false; $('sendBtn').textContent = 'Enviar mi foto a Marieta';
+        alert('No se ha podido enviar la foto. Inténtalo de nuevo.');
+      }
+    });
+
+    async function shareNow(blob, name) {
+      const file = new File([blob], name, { type: 'image/png' });
+      const data = { files: [file], text: '¡He terminado «' + state.cursoNombre + '» con @marieta.vola.vola.bordado!' };
+      if (navigator.canShare && navigator.canShare(data)) {
+        try { await navigator.share(data); return; } catch (err) { if (err && err.name === 'AbortError') return; }
+      }
+      download(blob, name);
+      alert('Te he descargado la imagen. Ahora súbela a Instagram o Facebook y menciona a @marieta.vola.vola.bordado.');
+    }
+    $('shareBtn').addEventListener('click', () => shareNow(shareBlob, 'mi-labor-' + slug() + '.png'));
+    $('shareDl').addEventListener('click', () => download(shareBlob, 'mi-labor-' + slug() + '.png'));
+
+    function confetti(canvas, ms) {
+      const x = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr;
+      const cols = ['#D22A31', '#1F6B33', '#E8736B', '#6FA774', '#DCE98C', '#FCFDF5'];
+      const ps = Array.from({ length: 140 }, () => ({
+        x: Math.random() * canvas.width, y: -Math.random() * canvas.height * 0.6,
+        w: (6 + Math.random() * 8) * dpr, h: (10 + Math.random() * 10) * dpr,
+        vy: (2 + Math.random() * 3.5) * dpr, vx: (Math.random() - .5) * 2.4 * dpr,
+        r: Math.random() * 6, vr: (Math.random() - .5) * .3, c: cols[(Math.random() * cols.length) | 0]
+      }));
+      const t0 = performance.now();
+      (function frame(t) {
+        const el = t - t0;
+        x.clearRect(0, 0, canvas.width, canvas.height);
+        ps.forEach(p => { p.x += p.vx; p.y += p.vy; p.r += p.vr; x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.fillStyle = p.c; x.globalAlpha = Math.max(0, 1 - el / ms); x.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); x.restore(); });
+        if (el < ms) requestAnimationFrame(frame); else x.clearRect(0, 0, canvas.width, canvas.height);
+      })(t0);
+    }
+
+    async function openCelebration(first) {
+      const nombre1 = (state.alumna || '').split(' ')[0];
+      $('celebT').textContent = nombre1 ? `¡Enhorabuena, ${nombre1}!` : '¡Enhorabuena!';
+      $('celebSub').textContent = `Has terminado «${state.cursoNombre}». Qué orgullo verte llegar hasta aquí.`;
+      $('shareOut').hidden = true; $('redesSec').hidden = true; photoImg = null; photoFile = null;
+      $('photoLbl').textContent = 'Elegir una foto';
+      $('sentPrev').hidden = true;
+      if (!$('celeb').open) $('celeb').showModal();
+      if (first && !matchMedia('(prefers-reduced-motion: reduce)').matches) confetti($('confetti'), 3600);
+      // ¿Ya envió alguna foto de este curso?
+      const { data: previas } = await supabase.from('labores').select('id').eq('user_id', state.userId).eq('curso_id', state.cursoId);
+      if (previas && previas.length) {
+        $('sentPrev').textContent = previas.length === 1 ? 'Ya le enviaste una foto a Marieta. Puedes enviarle otra.' : `Ya le has enviado ${previas.length} fotos a Marieta. Puedes enviarle otra.`;
+        $('sentPrev').hidden = false;
+      }
+    }
+    $('celebClose').addEventListener('click', () => $('celeb').close());
+    $('celebX').addEventListener('click', () => $('celeb').close());
+
+    $('content').addEventListener('click', (e) => {
+      const c = e.target.closest('[data-chk]');
+      if (c) toggleDone(c.dataset.chk);
+    });
+    $('content').addEventListener('toggle', (e) => {
+      const d = e.target;
+      if (d.matches && d.matches('details.sec')) state.open[d.dataset.sec] = d.open;
+    }, true);
+
+    // El vídeo solo se carga al pulsar (más rápido en el móvil)
+    $('content').addEventListener('click', (e) => {
+      const v = e.target.closest('.vid');
+      if (!v || v.querySelector('iframe')) return;
+      v.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.dataset.yt)}?autoplay=1&rel=0&modestbranding=1" title="Vídeo del curso" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+      v.removeAttribute('aria-label');
+    });
+    $('openAll').addEventListener('click', () => document.querySelectorAll('details.sec').forEach(d => d.open = true));
+    $('closeAll').addEventListener('click', () => document.querySelectorAll('details.sec').forEach(d => d.open = false));
 
     async function init() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) { window.location.href = 'index.html'; return; }
 
       const user = session.user;
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('nombre, es_admin')
-        .eq('id', user.id)
-        .single();
-
-      if (profile?.es_admin) { window.location.href = '../admin/dashboard.html'; return; }
-      document.getElementById('userGreeting').textContent = profile?.nombre?.split(' ')[0] || '';
-
-      // Leer curso ID de la URL
+      const { data: profile } = await supabase.from('profiles').select('nombre, es_admin').eq('id', user.id).single();
       const params = new URLSearchParams(window.location.search);
       const cursoId = params.get('id');
+      const esAdmin = !!profile?.es_admin && user.email.toLowerCase() === ADMIN_EMAIL;
+      const preview = esAdmin && params.get('preview') === '1';
+
+      if (profile?.es_admin && !preview) { window.location.href = '../admin/dashboard.html'; return; }
+      $('userGreeting').textContent = profile?.nombre?.split(' ')[0] || '';
       if (!cursoId) { window.location.href = 'dashboard.html'; return; }
 
-      // Verificar que el alumno tiene matrícula en este curso
-      const { data: matricula } = await supabase
-        .from('matriculas')
-        .select('id')
-        .eq('user_id', user.id)
-        .eq('curso_id', cursoId)
-        .single();
-
-      if (!matricula) {
-        document.getElementById('content').innerHTML = `
-          <div class="empty-state">
-            <span class="empty-state__icon"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#lock"></use></svg></span>
+      if (preview) {
+        $('previewBar').hidden = false;
+        $('backEdit').href = '../admin/curso.html?id=' + encodeURIComponent(cursoId);
+        $('backLink').hidden = true;
+      } else {
+        const { data: matricula } = await supabase.from('matriculas').select('id')
+          .eq('user_id', user.id).eq('curso_id', cursoId).maybeSingle();
+        if (!matricula) {
+          $('content').innerHTML = `<div class="empty-state">
             <h2 class="empty-state__title">Sin acceso</h2>
-            <p class="empty-state__text">No tienes acceso a este curso. Contacta con Marieta si crees que es un error.</p>
-          </div>`;
-        return;
+            <p class="empty-state__text">No tienes acceso a este curso. Escribe a Marieta si crees que es un error.</p></div>`;
+          return;
+        }
       }
 
-      // Cargar datos del curso
-      const { data: curso } = await supabase
-        .from('cursos')
-        .select('nombre, descripcion')
-        .eq('id', cursoId)
-        .single();
+      const { data: curso } = await supabase.from('cursos').select('*').eq('id', cursoId).single();
+      state.curso = curso; state.alumna = profile?.nombre || '';
+      state.cursoNombre = curso?.nombre || 'Curso';
+      $('courseTitle').textContent = curso?.nombre || 'Curso';
+      $('courseDesc').textContent = curso?.descripcion || '';
+      document.title = (curso?.nombre || 'Curso') + ' — Marieta Vola Vola';
 
-      document.getElementById('courseTitle').textContent = curso?.nombre || 'Curso';
-      document.title = `${curso?.nombre || 'Curso'} — Marieta Vola Vola`;
+      let { data: bloques } = await supabase.from('curso_bloques').select('*').eq('curso_id', cursoId)
+        .order('orden', { ascending: true }).order('created_at', { ascending: true });
+      bloques = (bloques || []).filter(b => b.visible);
 
-      // Cargar videos
-      const { data: videoData } = await supabase
-        .from('videos')
-        .select('*')
-        .eq('curso_id', cursoId)
-        .order('orden', { ascending: true })
-        .order('created_at', { ascending: true });
-
-      videos = videoData || [];
-
-      // Cargar materiales descargables
-      const { data: materiales } = await supabase
-        .from('materiales')
-        .select('*')
-        .eq('curso_id', cursoId)
-        .order('created_at', { ascending: true });
-
-      if (materiales && materiales.length > 0) {
-        const materialesHtml = materiales.map(m => `
-          <a href="${safeUrl(m.archivo_url)}" rel="noopener" target="_blank" download
-            style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--crema-2);border:1px solid var(--rosa);border-radius:10px;text-decoration:none;color:var(--texto);transition:background 0.2s;"
-            onmouseover="this.style.background='var(--rosa-cl)'" onmouseout="this.style.background='var(--crema-2)'">
-            <span style="font-size:2rem;">${m.tipo === 'pdf' ? 'PDF' : 'Imagen'}</span>
-            <div style="flex:1;">
-              <div style="font-weight:700;font-size:0.95rem;">${esc(m.nombre)}</div>
-              <div style="font-size:0.8rem;color:var(--texto-suave);margin-top:2px;">${m.tipo === 'pdf' ? 'PDF descargable' : 'Imagen descargable'}</div>
-            </div>
-            <span style="font-size:0.85rem;font-weight:700;color:var(--tierra);background:var(--rosa-cl);border:1px solid var(--rosa);padding:6px 14px;border-radius:20px;">⬇ Descargar</span>
-          </a>`).join('');
-
-        const materialesSection = document.createElement('div');
-        materialesSection.style.cssText = 'margin-top:48px;';
-        materialesSection.innerHTML = `
-          <h2 style="font-family:var(--display);font-size:1.6rem;font-weight:600;color:var(--texto);margin-bottom:16px;">Materiales del curso</h2>
-          <div style="display:flex;flex-direction:column;gap:12px;">${materialesHtml}</div>`;
-        document.querySelector('main').appendChild(materialesSection);
+      // Enlaces temporales (1 hora) para los archivos privados
+      const paths = bloques.filter(b => b.archivo_path).map(b => b.archivo_path);
+      const urls = {};
+      if (paths.length) {
+        const { data: signed } = await supabase.storage.from(BUCKET).createSignedUrls(paths, 3600);
+        (signed || []).forEach(s => { if (s.path && s.signedUrl) urls[s.path] = s.signedUrl; });
       }
 
-      const content = document.getElementById('content');
-
-      if (videos.length === 0) {
-        content.innerHTML = `
-          <div class="empty-state">
-            <span class="empty-state__icon"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#play"></use></svg></span>
-            <h2 class="empty-state__title">Próximamente</h2>
-            <p class="empty-state__text">
-              Marieta aún no ha subido videos para este curso. Vuelve pronto —
-              recibirás aviso cuando haya contenido nuevo.
-            </p>
-          </div>`;
-        return;
+      // Progreso de la alumna (no se guarda en la vista previa de Marieta)
+      state.userId = user.id; state.cursoId = cursoId; state.track = !preview;
+      if (state.track) {
+        const ids = bloques.map(b => b.id);
+        const [{ data: hechos }, { data: fin }] = await Promise.all([
+          supabase.from('progreso_bloques').select('bloque_id').eq('user_id', user.id).in('bloque_id', ids.length ? ids : ['00000000-0000-0000-0000-000000000000']),
+          supabase.from('progreso_cursos').select('curso_id').eq('user_id', user.id).eq('curso_id', cursoId)
+        ]);
+        state.done = new Set((hechos || []).map(h => h.bloque_id));
+        state.finished = !!(fin && fin.length);
+        const { data: notas } = await supabase.from('notas_alumna').select('bloque_id, texto').eq('user_id', user.id).in('bloque_id', ids.length ? ids : ['00000000-0000-0000-0000-000000000000']);
+        (notas || []).forEach(n => { state.notes[n.bloque_id] = n.texto; });
       }
-
-      const listItems = videos.map((v, i) => {
-        const ytId = getYoutubeId(v.youtube_url);
-        const thumb = ytId
-          ? `<img src="https://img.youtube.com/vi/${ytId}/mqdefault.jpg" class="video-item__thumb" alt="" />`
-          : `<div class="video-item__thumb" style="display:flex;align-items:center;justify-content:center;font-size:1.4rem;"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#play"></use></svg></div>`;
-        return `
-          <div class="video-item ${i === 0 ? 'active' : ''}" data-index="${i}">
-            ${thumb}
-            <div class="video-item__info">
-              <div class="video-item__title">${esc(v.titulo)}</div>
-              <div class="video-item__date">${formatDate(v.created_at)}</div>
-            </div>
-            <div class="video-item__play">▶</div>
-          </div>`;
-      }).join('');
-
-      content.innerHTML = `
-        <div class="course-page">
-          <div class="video-list">
-            <div class="video-list__header">
-              <div class="video-list__title">Contenido del curso</div>
-              <div class="video-list__count">${videos.length} ${videos.length === 1 ? 'video' : 'videos'}</div>
-            </div>
-            ${listItems}
-          </div>
-          <div id="playerArea"></div>
-        </div>`;
-
-      // Renderizar primer video
-      renderPlayer(0);
-
-      // Click en video
-      document.querySelectorAll('.video-item').forEach(el => {
-        el.addEventListener('click', () => renderPlayer(parseInt(el.dataset.index)));
-      });
+      state.bloques = bloques; state.urls = urls;
+      render();
     }
 
-    document.getElementById('logoutBtn').addEventListener('click', async () => {
+    $('logoutBtn').addEventListener('click', async () => {
       await supabase.auth.signOut();
       window.location.href = 'index.html';
     });

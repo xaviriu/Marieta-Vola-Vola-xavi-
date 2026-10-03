@@ -186,3 +186,8 @@ insert into public.cursos (nombre, descripcion) values
 -- ============================================================
 
 -- update public.profiles set es_admin = true where id = 'ID_DE_USUARIO_MARIETA';
+
+-- ============================================================
+-- CONTENIDO DE LOS CURSOS EN BLOQUES (secciones, vídeos, archivos, textos, enlaces)
+-- Está en un archivo aparte: supabase/curso_bloques.sql (pegar en el SQL Editor y ejecutar).
+-- ============================================================

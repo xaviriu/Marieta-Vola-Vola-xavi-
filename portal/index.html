@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Acceso alumnas — Marieta Vola Vola</title>
-  <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
+  <title>Iniciar sesión — Marieta Vola Vola</title>
+  <link rel="icon" href="../images/web/comunidad-logo-256.png" type="image/png" />
   <link rel="stylesheet" href="../css/fonts.css" />
   <link rel="stylesheet" href="../css/app.css" />
   <style>[hidden] { display: none !important; }</style>
@@ -14,9 +14,9 @@
   <div class="login-page">
 
     <div class="login-card">
-      <img src="../images/web/mariquita.png" alt="Comunidad Marieta" class="login-card__logo" />
-      <h1 class="login-card__title">Comunidad Marieta</h1>
-      <p class="login-card__subtitle">Accede a tus cursos de bordado</p>
+      <img src="../images/web/comunidad-logo.png" alt="Comunidad Marieta" class="login-card__logo" />
+      <h1 class="login-card__title">Iniciar sesión</h1>
+      <p class="login-card__subtitle">Entra a tu zona privada de Comunidad Marieta</p>
 
       <div class="alert alert--error" id="errorMsg"></div>
 
@@ -30,7 +30,7 @@
           <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password" />
         </div>
         <button type="submit" class="btn btn--primary btn--full btn--lg" id="submitBtn">
-          Entrar
+          Iniciar sesión
         </button>
       </form>
 
@@ -93,7 +93,7 @@
       if (error) {
         errorMsg.textContent = 'Email o contraseña incorrectos. Inténtalo de nuevo.';
         errorMsg.classList.add('visible');
-        submitBtn.textContent = 'Entrar';
+        submitBtn.textContent = 'Iniciar sesión';
         submitBtn.disabled = false;
         return;
       }

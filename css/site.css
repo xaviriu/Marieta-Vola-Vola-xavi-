@@ -1119,3 +1119,5 @@ html { scrollbar-color: var(--ink-3) var(--card); }
 }
 
 .nav__link, .brand__name { white-space: nowrap; }
+
+.stat__logo img[src$="comunidad-logo-256.png"] { height: 56px; }

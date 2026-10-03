@@ -4,17 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mis Cursos — Marieta Vola Vola</title>
-  <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
+  <link rel="icon" href="../images/web/comunidad-logo-256.png" type="image/png" />
   <link rel="stylesheet" href="../css/fonts.css" />
   <link rel="stylesheet" href="../css/app.css" />
-  <style>[hidden] { display: none !important; }</style>
+  <style>
+    [hidden] { display: none !important; }
+    .portal-course-card.is-done { opacity: .55; filter: saturate(.6); transition: opacity .3s, filter .3s; }
+    .portal-course-card.is-done:hover { opacity: 1; filter: none; }
+    .pc-done { position: absolute; top: 12px; right: 12px; padding: 4px 12px; border-radius: 999px; background: var(--t699); color: #fff; font-weight: 700; font-size: 1rem; }
+    .portal-course-card__image { position: relative; }
+    .pc-bar { height: 10px; margin-top: 12px; border-radius: 999px; background: var(--crema-3); overflow: hidden; }
+    .pc-bar span { display: block; height: 100%; border-radius: inherit; background: var(--t699); transition: width .6s var(--ease-out); }
+  </style>
 </head>
 <body class="portal-body">
 
   <!-- NAVBAR -->
   <header class="portal-navbar">
     <a href="../index.html" class="portal-navbar__brand">
-      <img src="../images/web/mariquita.png" alt="Logo" class="portal-navbar__logo" />
+      <img src="../images/web/comunidad-logo.png" alt="Comunidad Marieta" class="portal-navbar__logo" />
       <span class="portal-navbar__name">Marieta Vola Vola</span>
     </a>
     <div class="portal-navbar__right">
@@ -102,7 +110,7 @@
       // Cargar cursos matriculados
       const { data: matriculas, error } = await supabase
         .from('matriculas')
-        .select('curso_id, cursos(id, nombre, descripcion)')
+        .select('curso_id, cursos(id, nombre, descripcion, imagen_url)')
         .eq('user_id', user.id);
 
       const container = document.getElementById('content');
@@ -126,35 +134,50 @@
 
       const cursos = matriculas.map(m => m.cursos).filter(Boolean);
 
-      // Contar videos por curso
+      // Contenidos de cada curso y lo que lleva hecho la alumna
       const cursoIds = cursos.map(c => c.id);
-      const { data: videoCounts } = await supabase
-        .from('videos')
-        .select('curso_id')
-        .in('curso_id', cursoIds);
+      const [{ data: bloques }, { data: hechos }, { data: terminados }] = await Promise.all([
+        supabase.from('curso_bloques').select('id, curso_id').in('curso_id', cursoIds).in('tipo', ['video', 'archivo', 'enlace']),
+        supabase.from('progreso_bloques').select('bloque_id').eq('user_id', user.id),
+        supabase.from('progreso_cursos').select('curso_id').eq('user_id', user.id)
+      ]);
 
-      const countMap = {};
-      (videoCounts || []).forEach(v => {
+      const hechosSet = new Set((hechos || []).map(h => h.bloque_id));
+      const terminadosSet = new Set((terminados || []).map(t => t.curso_id));
+      const countMap = {}, doneMap = {};
+      (bloques || []).forEach(v => {
         countMap[v.curso_id] = (countMap[v.curso_id] || 0) + 1;
+        if (hechosSet.has(v.id)) doneMap[v.curso_id] = (doneMap[v.curso_id] || 0) + 1;
       });
 
+      // Los cursos terminados pasan al final, atenuados
+      const info = cursos.map((c, i) => ({ c, i, fin: terminadosSet.has(c.id) }));
+      info.sort((a, b) => (a.fin - b.fin) || (a.i - b.i));
+
       container.innerHTML = `<div class="portal-courses-grid">${
-        cursos.map((c, i) => {
+        info.map(({ c, i, fin }) => {
           const count = countMap[c.id] || 0;
+          const done  = doneMap[c.id] || 0;
+          const pct   = count ? Math.round(done / count * 100) : 0;
           const icon  = COURSE_ICONS[i % COURSE_ICONS.length];
           const imgClass = COURSE_IMG_CLASSES[i % COURSE_IMG_CLASSES.length];
+          const progreso = fin
+            ? 'Terminado'
+            : (count ? `${done} de ${count} hechos` : 'Próximamente');
           return `
-            <a href="curso.html?id=${encodeURIComponent(c.id)}" class="portal-course-card">
-              <div class="portal-course-card__image portal-course-card__image${imgClass}">
-                <div class="portal-course-card__image-label"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#${icon}"></use></svg></div>
+            <a href="curso.html?id=${encodeURIComponent(c.id)}" class="portal-course-card${fin ? ' is-done' : ''}">
+              <div class="portal-course-card__image portal-course-card__image${imgClass}"${c.imagen_url ? ` style="background:url('${esc(c.imagen_url)}') center / cover no-repeat"` : ''}>
+                ${c.imagen_url ? '' : `<div class="portal-course-card__image-label"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#${icon}"></use></svg></div>`}
+                ${fin ? '<span class="pc-done">Terminado</span>' : ''}
               </div>
               <div class="portal-course-card__body">
                 <h2 class="portal-course-card__title">${esc(c.nombre)}</h2>
                 <p class="portal-course-card__desc">${esc(c.descripcion)}</p>
-                <p class="portal-course-card__meta"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#play"></use></svg> ${count} ${count === 1 ? 'video' : 'videos'} disponibles</p>
+                <p class="portal-course-card__meta"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#play"></use></svg> ${progreso}</p>
+                ${count ? `<div class="pc-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${fin ? 100 : pct}" aria-label="Progreso del curso"><span style="width:${fin ? 100 : pct}%"></span></div>` : ''}
               </div>
               <div class="portal-course-card__arrow">
-                <span>Ver videos del curso</span>
+                <span>${fin ? 'Volver a verlo' : (done ? 'Seguir con el curso' : 'Ver el curso')}</span>
                 <span>→</span>
               </div>
             </a>`;

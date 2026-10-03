@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Editar curso — Marieta Vola Vola</title>
+  <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
+  <link rel="stylesheet" href="../css/fonts.css" />
+  <link rel="stylesheet" href="../css/app.css" />
+  <style>
+    [hidden] { display: none !important; }
+    .ed { max-width: 920px; margin: 0 auto; padding: 24px 16px 120px; }
+    .ed-back { display: inline-flex; align-items: center; min-height: 48px; font-weight: 700; text-decoration: none; color: var(--texto); }
+    .ed-back:hover { text-decoration: underline; }
+    .ed h1 { font-family: var(--display); font-weight: 800; font-stretch: 80%; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -.02em; margin: 8px 0 20px; }
+    .ed-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 2px var(--shadow), 0 10px 30px -14px var(--shadow-md); margin-bottom: 24px; }
+    .ed-card h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 12px; }
+    .ed-help { color: var(--texto-suave); font-size: 1.0625rem; margin-bottom: 16px; }
+    .ed-toolbar { display: flex; flex-wrap: wrap; gap: 10px; }
+    .ed-add { min-height: 52px; padding: 0 20px; border-radius: 999px; border: 2px solid var(--texto); background: #fff; color: var(--texto); font-weight: 700; font-size: 1.0625rem; cursor: pointer; transition: background-color .2s, color .2s; }
+    .ed-add:hover { background: var(--texto); color: #fff; }
+    .ed-add[data-t="seccion"] { background: var(--texto); color: #fff; }
+    .ed-add[data-t="seccion"]:hover { background: var(--t321); border-color: var(--t321); }
+    .ed-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    .blk { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px 10px; align-items: center; padding: 10px 14px 10px 8px; background: #fff; border-radius: 10px; border: 1px solid var(--crema-3); box-shadow: 0 1px 2px var(--shadow); }
+    .blk--seccion { background: var(--texto); color: #fff; border-color: var(--texto); margin-top: 14px; }
+    .blk--seccion .blk__sub { color: rgba(255,255,255,.75); }
+    .ed-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    .ed-groups { gap: 14px; margin-top: 14px; }
+    .ed-intro:empty { display: none; }
+    .ed-kids { margin: 8px 0 0 clamp(0px, 3vw, 28px); }
+    .grp > .blk--seccion { margin-top: 0; }
+    .blk--seccion .grip:hover { background: rgba(255,255,255,.18); }
+    li[data-item] { list-style: none; }
+    .blk.is-hidden { opacity: .78; border-style: dashed; }
+    .blk__tag { display: inline-block; padding: 1px 10px; border-radius: 4px; font-size: .9375rem; font-weight: 700; background: var(--crema-2); color: var(--texto); margin-right: 8px; }
+    .blk--seccion .blk__tag { background: var(--t321); color: #fff; }
+    .blk__title { font-weight: 800; font-size: 1.1875rem; overflow-wrap: anywhere; }
+    .blk__sub { color: var(--texto-suave); font-size: 1rem; margin-top: 2px; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .blk__off { font-weight: 700; color: var(--t321-deep); font-size: .9375rem; margin-left: 6px; }
+    .blk__actions { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+    .ib { min-width: 48px; min-height: 48px; padding: 0 12px; border-radius: 10px; border: 2px solid currentColor; background: transparent; color: inherit; font-weight: 700; font-size: 1rem; cursor: pointer; }
+    .ib:hover:not(:disabled) { background: var(--texto); color: #fff; border-color: var(--texto); }
+    .blk--seccion .ib:hover:not(:disabled) { background: #fff; color: var(--texto); }
+    .ib:disabled { opacity: .3; cursor: default; }
+    .ib--danger { color: var(--t321-deep); }
+    .blk--seccion .ib--danger { color: #FFB4B0; }
+    .ib--danger:hover:not(:disabled) { background: var(--t321) !important; border-color: var(--t321) !important; color: #fff !important; }
+    .ed-empty { padding: 28px 16px; text-align: center; color: var(--texto-suave); border: 2px dashed var(--crema-3); border-radius: 12px; font-size: 1.125rem; }
+    dialog.dlg { border: 0; border-radius: 16px; padding: 24px; width: calc(100% - 24px); max-width: 560px; box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+    dialog.dlg::backdrop { background: rgba(24, 36, 26, .55); }
+    dialog.dlg h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+    .dlg__hint { color: var(--texto-suave); margin-bottom: 16px; }
+    .dlg__row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .form-field small { display: block; color: var(--texto-suave); margin-top: 6px; font-size: .9375rem; }
+    .mini-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+    .mini-prev { width: 200px; aspect-ratio: 4 / 3; border-radius: 10px; background: var(--crema-2) center / cover no-repeat; display: grid; place-items: center; text-align: center; color: var(--texto-suave); font-size: 1rem; border: 2px dashed var(--crema-3); }
+    .mini-prev.has { border: 0; box-shadow: 0 1px 2px var(--shadow), 0 10px 26px -16px var(--shadow-md); }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 50; background: var(--texto); color: #fff; padding: 12px 20px; border-radius: 999px; font-weight: 700; max-width: calc(100% - 32px); }
+    .toast--err { background: var(--t321-deep); }
+    @media (max-width: 560px) {
+      .blk { grid-template-columns: auto minmax(0, 1fr); }
+      .blk__actions { grid-column: 1 / -1; justify-content: flex-start; }
+      .ed-add { flex: 1 1 calc(50% - 10px); padding: 0 12px; }
+    }
+  </style>
+</head>
+<body class="portal-body">
+
+  <header class="portal-navbar">
+    <a href="../index.html" class="portal-navbar__brand">
+      <img src="../images/web/mariquita.png" alt="Logo" class="portal-navbar__logo" />
+      <span class="portal-navbar__name">Marieta Vola Vola</span>
+    </a>
+    <div class="portal-navbar__right">
+      <span class="portal-navbar__badge">Admin</span>
+      <button class="portal-navbar__logout" id="logoutBtn">Salir</button>
+    </div>
+  </header>
+
+  <main class="ed" id="ed" hidden>
+    <a class="ed-back" href="dashboard.html#cursos">← Volver a los cursos</a>
+    <h1 id="edTitle">Curso</h1>
+
+    <section class="ed-card" aria-labelledby="datosT">
+      <h2 id="datosT">Datos del curso</h2>
+      <form id="datosForm">
+        <div class="form-field">
+          <label for="cNombre">Nombre del curso</label>
+          <input type="text" id="cNombre" required maxlength="120" />
+        </div>
+        <div class="form-field">
+          <label for="cDesc">Descripción (la verán las alumnas al entrar al curso)</label>
+          <textarea id="cDesc" rows="3" maxlength="1000"></textarea>
+        </div>
+        <div class="dlg__row">
+          <button type="submit" class="btn btn--primary" id="datosBtn">Guardar datos</button>
+          <a class="btn btn--outline" id="previewLink" href="#" target="_blank" rel="noopener">Ver como alumna</a>
+        </div>
+      </form>
+    </section>
+
+    <section class="ed-card" aria-labelledby="miniT">
+      <h2 id="miniT">Miniatura del curso</h2>
+      <p class="ed-help">La imagen que verán las alumnas en su lista de cursos. Funciona mejor una foto apaisada (por ejemplo 1200 × 900) de máximo 5 MB.</p>
+      <div class="mini-row">
+        <div class="mini-prev" id="miniPrev">Sin miniatura</div>
+        <div class="dlg__row" style="margin:0">
+          <label class="btn btn--outline" for="miniFile" style="cursor:pointer">Elegir imagen</label>
+          <input type="file" id="miniFile" accept="image/*" hidden />
+          <button type="button" class="btn btn--outline" id="miniDel" hidden>Quitar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="ed-card" aria-labelledby="contT">
+      <h2 id="contT">Contenido del curso</h2>
+      <p class="ed-help">Añade lo que quieras y en el orden que quieras. Usa <strong>Sección</strong> para agrupar (por ejemplo, un mes o un módulo); si el curso es corto, no hace falta ninguna. <strong>Arrastra</strong> cada bloque por el asa de la izquierda para cambiar su orden (también puedes moverlo de una sección a otra). Con "Ocultar" preparas algo sin que lo vean todavía.</p>
+      <div class="ed-toolbar" role="group" aria-label="Añadir contenido">
+        <button class="ed-add" data-t="seccion" type="button">+ Sección</button>
+        <button class="ed-add" data-t="video" type="button">+ Vídeo</button>
+        <button class="ed-add" data-t="archivo" type="button">+ Archivo</button>
+        <button class="ed-add" data-t="texto" type="button">+ Texto</button>
+        <button class="ed-add" data-t="enlace" type="button">+ Enlace</button>
+      </div>
+    </section>
+
+    <div id="listWrap"><div class="loading"><div class="spinner"></div>Cargando...</div></div>
+  </main>
+
+  <dialog class="dlg" id="dlg" aria-labelledby="dlgTitle">
+    <form id="blkForm">
+      <h2 id="dlgTitle">Añadir</h2>
+      <p class="dlg__hint" id="dlgHint"></p>
+      <div class="alert alert--error" id="dlgErr" role="alert"></div>
+      <div class="form-field" id="fTitulo">
+        <label for="bTitulo" id="lTitulo">Título</label>
+        <input type="text" id="bTitulo" maxlength="160" />
+      </div>
+      <div class="form-field" id="fUrl">
+        <label for="bUrl" id="lUrl">Enlace</label>
+        <input type="url" id="bUrl" placeholder="https://" />
+        <small id="sUrl"></small>
+      </div>
+      <div class="form-field" id="fFile">
+        <label for="bFile">Archivo</label>
+        <input type="file" id="bFile" accept=".pdf,.zip,.doc,.docx,.xls,.xlsx,image/*" />
+        <small id="sFile">PDF, imagen, Word, Excel o zip. Máximo 50 MB.</small>
+      </div>
+      <div class="form-field" id="fCont">
+        <label for="bCont" id="lCont">Descripción (opcional)</label>
+        <textarea id="bCont" rows="4" maxlength="5000"></textarea>
+      </div>
+      <div class="form-field" id="fPos">
+        <label for="bPos">Dónde colocarlo</label>
+        <select id="bPos"></select>
+        <small>Después podrás arrastrarlo a otro sitio.</small>
+      </div>
+      <div class="dlg__row">
+        <button type="submit" class="btn btn--primary" id="dlgSave">Guardar</button>
+        <button type="button" class="btn btn--outline" id="dlgCancel">Cancelar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/sortable-lite.js"></script>
+  <script>
+    const ADMIN_EMAIL = 'cristina@marietavolavola.com';
+    const BUCKET = 'curso-archivos';
+    const MAX_BYTES = 50 * 1024 * 1024;
+    const TIPOS = {
+      seccion: { label: 'Sección',  add: 'Añadir sección', hint: 'Un título para agrupar lo que venga debajo, por ejemplo "Enero" o "Módulo 1".', tituloLbl: 'Nombre de la sección', contLbl: 'Descripción (opcional)' },
+      video:   { label: 'Vídeo',    add: 'Añadir vídeo',   hint: 'Sube el vídeo a YouTube como "No listado" y pega aquí el enlace.', tituloLbl: 'Título del vídeo', contLbl: 'Descripción (opcional)' },
+      archivo: { label: 'Archivo',  add: 'Añadir archivo', hint: 'Un PDF, una plantilla, una imagen... que las alumnas podrán descargar.', tituloLbl: 'Nombre del archivo', contLbl: 'Descripción (opcional)' },
+      texto:   { label: 'Texto',    add: 'Añadir texto',   hint: 'Explicaciones, instrucciones o cualquier cosa que quieras contarles.', tituloLbl: 'Título (opcional)', contLbl: 'Texto' },
+      enlace:  { label: 'Enlace',   add: 'Añadir enlace',  hint: 'Un enlace a una web, un álbum de fotos u otra cosa.', tituloLbl: 'Nombre del enlace', contLbl: 'Descripción (opcional)' }
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const cursoId = new URLSearchParams(location.search).get('id');
+    let curso = null;
+    let bloques = [];
+    let editing = null;     // bloque que se está editando, o null si es nuevo
+    let newTipo = null;
+
+    function toast(msg, err) {
+      const t = document.createElement('div');
+      t.className = 'toast' + (err ? ' toast--err' : '');
+      t.setAttribute('role', 'status');
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 3200);
+    }
+    function ytId(url) {
+      const m = String(url || '').match(/(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/);
+      return m ? m[1] : null;
+    }
+    function safeName(n) {
+      return n.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/-+/g, '-').slice(-80);
+    }
+
+    // ---------- Arranque y acceso ----------
+    async function init() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { location.href = '../portal/index.html'; return; }
+      const { data: profile } = await supabase.from('profiles').select('es_admin').eq('id', session.user.id).single();
+      if (!profile?.es_admin || session.user.email.toLowerCase() !== ADMIN_EMAIL) { location.href = '../portal/dashboard.html'; return; }
+      if (!cursoId) { location.href = 'dashboard.html'; return; }
+
+      const { data: c, error } = await supabase.from('cursos').select('*').eq('id', cursoId).single();
+      if (error || !c) { location.href = 'dashboard.html'; return; }
+      curso = c;
+      $('cNombre').value = c.nombre;
+      $('cDesc').value = c.descripcion || '';
+      $('edTitle').textContent = c.nombre;
+      document.title = 'Editar ' + c.nombre + ' — Marieta Vola Vola';
+      $('previewLink').href = '../portal/curso.html?id=' + encodeURIComponent(cursoId) + '&preview=1';
+      $('ed').hidden = false;
+      pintarMini();
+      await cargar();
+    }
+
+    // ---------- Miniatura ----------
+    const MINI_BUCKET = 'curso-miniaturas';
+    function pintarMini() {
+      const el = $('miniPrev');
+      if (curso.imagen_url) { el.style.backgroundImage = `url("${curso.imagen_url}")`; el.textContent = ''; el.classList.add('has'); $('miniDel').hidden = false; }
+      else { el.style.backgroundImage = ''; el.textContent = 'Sin miniatura'; el.classList.remove('has'); $('miniDel').hidden = true; }
+    }
+    function miniPath(url) { const i = (url || '').indexOf('/' + MINI_BUCKET + '/'); return i < 0 ? null : decodeURIComponent(url.slice(i + MINI_BUCKET.length + 2).split('?')[0]); }
+    $('miniFile').addEventListener('change', async (e) => {
+      const f = e.target.files[0]; e.target.value = '';
+      if (!f) return;
+      if (!f.type.startsWith('image/')) return toast('Elige una imagen.', true);
+      if (f.size > 5 * 1024 * 1024) return toast('La imagen pesa más de 5 MB.', true);
+      toast('Subiendo...');
+      const path = cursoId + '/' + Date.now() + '-' + safeName(f.name);
+      const up = await supabase.storage.from(MINI_BUCKET).upload(path, f, { contentType: f.type });
+      if (up.error) return toast('Error: ' + up.error.message, true);
+      const url = supabase.storage.from(MINI_BUCKET).getPublicUrl(path).data.publicUrl;
+      const { error } = await supabase.from('cursos').update({ imagen_url: url }).eq('id', cursoId);
+      if (error) return toast('Error: ' + error.message, true);
+      const old = miniPath(curso.imagen_url); if (old) await supabase.storage.from(MINI_BUCKET).remove([old]);
+      curso.imagen_url = url; pintarMini(); toast('Miniatura guardada.');
+    });
+    $('miniDel').addEventListener('click', async () => {
+      if (!confirm('¿Quitar la miniatura?')) return;
+      const old = miniPath(curso.imagen_url);
+      const { error } = await supabase.from('cursos').update({ imagen_url: null }).eq('id', cursoId);
+      if (error) return toast('Error: ' + error.message, true);
+      if (old) await supabase.storage.from(MINI_BUCKET).remove([old]);
+      curso.imagen_url = null; pintarMini(); toast('Miniatura quitada.');
+    });
+
+    async function cargar() {
+      const { data, error } = await supabase.from('curso_bloques').select('*').eq('curso_id', cursoId)
+        .order('orden', { ascending: true }).order('created_at', { ascending: true });
+      if (error) {
+        $('listWrap').innerHTML = '<div class="alert alert--error visible">No se ha podido cargar el contenido: ' + esc(error.message) + '<br>¿Has ejecutado el archivo supabase/curso_bloques.sql en Supabase?</div>';
+        return;
+      }
+      bloques = data || [];
+      render();
+    }
+
+    // ---------- Pintar la lista ----------
+    function resumen(b) {
+      if (b.tipo === 'video') return b.url || '';
+      if (b.tipo === 'archivo') return b.archivo_nombre || b.url || '';
+      if (b.tipo === 'enlace') return b.url || '';
+      return b.contenido || '';
+    }
+    function blockLi(b) {
+      const off = !b.visible;
+      const isSec = b.tipo === 'seccion';
+      return `<div class="blk blk--${b.tipo}${off ? ' is-hidden' : ''}">
+          <button type="button" class="grip" aria-label="Mover. Arrástralo, o usa las flechas arriba y abajo del teclado" title="Arrastra para mover">${GRIP_SVG}</button>
+          <div class="blk__main">
+            <div><span class="blk__tag">${TIPOS[b.tipo].label}</span><span class="blk__title">${esc(b.titulo || (b.tipo === 'texto' ? 'Texto' : 'Sin título'))}</span>${off ? '<span class="blk__off">Oculto</span>' : ''}</div>
+            ${resumen(b) ? `<div class="blk__sub">${esc(resumen(b))}</div>` : ''}
+          </div>
+          <div class="blk__actions">
+            <button class="ib" data-a="edit">Editar</button>
+            <button class="ib" data-a="vis">${off ? 'Mostrar' : 'Ocultar'}</button>
+            <button class="ib ib--danger" data-a="del">Borrar</button>
+          </div></div>`;
+    }
+    function render() {
+      const wrap = $('listWrap');
+      if (!bloques.length) {
+        wrap.innerHTML = '<p class="ed-empty">Este curso aún está vacío. Empieza con uno de los botones de arriba, por ejemplo <strong>+ Vídeo</strong>.</p>';
+        return;
+      }
+      const intro = []; const grupos = [];
+      bloques.forEach(b => {
+        if (b.tipo === 'seccion') grupos.push({ head: b, items: [] });
+        else if (grupos.length) grupos[grupos.length - 1].items.push(b);
+        else intro.push(b);
+      });
+      const li = (b, cls) => `<li data-item data-id="${b.id}" class="${cls}">${blockLi(b)}</li>`;
+      wrap.innerHTML =
+        `<ul class="ed-list ed-intro" data-sort="bloques">${intro.map(b => li(b, 'ed-row')).join('')}</ul>` +
+        `<ol class="ed-list ed-groups" data-sort="secciones">${grupos.map(g =>
+          `<li data-item data-id="${g.head.id}" class="grp">${blockLi(g.head)}<ul class="ed-list ed-kids" data-sort="bloques">${g.items.map(b => li(b, 'ed-row')).join('')}</ul></li>`
+        ).join('')}</ol>`;
+    }
+
+    // Tras arrastrar: se lee el orden que ha quedado en pantalla y se guarda
+    function ordenDesdePantalla() {
+      const ids = [];
+      $('listWrap').querySelectorAll('ul.ed-intro > li[data-item]').forEach(l => ids.push(l.dataset.id));
+      $('listWrap').querySelectorAll('ol.ed-groups > li.grp').forEach(g => {
+        ids.push(g.dataset.id);
+        g.querySelectorAll(':scope > ul > li[data-item]').forEach(l => ids.push(l.dataset.id));
+      });
+      const mapa = new Map(bloques.map(b => [b.id, b]));
+      const nuevo = ids.map(id => mapa.get(id)).filter(Boolean);
+      if (nuevo.length === bloques.length) { bloques = nuevo; guardarOrden(); }
+    }
+    makeSortable($('listWrap'), { onEnd: ordenDesdePantalla });
+
+    $('listWrap').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-a]');
+      if (!btn) return;
+      const id = btn.closest('[data-id]').dataset.id;
+      const a = btn.dataset.a;
+      if (a === 'edit') abrir(null, id);
+      else if (a === 'vis') alternarVisible(id);
+      else if (a === 'del') borrar(id);
+    });
+
+    // ---------- Orden ----------
+    async function guardarOrden() {
+      const cambios = [];
+      bloques.forEach((b, i) => {
+        if (b.orden !== i + 1) { b.orden = i + 1; cambios.push(b); }
+      });
+      const res = await Promise.all(cambios.map(b => supabase.from('curso_bloques').update({ orden: b.orden }).eq('id', b.id)));
+      if (res.some(r => r.error)) toast('No se ha podido guardar el orden. Recarga la página.', true);
+    }
+    // Una sección se mueve junto con todo lo que tiene debajo
+    function grupo(i) {
+      let j = i + 1;
+      while (j < bloques.length && bloques[j].tipo !== 'seccion') j++;
+      return [i, j];
+    }
+    async function alternarVisible(id) {
+      const b = bloques.find(x => x.id === id);
+      const { error } = await supabase.from('curso_bloques').update({ visible: !b.visible }).eq('id', id);
+      if (error) { toast('Error: ' + error.message, true); return; }
+      b.visible = !b.visible;
+      render();
+      toast(b.visible ? 'Ahora lo ven las alumnas.' : 'Oculto: las alumnas no lo ven.');
+    }
+
+    async function borrar(id) {
+      const b = bloques.find(x => x.id === id);
+      const extra = b.tipo === 'seccion' ? '\n(Solo se borra el título de la sección; lo que hay debajo se queda.)' : '';
+      if (!confirm('¿Borrar "' + (b.titulo || TIPOS[b.tipo].label) + '"?' + extra + '\nNo se puede deshacer.')) return;
+      if (b.archivo_path) await supabase.storage.from(BUCKET).remove([b.archivo_path]);
+      const { error } = await supabase.from('curso_bloques').delete().eq('id', id);
+      if (error) { toast('Error: ' + error.message, true); return; }
+      bloques = bloques.filter(x => x.id !== id);
+      render();
+      await guardarOrden();
+      toast('Borrado.');
+    }
+
+    // ---------- Añadir / editar ----------
+    document.querySelectorAll('.ed-add').forEach(btn => btn.addEventListener('click', () => abrir(btn.dataset.t, null)));
+
+    function opcionesPosicion() {
+      const o = ['<option value="end">Al final</option>', '<option value="start">Al principio</option>'];
+      bloques.forEach(b => { if (b.tipo === 'seccion') o.push(`<option value="sec:${b.id}">Al final de la sección «${esc(b.titulo || 'sin título')}»</option>`); });
+      return o.join('');
+    }
+    function abrir(tipo, editId) {
+      editing = editId ? bloques.find(b => b.id === editId) : null;
+      newTipo = editing ? editing.tipo : tipo;
+      const t = TIPOS[newTipo];
+      $('dlgTitle').textContent = editing ? 'Editar ' + t.label.toLowerCase() : t.add;
+      $('dlgHint').textContent = t.hint;
+      $('lTitulo').textContent = t.tituloLbl;
+      $('lCont').textContent = t.contLbl;
+      $('bTitulo').required = newTipo !== 'texto';
+      $('bCont').required = newTipo === 'texto';
+      $('fUrl').hidden = !(newTipo === 'video' || newTipo === 'enlace');
+      $('bUrl').required = !$('fUrl').hidden;
+      $('lUrl').textContent = newTipo === 'video' ? 'Enlace de YouTube' : 'Dirección web';
+      $('bUrl').placeholder = newTipo === 'video' ? 'https://youtu.be/XXXXXXXXXXX' : 'https://';
+      $('sUrl').textContent = newTipo === 'video' ? 'Copia la dirección del vídeo desde YouTube y pégala aquí.' : '';
+      $('fFile').hidden = newTipo !== 'archivo';
+      $('bFile').required = newTipo === 'archivo' && !editing;
+      $('sFile').textContent = editing && editing.archivo_nombre ? 'Archivo actual: ' + editing.archivo_nombre + '. Déjalo vacío para mantenerlo, o elige otro para cambiarlo.' : 'PDF, imagen, Word, Excel o zip. Máximo 50 MB.';
+      $('bTitulo').value = editing?.titulo || '';
+      $('bUrl').value = (newTipo === 'video' || newTipo === 'enlace') ? (editing?.url || '') : '';
+      $('bCont').value = editing?.contenido || '';
+      $('bFile').value = '';
+      $('fPos').hidden = !!editing;
+      $('bPos').innerHTML = opcionesPosicion();
+      $('dlgErr').classList.remove('visible');
+      $('dlgSave').disabled = false; $('dlgSave').textContent = 'Guardar';
+      $('dlg').showModal();
+      $('bTitulo').focus();
+    }
+    $('dlgCancel').addEventListener('click', () => $('dlg').close());
+
+    function dlgError(msg) { $('dlgErr').textContent = msg; $('dlgErr').classList.add('visible'); }
+
+    $('blkForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      $('dlgErr').classList.remove('visible');
+      const titulo = $('bTitulo').value.trim() || null;
+      const contenido = $('bCont').value.trim() || null;
+      let url = null;
+      if (newTipo === 'video') {
+        url = $('bUrl').value.trim();
+        if (!ytId(url)) return dlgError('Ese enlace no parece de YouTube. Prueba a copiarlo de nuevo desde YouTube.');
+      } else if (newTipo === 'enlace') {
+        url = $('bUrl').value.trim();
+        if (!/^https?:\/\//i.test(url)) return dlgError('El enlace debe empezar por https://');
+      }
+      const file = $('bFile').files[0];
+      if (file && file.size > MAX_BYTES) return dlgError('El archivo pesa más de 50 MB. Comprímelo o sube uno más pequeño.');
+
+      $('dlgSave').disabled = true; $('dlgSave').textContent = file ? 'Subiendo archivo...' : 'Guardando...';
+      try {
+        const campos = { titulo, contenido };
+        if (url !== null) campos.url = url;
+        if (newTipo === 'archivo' && file) {
+          const path = cursoId + '/' + crypto.randomUUID() + '-' + safeName(file.name);
+          const up = await supabase.storage.from(BUCKET).upload(path, file, { contentType: file.type || undefined });
+          if (up.error) throw up.error;
+          if (editing?.archivo_path) await supabase.storage.from(BUCKET).remove([editing.archivo_path]);
+          campos.archivo_path = path;
+          campos.archivo_nombre = file.name;
+          campos.url = null;
+        }
+        if (editing) {
+          const { error } = await supabase.from('curso_bloques').update(campos).eq('id', editing.id);
+          if (error) throw error;
+          Object.assign(editing, campos);
+          toast('Cambios guardados.');
+        } else {
+          const { data, error } = await supabase.from('curso_bloques')
+            .insert({ curso_id: cursoId, tipo: newTipo, orden: bloques.length + 1, visible: true, ...campos })
+            .select().single();
+          if (error) throw error;
+          const pos = $('bPos').value;
+          let idx = bloques.length;
+          if (pos === 'start') idx = 0;
+          else if (pos.startsWith('sec:')) {
+            const s = bloques.findIndex(b => b.id === pos.slice(4));
+            idx = grupo(s)[1];
+          }
+          bloques.splice(idx, 0, data);
+          await guardarOrden();
+          toast('Añadido al curso.');
+        }
+        $('dlg').close();
+        render();
+      } catch (err) {
+        dlgError('No se ha podido guardar: ' + (err.message || err));
+        $('dlgSave').disabled = false; $('dlgSave').textContent = 'Guardar';
+      }
+    });
+
+    // ---------- Datos del curso ----------
+    $('datosForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nombre = $('cNombre').value.trim();
+      const descripcion = $('cDesc').value.trim() || null;
+      $('datosBtn').disabled = true;
+      const { error } = await supabase.from('cursos').update({ nombre, descripcion }).eq('id', cursoId);
+      $('datosBtn').disabled = false;
+      if (error) { toast('Error: ' + error.message, true); return; }
+      $('edTitle').textContent = nombre;
+      toast('Datos guardados.');
+    });
+
+    $('logoutBtn').addEventListener('click', async () => { await supabase.auth.signOut(); location.href = '../portal/index.html'; });
+    init();
+  </script>
+</body>
+</html>
