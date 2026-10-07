@@ -117,57 +117,41 @@
   }
   document.querySelectorAll('[data-programme]').forEach(renderProgramme);
 
-  /* ---------- Tienda ---------- */
-  function productCard(p) {
-    var msg = 'Hola Cristina, me interesa: ' + p.nombre + '. ¿Me cuentas más?';
-    return '<li data-kind="' + esc(p.tipo) + '"><article class="product">' +
-      '<div class="product__img"><img src="' + esc(p.imagen) + '" alt="' + esc(p.nombre) + '" loading="lazy" width="640" height="640"></div>' +
-      '<div class="product__body">' +
-      '<h3 class="product__name">' + esc(p.nombre) + '</h3>' +
-      '<p class="product__desc">' + esc(p.descripcion) + '</p>' +
-      '<div class="product__foot"><span class="product__price"><span class="product__kind">' + esc(p.tipo) + '</span>' + (p.precio ? '<strong>' + esc(p.precio) + '</strong>' : 'Pregúntame el precio') + '</span>' +
-      '<a class="btn btn--small" href="' + waLink(msg) + '" target="_blank" rel="noopener" aria-label="Lo quiero: ' + esc(p.nombre) + '">Lo quiero<span class="btn__dot">' + icon('wa') + '</span></a></div>' +
-      '</div></article></li>';
+  /* ---------- Inspiraciones (creaciones de Cristina, sin precios) ---------- */
+  function inspoCard(p) {
+    return '<li><figure class="inspo__item">' +
+      '<div class="inspo__img"><img src="' + esc(p.imagen) + '" alt="' + esc(p.nombre) + '" loading="lazy" width="640" height="640"></div>' +
+      '<figcaption><strong>' + esc(p.nombre) + '</strong>' + (p.descripcion ? '<span>' + esc(p.descripcion) + '</span>' : '') + '</figcaption>' +
+      '</figure></li>';
   }
-  function fmtPrecio(v) {
-    if (v == null || v === '') return '';
-    if (typeof v === 'number') return v.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' €';
-    return v;
-  }
-  // Productos desde Supabase (los gestiona Cristina en el panel). Si no hay o falla, se usan los de data.js.
-  function loadProductos() {
-    var cfg = D.supabase, fallback = D.productos || [];
+  // Creaciones desde Supabase (las gestiona Cristina en el panel). Si no hay o falla, se usan las de data.js.
+  function loadInspiraciones() {
+    var cfg = D.supabase, fallback = D.inspiraciones || [];
     if (!cfg || !window.fetch) return Promise.resolve(fallback);
     var ctl = window.AbortController ? new AbortController() : null;
     var to = ctl ? setTimeout(function () { ctl.abort(); }, 3500) : null;
-    return fetch(cfg.url + '/rest/v1/productos?select=*&visible=eq.true&order=orden.asc,created_at.asc', {
+    return fetch(cfg.url + '/rest/v1/productos?select=nombre,descripcion,imagen_url&visible=eq.true&order=orden.asc,created_at.asc', {
       headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key }, signal: ctl ? ctl.signal : undefined
     }).then(function (r) { return r.ok ? r.json() : []; })
       .then(function (rows) {
         if (to) clearTimeout(to);
         if (!Array.isArray(rows) || !rows.length) return fallback;
-        return rows.map(function (p) { return { nombre: p.nombre, tipo: p.tipo, descripcion: p.descripcion || '', precio: fmtPrecio(p.precio), imagen: p.imagen_url || '' }; });
+        return rows.map(function (p) { return { nombre: p.nombre, descripcion: p.descripcion || '', imagen: p.imagen_url || '' }; });
       })
       .catch(function () { return fallback; });
   }
-  var shopEls = document.querySelectorAll('[data-shop]');
-  if (shopEls.length) {
-    loadProductos().then(function (list) {
-      shopEls.forEach(function (el) {
+  var inspoEls = document.querySelectorAll('[data-inspo]');
+  if (inspoEls.length) {
+    loadInspiraciones().then(function (list) {
+      inspoEls.forEach(function (el) {
         var limit = parseInt(el.getAttribute('data-limit') || '99', 10);
-        el.innerHTML = list.slice(0, limit).map(productCard).join('');
-      });
-    });
-  }
-  var filterBox = document.querySelector('[data-filters]');
-  if (filterBox) {
-    filterBox.addEventListener('click', function (e) {
-      var b = e.target.closest('.chip');
-      if (!b) return;
-      filterBox.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c === b)); });
-      var k = b.getAttribute('data-kind');
-      document.querySelectorAll('[data-shop] > li').forEach(function (li) {
-        li.hidden = !!k && li.getAttribute('data-kind') !== k;
+        el.innerHTML = list.slice(0, limit).map(inspoCard).join('');
+        // Las fotos llegan después de cargar la página: se revelan al llegar a la pantalla, como el resto.
+        if (motionOn) {
+          var g = window.gsap, kids = Array.prototype.slice.call(el.children);
+          g.set(kids, { y: 24, opacity: 0 });
+          window.ScrollTrigger.batch(kids, { start: 'top 92%', once: true, onEnter: function (els) { g.to(els, { y: 0, opacity: 1, duration: .9, ease: 'expo.out', stagger: .07, clearProps: 'transform,opacity' }); } });
+        }
       });
     });
   }
@@ -242,23 +226,73 @@
     return new Intl.NumberFormat('es-ES', { useGrouping: 'always', minimumFractionDigits: dec, maximumFractionDigits: dec }).format(v) + (it.sufijo || '');
   }
   var statsEl = document.querySelector('[data-stats]');
+  var totalEl = document.querySelector('[data-stats-total]');
   var cifras = D.cifras;
+  var motionOn = false;
+  function statsTotal() {
+    var total = cifras.items.reduce(function (s, it) { return s + (it.suma ? it.valor : 0); }, 0);
+    return Math.floor(total / 100) * 100;
+  }
+  function countText(el, n) {
+    var item = el.hasAttribute('data-i') ? cifras.items[+el.getAttribute('data-i')] : null;
+    return item ? statText(item, n) : fmtNum.format(n);
+  }
+  // Cuenta desde lo que se ve ahora hasta data-count (la primera vez, desde 0).
+  function countUp(el, duration) {
+    var obj = { v: +el.getAttribute('data-shown') || 0 };
+    var to = +el.getAttribute('data-count');
+    el.setAttribute('data-counted', '');
+    if (el._tween) el._tween.kill();
+    el._tween = window.gsap.to(obj, {
+      v: to, duration: duration || 1.8, ease: 'power3.out',
+      onUpdate: function () { var n = Math.round(obj.v); el.setAttribute('data-shown', n); el.textContent = countText(el, n); }
+    });
+  }
+  function setCount(el, n) {
+    el.setAttribute('data-count', n);
+    if (!motionOn) { el.textContent = countText(el, n); return; }
+    if (el.hasAttribute('data-counted')) countUp(el, 1.2); // si aún no ha llegado a la pantalla, contará al llegar
+  }
   if (statsEl && cifras && cifras.items) {
     statsEl.innerHTML = cifras.items.map(function (it, i) {
       var ext = /^https?:/.test(it.url) ? ' target="_blank" rel="noopener"' : '';
       var logos = it.logos.map(function (src) {
         return '<img src="' + esc(src) + '" alt="" height="48" loading="lazy" />';
       }).join('');
-      var texto = '';
       return '<li data-reveal><a class="stat" href="' + esc(it.url) + '"' + ext + ' aria-label="' + esc(it.nombre) + ': ' + statText(it, it.valor) + ' ' + esc(it.etiqueta) + '">' +
-        '<span class="stat__logo" aria-hidden="true">' + logos + texto + '</span>' +
+        '<span class="stat__logo" aria-hidden="true">' + logos + '</span>' +
         '<span class="stat__num" data-count="' + it.valor + '" data-i="' + i + '">' + statText(it, it.valor) + '</span>' +
         '<span class="stat__label">' + esc(it.etiqueta) + '</span></a></li>';
     }).join('');
-    var total = cifras.items.reduce(function (s, it) { return s + (it.suma ? it.valor : 0); }, 0);
-    var rounded = Math.floor(total / 100) * 100;
-    var totalEl = document.querySelector('[data-stats-total]');
+    var rounded = statsTotal();
     if (totalEl) { totalEl.setAttribute('data-count', rounded); totalEl.setAttribute('data-final', fmtNum.format(rounded)); totalEl.textContent = fmtNum.format(rounded); }
+    loadCifras();
+  }
+  // Cifras al día desde Supabase (las cambia Cristina en el panel). Si falla, se quedan las de data.js.
+  function loadCifras() {
+    var cfg = D.supabase;
+    if (!cfg || !window.fetch) return;
+    fetch(cfg.url + '/rest/v1/cifras?select=clave,valor', { headers: { apikey: cfg.key, Authorization: 'Bearer ' + cfg.key } })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (rows) {
+        if (!Array.isArray(rows) || !rows.length) return;
+        var byKey = {};
+        rows.forEach(function (r) { byKey[r.clave] = +r.valor; });
+        cifras.items.forEach(function (it, i) {
+          if (!(it.clave in byKey) || byKey[it.clave] === it.valor) return;
+          it.valor = byKey[it.clave];
+          var el = statsEl.querySelector('[data-i="' + i + '"]');
+          if (!el) return;
+          el.closest('.stat').setAttribute('aria-label', it.nombre + ': ' + statText(it, it.valor) + ' ' + it.etiqueta);
+          setCount(el, it.valor);
+        });
+        if (totalEl) {
+          var t = statsTotal();
+          totalEl.setAttribute('data-final', fmtNum.format(t));
+          setCount(totalEl, t);
+        }
+      })
+      .catch(function () {});
   }
 
   /* ---------- Movimiento ---------- */
@@ -271,28 +305,26 @@
   var gsap = window.gsap;
   if (window.ScrollTrigger) gsap.registerPlugin(window.ScrollTrigger);
 
-  // Firma: el título se revela, la foto cae y los hilos se tiran de lado a lado.
+  // Firma: el título se revela, la foto cae sobre la mesa y las madejas se colocan una a una en la carta.
   var titleLines = gsap.utils.toArray('.hero__title .line');
-  var threads = gsap.utils.toArray('.hero__threads path');
   var tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
   if (titleLines.length) {
     gsap.set(titleLines, { clipPath: 'inset(0 0 100% 0)' });
     tl.to(titleLines, { clipPath: 'inset(0 0 0% 0)', duration: 1, stagger: .12 }, 0);
     tl.from(titleLines, { yPercent: 40, duration: 1, stagger: .12 }, 0);
   }
-  tl.fromTo('.hero__text, .hero__ctas, .channel', { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .9, stagger: .1, clearProps: 'transform,opacity' }, .45);
-  tl.fromTo('.hero__photo', { y: -70, rotation: -6, opacity: 0 }, { y: 0, rotation: 3, opacity: 1, duration: 1.3, ease: 'back.out(1.4)', clearProps: 'transform,opacity' }, .2);
-  if (threads.length) {
-    tl.fromTo(threads, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.4, stagger: .1, ease: 'power3.out' }, .3);
-  }
+  tl.fromTo('.hero__text, .hero__ctas', { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .9, stagger: .1, clearProps: 'transform,opacity' }, .4);
+  tl.fromTo('.hero__photo', { y: -60, rotation: -9, opacity: 0 }, { y: 0, rotation: -2, opacity: 1, duration: 1.2, ease: 'back.out(1.4)', clearProps: 'transform,opacity' }, .2);
+  tl.fromTo('.skeins li', { x: 48, rotation: 10, opacity: 0 }, { x: 0, rotation: 0, opacity: 1, duration: .9, stagger: .08, ease: 'back.out(1.6)', clearProps: 'transform,opacity' }, .55);
   root.classList.remove('js-motion');
 
   if (!window.ScrollTrigger) return;
   var ST = window.ScrollTrigger;
 
   gsap.utils.toArray('.section-head__skein, .page-hero__skein').forEach(function (sk) {
+    // La madeja llega rodando desde la izquierda, como si la dejaran sobre la mesa.
     gsap.from(sk, {
-      yPercent: -60, opacity: 0, duration: 1.1, ease: 'back.out(1.6)',
+      x: -60, rotation: -14, opacity: 0, duration: 1.1, ease: 'back.out(1.6)',
       scrollTrigger: { trigger: sk, start: 'top 88%', once: true }
     });
   });
@@ -303,14 +335,6 @@
     once: true,
     onEnter: function (els) { gsap.to(els, { y: 0, opacity: 1, duration: .9, ease: 'expo.out', stagger: .07, overwrite: true }); }
   });
-
-  var tag = document.querySelector('.price-tag');
-  if (tag) {
-    gsap.from(tag, {
-      rotation: -14, y: -30, opacity: 0, duration: 1.3, ease: 'elastic.out(1, .55)',
-      scrollTrigger: { trigger: tag, start: 'top 85%', once: true }
-    });
-  }
 
   var inset = document.querySelector('.story__inset');
   if (inset) {
@@ -328,17 +352,11 @@
     });
   });
 
-  // Cifras: cuentan desde cero cuando llegan a la pantalla.
+  // Cifras: cuentan desde cero cuando llegan a la pantalla (con el número que haya en ese momento).
+  motionOn = true;
   gsap.utils.toArray('[data-count]').forEach(function (el) {
-    var target = +el.getAttribute('data-count');
-    var item = cifras && cifras.items ? cifras.items[+el.getAttribute('data-i')] : null;
-    var obj = { v: 0 };
-    el.textContent = item ? statText(item, 0) : fmtNum.format(0);
-    gsap.to(obj, {
-      v: target, duration: 1.8, ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 90%', once: true },
-      onUpdate: function () { var n = Math.round(obj.v); el.textContent = item ? statText(item, n) : fmtNum.format(n); }
-    });
+    el.textContent = countText(el, 0);
+    ST.create({ trigger: el, start: 'top 90%', once: true, onEnter: function () { countUp(el); } });
   });
 
   window.addEventListener('load', function () { ST.refresh(); });

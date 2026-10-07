@@ -199,7 +199,8 @@ Cuando el usuario diga "vamos a publicar / lanzar la web / deploy", recordarle e
 - [ ] Ejecutar `supabase/extras_alumnas.sql` en Supabase (miniaturas, notas personales y panel de seguimiento).
 - [ ] Ejecutar `supabase/labores.sql` en Supabase (fotos de las labores terminadas que las alumnas envían a Cristina).
 - [ ] Ejecutar `supabase/pagos_fichas.sql` en Supabase (fichas de alumnas con datos extra, rol Comunidad Marietas y libro de pagos).
-- [ ] Ejecutar `supabase/tienda.sql` en Supabase (tienda editable desde el panel: productos, fotos, precios y orden). Después, en Admin → Tienda, pulsar "Traer los productos actuales de la web".
+- [ ] Ejecutar `supabase/tienda.sql` en Supabase (Inspiraciones editables desde el panel: fotos, nombre y orden; antes era la tienda). Después, en Admin → Inspiraciones, pulsar "Traer las creaciones actuales de la web".
+- [ ] Ejecutar `supabase/cifras.sql` en Supabase (cifras de seguidores editables desde Admin → Cifras de redes). Sin esto la portada enseña las cifras de respaldo de `js/data.js`.
 - [ ] Probar en el dominio real: login de alumna, login admin, cambio de contraseña provisional y restablecer por email.
 - [ ] Revisar HTTPS activo y pasar `/security-review` antes del deploy.
 - [ ] Opcional: ejecutar `gh auth login` una vez para que Claude pueda crear Pull Requests.

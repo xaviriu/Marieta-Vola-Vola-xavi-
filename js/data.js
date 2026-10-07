@@ -1,8 +1,8 @@
-// Contenido editable de la web. Para añadir un taller, un producto o un vídeo,
+// Contenido editable de la web. Para añadir un taller, una inspiración o un vídeo,
 // copia un bloque existente, cámbialo y guarda.
 
 window.MARIETA = {
-  // Datos públicos para leer la tienda desde Supabase (la clave anon es pública por diseño).
+  // Datos públicos para leer inspiraciones y cifras desde Supabase (la clave anon es pública por diseño).
   supabase: {
     url: 'https://iktdggvtvbvkmprjfmcx.supabase.co',
     key: 'sb_publishable_IhvUuyPNSxm5Wl_-VwRt4A_ZEB9x5WR'
@@ -18,21 +18,17 @@ window.MARIETA = {
     facebook: 'https://www.facebook.com/Lady.Bug.CR/'
   },
 
-  // Cifras reales. Actualiza el número y la fecha cuando quieras; el total se calcula solo.
-  // suma: true => cuenta para el total de seguidores. Los números se muestran tal cual, con punto de miles.
+  // Cifras de respaldo. Las de verdad las cambia Cristina en el panel de admin (Cifras de redes);
+  // estas solo se ven si Supabase no responde. El total se calcula solo.
+  // clave: la que se usa en la tabla cifras. suma: true => cuenta para el total de seguidores.
   cifras: {
     fecha: 'octubre de 2026',
     items: [
-      { logos: ['images/web/logos/facebook.svg'], nombre: 'Facebook', valor: 4927, etiqueta: 'seguidores en Facebook', url: 'https://www.facebook.com/Lady.Bug.CR/', color: '--t699', suma: true },
-      { logos: ['images/web/logos/instagram-icono.svg', 'images/web/logos/instagram-texto.svg'], nombre: 'Instagram', valor: 4677, etiqueta: 'seguidores en Instagram', url: 'https://www.instagram.com/marieta.vola.vola.bordado/', color: '--t321', suma: true },
-      { logos: ['images/web/logos/youtube.svg'], nombre: 'YouTube', valor: 1900, etiqueta: 'suscriptores en YouTube', url: 'https://www.youtube.com/@marieta.vola.vola.Bordado', color: '--t3328', suma: true },
-      { logos: ['images/web/comunidad-logo-256.png'], nombre: 'Comunidad Marieta', valor: 95, etiqueta: 'miembros', url: 'comunidad.html', color: '--t368' }
+      { clave: 'facebook', logos: ['images/web/logos/facebook.svg'], nombre: 'Facebook', valor: 4927, etiqueta: 'seguidores en Facebook', url: 'https://www.facebook.com/Lady.Bug.CR/', color: '--t699', suma: true },
+      { clave: 'instagram', logos: ['images/web/logos/instagram-icono.svg', 'images/web/logos/instagram-texto.svg'], nombre: 'Instagram', valor: 4677, etiqueta: 'seguidores en Instagram', url: 'https://www.instagram.com/marieta.vola.vola.bordado/', color: '--t321', suma: true },
+      { clave: 'youtube', logos: ['images/web/logos/youtube.svg'], nombre: 'YouTube', valor: 1900, etiqueta: 'suscriptores en YouTube', url: 'https://www.youtube.com/@marieta.vola.vola.Bordado', color: '--t3328', suma: true },
+      { clave: 'comunidad', logos: ['images/web/comunidad-logo-256.png'], nombre: 'Comunidad Marieta', valor: 95, etiqueta: 'miembros', url: 'comunidad.html', color: '--t368' }
     ]
-  },
-
-  comunidad: {
-    precio: '20 €',
-    periodo: 'al mes'
   },
 
   // Talleres presenciales. fecha: AAAA-MM-DD. estado: 'abierto' o 'completo'.
@@ -70,66 +66,48 @@ window.MARIETA = {
     }
   ],
 
-  // Tienda de respaldo. Los productos reales se gestionan desde el panel de admin (pestaña Tienda);
-  // estos solo se muestran si la tienda de Supabase está vacía o no responde.
-  // precio: escribe por ejemplo '35 €' o deja null para "Pregúntame el precio".
-  // tipo: 'Por encargo' o 'Hecho a mano'.
-  productos: [
+  // Inspiraciones de respaldo. Las de verdad se gestionan desde el panel de admin (Inspiraciones);
+  // estas solo se muestran si Supabase está vacío o no responde.
+  inspiraciones: [
     {
       nombre: 'Bastidor de nacimiento',
-      tipo: 'Por encargo',
       descripcion: 'Con el nombre, la fecha, la hora y el peso del bebé.',
-      imagen: 'images/web/bastidor-nacimiento-640.webp',
-      precio: null
+      imagen: 'images/web/bastidor-nacimiento-640.webp'
     },
     {
       nombre: 'Inicial con flores',
-      tipo: 'Por encargo',
       descripcion: 'La letra que tú quieras, bordada con flores en bastidor.',
-      imagen: 'images/web/inicial-floral-640.webp',
-      precio: null
+      imagen: 'images/web/inicial-floral-640.webp'
     },
     {
       nombre: 'Chaqueta vaquera bordada',
-      tipo: 'Por encargo',
       descripcion: 'Personalizo tu chaqueta con los motivos que elijas.',
-      imagen: 'images/web/chaqueta-vaquera-640.webp',
-      precio: null
+      imagen: 'images/web/chaqueta-vaquera-640.webp'
     },
     {
       nombre: 'Bastidor «Magia eres tú»',
-      tipo: 'Hecho a mano',
       descripcion: 'Bastidor pintado y bordado a mano.',
-      imagen: 'images/web/bastidor-magia-640.webp',
-      precio: null
+      imagen: 'images/web/bastidor-magia-640.webp'
     },
     {
       nombre: 'Organizadores casita',
-      tipo: 'Hecho a mano',
       descripcion: 'Cestitas de tela con forma de casa para tus lápices y tijeras.',
-      imagen: 'images/web/organizadores-casitas-640.webp',
-      precio: null
+      imagen: 'images/web/organizadores-casitas-640.webp'
     },
     {
       nombre: 'Gorro y guantes bordados',
-      tipo: 'Hecho a mano',
       descripcion: 'Flores bordadas a mano sobre punto.',
-      imagen: 'images/web/gorro-guantes-640.webp',
-      precio: null
+      imagen: 'images/web/gorro-guantes-640.webp'
     },
     {
       nombre: 'Soporte para el móvil',
-      tipo: 'Hecho a mano',
       descripcion: 'Cojín de tela para apoyar el móvil.',
-      imagen: 'images/web/soporte-movil-640.webp',
-      precio: null
+      imagen: 'images/web/soporte-movil-640.webp'
     },
     {
       nombre: 'Delantal de patchwork',
-      tipo: 'Hecho a mano',
       descripcion: 'Delantal de cuadros con bolsillos de patchwork.',
-      imagen: 'images/web/delantal-patchwork-640.webp',
-      precio: null
+      imagen: 'images/web/delantal-patchwork-640.webp'
     }
   ],
 

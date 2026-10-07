@@ -1,13 +1,12 @@
-// Panel "Tienda" del admin: Cristina controla qué se ve en la tienda de la web, con qué foto, texto y precio.
-// Usa la tabla productos y el almacén "tienda" de supabase/tienda.sql.
+// Panel "Inspiraciones" del admin: Cristina añade, quita y ordena sus creaciones para que las alumnas cojan ideas.
+// Sin precios: solo foto, nombre y una frase. Usa la tabla productos y el almacén "tienda" de supabase/tienda.sql
+// (se llaman así porque antes era una tienda; las columnas tipo y precio ya no se usan).
 (function () {
   var BUCKET = 'tienda';
-  var TIPOS = ['Por encargo', 'Hecho a mano'];
   var S = { items: [], loaded: false, view: 'lista', editing: null, file: null };
 
   function $(id) { return document.getElementById(id); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
-  function eur(n) { return (+n).toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' €'; }
   function img(u) { return !u ? '' : (/^https?:/.test(u) ? u : '../' + u); }
   function safeName(n) { return n.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/-+/g, '-').slice(-60); }
   function toast(msg, err) {
@@ -21,7 +20,7 @@
     if (!S.loaded) box.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando...</div>';
     var r = await supabase.from('productos').select('*').order('orden', { ascending: true }).order('created_at', { ascending: true });
     if (r.error) {
-      box.innerHTML = '<div class="alert alert--error visible">No se ha podido cargar la tienda: ' + esc(r.error.message) + '<br>¿Has ejecutado el archivo supabase/tienda.sql en Supabase?</div>';
+      box.innerHTML = '<div class="alert alert--error visible">No se han podido cargar las inspiraciones: ' + esc(r.error.message) + '<br>¿Has ejecutado el archivo supabase/tienda.sql en Supabase?</div>';
       return;
     }
     S.items = r.data || []; S.loaded = true; render();
@@ -32,45 +31,43 @@
       '<button type="button" class="grip" aria-label="Mover. Arrástralo, o usa las flechas arriba y abajo del teclado" title="Arrastra para mover">' + window.GRIP_SVG + '</button>' +
       '<div class="td-thumb">' + (p.imagen_url ? '<img src="' + esc(img(p.imagen_url)) + '" alt="">' : '<span>Sin foto</span>') + '</div>' +
       '<div class="td-main"><strong>' + esc(p.nombre) + '</strong>' +
-      '<span class="td-meta">' + esc(p.tipo) + ' · ' + (p.precio != null ? '<b>' + eur(p.precio) + '</b>' : 'Sin precio ("Pregúntame el precio")') + (p.visible ? '' : ' · <b class="td-off">Oculto</b>') + '</span>' +
+      (p.visible ? '' : '<span class="td-meta"><b class="td-off">Oculto</b></span>') +
       (p.descripcion ? '<span class="td-desc">' + esc(p.descripcion) + '</span>' : '') + '</div>' +
       '<div class="td-act"><button type="button" class="ib" data-a="edit">Editar</button><button type="button" class="ib" data-a="vis">' + (p.visible ? 'Ocultar' : 'Mostrar') + '</button><button type="button" class="ib ib--danger" data-a="del">Borrar</button></div></li>';
   }
 
   function render() {
     var box = $('tdBody');
-    var tabs = '<div class="td-tabs" role="tablist"><button type="button" role="tab" class="td-tab' + (S.view === 'lista' ? ' active' : '') + '" data-v="lista">Productos</button>' +
+    var tabs = '<div class="td-tabs" role="tablist"><button type="button" role="tab" class="td-tab' + (S.view === 'lista' ? ' active' : '') + '" data-v="lista">Creaciones</button>' +
       '<button type="button" role="tab" class="td-tab' + (S.view === 'publico' ? ' active' : '') + '" data-v="publico">Ver como público</button></div>';
     if (S.view === 'publico') {
-      box.innerHTML = tabs + '<p class="pg-muted" style="margin-bottom:10px">Así ven la tienda los visitantes de la web ahora mismo. Los productos ocultos no aparecen.</p>' +
-        '<p style="margin-bottom:12px"><button type="button" class="btn btn-sm btn--outline" id="tdReloadPub">Recargar</button> <a class="btn btn-sm btn--outline" href="../tienda.html" target="_blank" rel="noopener">Abrir en otra pestaña</a></p>' +
-        '<iframe id="tdFrame" class="td-frame" src="../tienda.html" title="Vista pública de la tienda"></iframe>';
+      box.innerHTML = tabs + '<p class="pg-muted" style="margin-bottom:10px">Así ven Inspiraciones los visitantes de la web ahora mismo. Las creaciones ocultas no aparecen.</p>' +
+        '<p style="margin-bottom:12px"><button type="button" class="btn btn-sm btn--outline" id="tdReloadPub">Recargar</button> <a class="btn btn-sm btn--outline" href="../inspiraciones.html" target="_blank" rel="noopener">Abrir en otra pestaña</a></p>' +
+        '<iframe id="tdFrame" class="td-frame" src="../inspiraciones.html" title="Vista pública de Inspiraciones"></iframe>';
       return;
     }
     var body;
     if (!S.items.length) {
-      body = '<div class="td-empty"><p><strong>La tienda todavía no se gestiona desde aquí.</strong> Ahora mismo la web enseña los productos de siempre.</p>' +
-        '<p>Pulsa el botón para traer esos productos aquí y poder cambiarles la foto, el texto, el precio y el orden, o añadir otros nuevos.</p>' +
-        '<button type="button" class="btn btn--primary" id="tdImport">Traer los productos actuales de la web</button></div>';
+      body = '<div class="td-empty"><p><strong>Las inspiraciones todavía no se gestionan desde aquí.</strong> Ahora mismo la web enseña las creaciones de siempre.</p>' +
+        '<p>Pulsa el botón para traerlas aquí y poder cambiarles la foto, el texto y el orden, o añadir otras nuevas.</p>' +
+        '<button type="button" class="btn btn--primary" id="tdImport">Traer las creaciones actuales de la web</button></div>';
     } else {
-      body = '<p class="pg-muted" style="margin-bottom:12px">Arrastra cada producto por el asa de la izquierda para cambiar el orden en que salen en la web. Lo que guardas aquí se publica al momento.</p>' +
+      body = '<p class="pg-muted" style="margin-bottom:12px">Arrastra cada creación por el asa de la izquierda para cambiar el orden en que salen en la web. Lo que guardas aquí se publica al momento.</p>' +
         '<ul class="td-list" data-sort="productos">' + S.items.map(row).join('') + '</ul>';
     }
-    box.innerHTML = tabs + '<div class="pg-row" style="margin:0 0 16px"><button type="button" class="btn btn--primary" id="tdAdd">+ Añadir producto</button></div>' + body;
+    box.innerHTML = tabs + '<div class="pg-row" style="margin:0 0 16px"><button type="button" class="btn btn--primary" id="tdAdd">+ Añadir creación</button></div>' + body;
   }
 
   function dlg() {
     var d = $('tdDlg'); if (d) return d;
     d = document.createElement('dialog'); d.id = 'tdDlg'; d.className = 'ficha-dlg';
-    d.innerHTML = '<form id="tdForm"><h3 id="tdTitle">Producto</h3>' +
+    d.innerHTML = '<form id="tdForm"><h3 id="tdTitle">Creación</h3>' +
       '<div class="alert alert--error" id="tdErr" role="alert"></div>' +
       '<div class="pg-grid"><label class="pg-wide">Nombre<input name="nombre" required maxlength="120" placeholder="Ej: Bastidor de nacimiento"></label>' +
-      '<label>Tipo<select name="tipo">' + TIPOS.map(function (t) { return '<option>' + t + '</option>'; }).join('') + '</select></label>' +
-      '<label>Precio (€)<input name="precio" type="number" step="0.01" min="0" placeholder="35"><small style="font-weight:400;color:var(--texto-suave)">Vacío = "Pregúntame el precio"</small></label>' +
-      '<label class="pg-wide">Descripción<textarea name="descripcion" rows="3" maxlength="400" placeholder="Qué es, de qué material, personalizable..."></textarea></label>' +
+      '<label class="pg-wide">Una frase (opcional)<textarea name="descripcion" rows="2" maxlength="300" placeholder="Ej: Con el nombre, la fecha y el peso del bebé."></textarea></label>' +
       '<div class="pg-wide"><span style="font-weight:700;font-size:.9375rem">Foto</span><div class="td-photo"><div class="td-thumb td-thumb--big" id="tdPrev"><span>Sin foto</span></div>' +
       '<div><label class="btn btn--outline" for="tdFile" style="cursor:pointer">Elegir foto</label><input type="file" id="tdFile" accept="image/*" hidden><p class="pg-muted">Mejor cuadrada (por ejemplo 1000 × 1000) y de menos de 5 MB.</p></div></div></div>' +
-      '<label class="pg-check pg-wide"><input type="checkbox" name="visible" checked> Mostrar este producto en la web</label></div>' +
+      '<label class="pg-check pg-wide"><input type="checkbox" name="visible" checked> Mostrar esta creación en la web</label></div>' +
       '<div class="pg-row"><button type="submit" class="btn btn--primary" id="tdSave">Guardar</button><button type="button" class="btn btn--outline" id="tdCancel">Cancelar</button></div></form>';
     document.body.appendChild(d);
     $('tdCancel').addEventListener('click', function () { d.close(); });
@@ -87,9 +84,8 @@
   function open(id) {
     var d = dlg(), fm = $('tdForm'), p = id ? S.items.find(function (x) { return x.id === id; }) : null;
     S.editing = p; S.file = null; $('tdFile').value = '';
-    $('tdTitle').textContent = p ? 'Editar producto' : 'Añadir producto';
-    fm.nombre.value = p ? p.nombre : ''; fm.tipo.value = p ? p.tipo : TIPOS[0];
-    fm.precio.value = p && p.precio != null ? p.precio : ''; fm.descripcion.value = p ? (p.descripcion || '') : '';
+    $('tdTitle').textContent = p ? 'Editar creación' : 'Añadir creación';
+    fm.nombre.value = p ? p.nombre : ''; fm.descripcion.value = p ? (p.descripcion || '') : '';
     fm.visible.checked = p ? p.visible : true;
     $('tdPrev').innerHTML = p && p.imagen_url ? '<img src="' + esc(img(p.imagen_url)) + '" alt="">' : '<span>Sin foto</span>';
     $('tdErr').classList.remove('visible'); $('tdSave').disabled = false; $('tdSave').textContent = 'Guardar';
@@ -99,8 +95,7 @@
   async function save(e) {
     e.preventDefault();
     var fm = e.target, btn = $('tdSave');
-    var rec = { nombre: fm.nombre.value.trim(), tipo: fm.tipo.value, descripcion: fm.descripcion.value.trim() || null,
-      precio: fm.precio.value === '' ? null : parseFloat(fm.precio.value), visible: fm.visible.checked };
+    var rec = { nombre: fm.nombre.value.trim(), descripcion: fm.descripcion.value.trim() || null, visible: fm.visible.checked };
     if (!rec.nombre) return;
     btn.disabled = true; btn.textContent = S.file ? 'Subiendo foto...' : 'Guardando...';
     try {
@@ -141,12 +136,12 @@
   }
 
   async function importCurrent() {
-    var cur = (window.MARIETA && window.MARIETA.productos) || [];
-    if (!cur.length) { toast('No hay productos que traer.', true); return; }
-    var rows = cur.map(function (p, i) { return { nombre: p.nombre, tipo: p.tipo, descripcion: p.descripcion || null, precio: null, imagen_url: p.imagen, orden: i + 1, visible: true }; });
+    var cur = (window.MARIETA && window.MARIETA.inspiraciones) || [];
+    if (!cur.length) { toast('No hay creaciones que traer.', true); return; }
+    var rows = cur.map(function (p, i) { return { nombre: p.nombre, descripcion: p.descripcion || null, imagen_url: p.imagen, orden: i + 1, visible: true }; });
     var r = await supabase.from('productos').insert(rows);
     if (r.error) { toast('Error: ' + r.error.message, true); return; }
-    await load(); toast('Productos traídos. Ya puedes editarlos.');
+    await load(); toast('Creaciones traídas. Ya puedes editarlas.');
   }
 
   document.addEventListener('click', async function (e) {
@@ -164,7 +159,7 @@
       if (r.error) return toast('Error: ' + r.error.message, true);
       p.visible = !p.visible; render(); toast(p.visible ? 'Ahora se ve en la web.' : 'Oculto: ya no se ve en la web.');
     } else if (b.dataset.a === 'del') {
-      if (!confirm('¿Borrar "' + p.nombre + '" de la tienda? No se puede deshacer.')) return;
+      if (!confirm('¿Borrar "' + p.nombre + '" de Inspiraciones? No se puede deshacer.')) return;
       var d = await supabase.from('productos').delete().eq('id', p.id);
       if (d.error) return toast('Error: ' + d.error.message, true);
       if (p.imagen_url && p.imagen_url.indexOf('/' + BUCKET + '/') >= 0) await supabase.storage.from(BUCKET).remove([decodeURIComponent(p.imagen_url.split('/' + BUCKET + '/')[1].split('?')[0])]);
