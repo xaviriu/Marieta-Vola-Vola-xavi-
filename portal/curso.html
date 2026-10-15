@@ -6,8 +6,8 @@
   <meta name="robots" content="noindex" />
   <title>Curso — Marieta Vola Vola</title>
   <link rel="icon" href="../images/web/comunidad-logo-256.png" type="image/png" />
-  <link rel="stylesheet" href="../css/fonts.css" />
-  <link rel="stylesheet" href="../css/app.css" />
+  <link rel="stylesheet" href="../css/fonts.css?v=20261015" />
+  <link rel="stylesheet" href="../css/app.css?v=20261015" />
   <style>
     [hidden] { display: none !important; }
     .cv { max-width: 860px; margin: 0 auto; padding: 24px 16px 96px; }
@@ -28,6 +28,14 @@
     details.sec[open] .sec__chev { transform: rotate(180deg); }
     .sec__desc { padding: 0 20px 4px; color: var(--texto-medio); font-size: 1.125rem; white-space: pre-line; }
     .sec__body { display: grid; gap: 16px; padding: 16px 20px 24px; }
+    .sec--lock { background: var(--crema-2); border-radius: 14px; border: 1px dashed var(--crema-3); padding: 18px 20px 20px; }
+    .sec--lock .sec__title { opacity: .55; }
+    .sec--lock .sec__desc { padding: 8px 0 0; opacity: .75; }
+    .sec__lockhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .sec__lockbadge { display: inline-flex; align-items: center; gap: 7px; background: #FFE9C7; color: #5A3B00; font-weight: 700; font-size: 1rem; padding: 7px 14px; border-radius: 999px; white-space: nowrap; }
+    .sec__lockicon { width: 19px; height: 19px; flex: none; }
+    .sec__ask { display: inline-flex; align-items: center; min-height: 52px; margin-top: 16px; padding: 0 24px; border-radius: 999px; background: var(--texto); color: #fff; font-weight: 700; font-size: 1.0625rem; text-decoration: none; transition: background-color .2s; }
+    .sec__ask:hover { background: var(--t321-deep, #8C2F2B); }
     .it { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 2px var(--shadow), 0 10px 26px -16px var(--shadow-md); }
     .it__body { padding: 16px 18px 18px; }
     .it__title { font-weight: 800; font-size: 1.25rem; line-height: 1.2; }
@@ -180,7 +188,7 @@
   </dialog>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../js/supabase-config.js"></script>
+  <script src="../js/supabase-config.js?v=20261015"></script>
   <script>
     const ADMIN_EMAIL = 'cristina@marietavolavola.com';
     const BUCKET = 'curso-archivos';
@@ -191,6 +199,7 @@
       const m = String(url || '').match(/(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/);
       return m ? m[1] : null;
     }
+    const LOCK = '<svg class="sec__lockicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
     const CHEV = '<svg class="sec__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
 
     function fileExt(name) {
@@ -199,7 +208,7 @@
     }
 
     const COMPLETABLE = ['video', 'archivo', 'enlace'];
-    const state = { bloques: [], urls: {}, done: new Set(), finished: false, track: false, userId: null, cursoId: null, cursoNombre: '', open: {}, notes: {}, notesOpen: new Set(), curso: null, alumna: '' };
+    const state = { bloques: [], urls: {}, done: new Set(), finished: false, track: false, userId: null, cursoId: null, cursoNombre: '', open: {}, notes: {}, notesOpen: new Set(), curso: null, alumna: '', acceso: new Set(), verTodo: false };
     const isNew = (b) => b.created_at && (Date.now() - new Date(b.created_at).getTime()) < 14 * 86400000;
 
     function foot(b, extra) {
@@ -288,6 +297,18 @@
       let html = '<div class="cv-list">';
       if (intro.length) html += pendientesPrimero(intro).map(b => renderItem(b, urls)).join('');
       html += secs.map((s, i) => {
+        // Sección reservada que esta alumna no tiene: se ve el título con candado
+        if (!state.verTodo && s.head.restringida && !state.acceso.has(s.head.id)) {
+          const msg = `Hola Cristina${state.alumna ? ', soy ' + state.alumna : ''}. Me gustaría acceder a «${s.head.titulo || 'una sección'}» del curso ${state.cursoNombre}.`;
+          return `<div class="sec sec--lock">
+            <div class="sec__lockhead">
+              <span class="sec__title">${esc(s.head.titulo || 'Sección')}</span>
+              <span class="sec__lockbadge">${LOCK}No incluido en tu matrícula</span>
+            </div>
+            ${s.head.contenido ? `<p class="sec__desc">${esc(s.head.contenido)}</p>` : ''}
+            <a class="sec__ask" href="https://wa.me/34630050209?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">Pedir acceso a Cristina</a>
+          </div>`;
+        }
         const comp = s.items.filter(b => COMPLETABLE.includes(b.tipo));
         const hechos = comp.filter(b => state.done.has(b.id)).length;
         const todo = state.track && comp.length > 0 && hechos === comp.length;
@@ -562,6 +583,12 @@
       let { data: bloques } = await supabase.from('curso_bloques').select('*').eq('curso_id', cursoId)
         .order('orden', { ascending: true }).order('created_at', { ascending: true });
       bloques = (bloques || []).filter(b => b.visible);
+
+      // Secciones reservadas a las que sí entra esta alumna. El contenido de las
+      // demás ni siquiera llega hasta aquí: lo filtra la propia base de datos.
+      const { data: misAccesos } = await supabase.from('seccion_accesos').select('seccion_id').eq('user_id', user.id);
+      state.acceso = new Set((misAccesos || []).map(a => a.seccion_id));
+      state.verTodo = preview;  // en la vista previa Marieta ve el curso entero
 
       // Enlaces temporales (1 hora) para los archivos privados
       const paths = bloques.filter(b => b.archivo_path).map(b => b.archivo_path);

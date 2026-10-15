@@ -173,6 +173,30 @@ button { font: inherit; color: inherit; }
 
 .portal-navbar__logout:hover { color: var(--tierra); border-color: var(--tierra); }
 
+/* Botón para salir del panel y volver a la web pública */
+.portal-navbar__web {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--body);
+  color: var(--texto);
+  text-decoration: none;
+  border: 2px solid var(--texto);
+  border-radius: 20px;
+  padding: 8px 16px;
+  min-height: 44px;
+  white-space: nowrap;
+  transition: background-color .2s, color .2s;
+}
+.portal-navbar__web:hover { background: var(--texto); color: #fff; }
+.portal-navbar__web svg { width: 17px; height: 17px; flex: none; }
+@media (max-width: 640px) {
+  .portal-navbar__web span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .portal-navbar__web { padding: 8px 12px; gap: 0; }
+}
+
 /* ============================================================
    LOGIN PAGE
    ============================================================ */

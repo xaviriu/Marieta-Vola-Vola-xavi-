@@ -195,6 +195,7 @@ Cuando el usuario diga "vamos a publicar / lanzar la web / deploy", recordarle e
 - [ ] Comprobar en Supabase que **solo** `cristina@marietavolavola.com` tiene `es_admin = true` en la tabla `profiles`.
 - [ ] Ejecutar `supabase/schema.sql` actualizado (incluye la función `is_admin()` que evita la recursión de RLS).
 - [ ] Ejecutar `supabase/curso_bloques.sql` en Supabase (bloques de contenido de los cursos + almacén privado `curso-archivos`). Después, borrar o dejar privado el antiguo almacén público `materials`.
+- [ ] Ejecutar `supabase/secciones_acceso.sql` en Supabase (permite elegir qué alumnas ven cada sección de un curso; sin esto el botón "Quién la ve" del editor avisa de que falta). Ejecutarlo **después** de `curso_bloques.sql`.
 - [ ] Ejecutar `supabase/progreso.sql` en Supabase (tablas del progreso de las alumnas: marcar vídeos/archivos hechos y cursos terminados).
 - [ ] Ejecutar `supabase/extras_alumnas.sql` en Supabase (miniaturas, notas personales y panel de seguimiento).
 - [ ] Ejecutar `supabase/labores.sql` en Supabase (fotos de las labores terminadas que las alumnas envían a Cristina).

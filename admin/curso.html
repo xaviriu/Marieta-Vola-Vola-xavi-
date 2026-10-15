@@ -6,8 +6,8 @@
   <meta name="robots" content="noindex" />
   <title>Editar curso — Marieta Vola Vola</title>
   <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
-  <link rel="stylesheet" href="../css/fonts.css" />
-  <link rel="stylesheet" href="../css/app.css" />
+  <link rel="stylesheet" href="../css/fonts.css?v=20261015" />
+  <link rel="stylesheet" href="../css/app.css?v=20261015" />
   <style>
     [hidden] { display: none !important; }
     .ed { max-width: 920px; margin: 0 auto; padding: 24px 16px 120px; }
@@ -39,6 +39,24 @@
     .blk__title { font-weight: 800; font-size: 1.1875rem; overflow-wrap: anywhere; }
     .blk__sub { color: var(--texto-suave); font-size: 1rem; margin-top: 2px; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .blk__off { font-weight: 700; color: var(--t321-deep); font-size: .9375rem; margin-left: 6px; }
+    .blk__acc { display: inline-block; margin-left: 8px; padding: 2px 12px; border-radius: 999px; font-size: .9375rem; font-weight: 700; background: rgba(255,255,255,.2); color: #fff; }
+    .blk__acc.is-on { background: #FFD9A0; color: #4A3100; }
+    .acc-modes { display: grid; gap: 10px; margin-bottom: 18px; }
+    .acc-opt { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 2px solid var(--crema-3); border-radius: 12px; cursor: pointer; }
+    .acc-opt:has(input:checked) { border-color: var(--texto); background: var(--crema-2); }
+    .acc-opt input { width: 22px; height: 22px; margin-top: 2px; flex: none; accent-color: var(--texto); }
+    .acc-opt strong { display: block; font-size: 1.0625rem; }
+    .acc-opt small { color: var(--texto-suave); font-size: .9375rem; }
+    .acc-tools { display: flex; gap: 8px; margin-bottom: 10px; }
+    .acc-tools button { min-height: 44px; padding: 0 14px; border-radius: 999px; border: 2px solid var(--crema-3); background: #fff; font-weight: 700; font-size: 1rem; cursor: pointer; }
+    .acc-tools button:hover { border-color: var(--texto); }
+    .acc-list { list-style: none; margin: 0; padding: 0; max-height: 300px; overflow-y: auto; border: 1px solid var(--crema-3); border-radius: 12px; }
+    .acc-list li { border-bottom: 1px solid var(--crema-3); }
+    .acc-list li:last-child { border-bottom: 0; }
+    .acc-list label { display: flex; align-items: center; gap: 12px; padding: 12px 16px; min-height: 52px; cursor: pointer; font-size: 1.0625rem; }
+    .acc-list label:hover { background: var(--crema-2); }
+    .acc-list input { width: 22px; height: 22px; flex: none; accent-color: var(--texto); }
+    .acc-empty { padding: 20px; text-align: center; color: var(--texto-suave); }
     .blk__actions { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
     .ib { min-width: 48px; min-height: 48px; padding: 0 12px; border-radius: 10px; border: 2px solid currentColor; background: transparent; color: inherit; font-weight: 700; font-size: 1rem; cursor: pointer; }
     .ib:hover:not(:disabled) { background: var(--texto); color: #fff; border-color: var(--texto); }
@@ -74,6 +92,10 @@
       <span class="portal-navbar__name">Marieta Vola Vola</span>
     </a>
     <div class="portal-navbar__right">
+      <a class="portal-navbar__web" href="../index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        <span>Volver a la web</span>
+      </a>
       <span class="portal-navbar__badge">Admin</span>
       <button class="portal-navbar__logout" id="logoutBtn">Salir</button>
     </div>
@@ -116,7 +138,7 @@
 
     <section class="ed-card" aria-labelledby="contT">
       <h2 id="contT">Contenido del curso</h2>
-      <p class="ed-help">Añade lo que quieras y en el orden que quieras. Usa <strong>Sección</strong> para agrupar (por ejemplo, un mes o un módulo); si el curso es corto, no hace falta ninguna. <strong>Arrastra</strong> cada bloque por el asa de la izquierda para cambiar su orden (también puedes moverlo de una sección a otra). Con "Ocultar" preparas algo sin que lo vean todavía.</p>
+      <p class="ed-help">Añade lo que quieras y en el orden que quieras. Usa <strong>Sección</strong> para agrupar (por ejemplo, un mes o un módulo); si el curso es corto, no hace falta ninguna. <strong>Arrastra</strong> cada bloque por el asa de la izquierda para cambiar su orden (también puedes moverlo de una sección a otra). Con "Ocultar" preparas algo sin que lo vean todavía. Y con <strong>"Quién la ve"</strong> eliges qué alumnas entran en cada sección: útil cuando una ha pagado unos meses y otros no.</p>
       <div class="ed-toolbar" role="group" aria-label="Añadir contenido">
         <button class="ed-add" data-t="seccion" type="button">+ Sección</button>
         <button class="ed-add" data-t="video" type="button">+ Vídeo</button>
@@ -164,9 +186,36 @@
     </form>
   </dialog>
 
+  <dialog class="dlg" id="accDlg" aria-labelledby="accTitle">
+    <h2 id="accTitle">¿Quién puede ver esta sección?</h2>
+    <p class="dlg__hint" id="accHint"></p>
+    <div class="alert alert--error" id="accErr" role="alert"></div>
+    <div class="acc-modes">
+      <label class="acc-opt">
+        <input type="radio" name="accMode" value="todas" />
+        <span><strong>Todas las alumnas del curso</strong><small>Cualquiera matriculada en este curso puede verla.</small></span>
+      </label>
+      <label class="acc-opt">
+        <input type="radio" name="accMode" value="algunas" />
+        <span><strong>Solo las que yo marque</strong><small>El resto verá el título con un candado y un botón para pedírtelo por WhatsApp.</small></span>
+      </label>
+    </div>
+    <div id="accPick" hidden>
+      <div class="acc-tools">
+        <button type="button" id="accAll">Marcar todas</button>
+        <button type="button" id="accNone">Desmarcar todas</button>
+      </div>
+      <ul class="acc-list" id="accList"></ul>
+    </div>
+    <div class="dlg__row">
+      <button type="button" class="btn btn--primary" id="accSave">Guardar</button>
+      <button type="button" class="btn btn--outline" id="accCancel">Cancelar</button>
+    </div>
+  </dialog>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../js/supabase-config.js"></script>
-  <script src="../js/sortable-lite.js"></script>
+  <script src="../js/supabase-config.js?v=20261015"></script>
+  <script src="../js/sortable-lite.js?v=20261015"></script>
   <script>
     const ADMIN_EMAIL = 'cristina@marietavolavola.com';
     const BUCKET = 'curso-archivos';
@@ -186,6 +235,10 @@
     let bloques = [];
     let editing = null;     // bloque que se está editando, o null si es nuevo
     let newTipo = null;
+    let alumnas = [];       // alumnas matriculadas en este curso
+    let accesos = new Map(); // id de sección -> Set con las alumnas que entran
+    let accesoListo = true; // false si todavía no se ha ejecutado secciones_acceso.sql
+    let accSec = null;      // sección cuyos permisos se están editando
 
     function toast(msg, err) {
       const t = document.createElement('div');
@@ -256,6 +309,28 @@
       curso.imagen_url = null; pintarMini(); toast('Miniatura quitada.');
     });
 
+    // Alumnas matriculadas en este curso y qué secciones reservadas tiene cada una
+    async function cargarAlumnas() {
+      const { data: mats } = await supabase.from('matriculas').select('user_id').eq('curso_id', cursoId);
+      const ids = (mats || []).map(m => m.user_id);
+      if (!ids.length) { alumnas = []; return; }
+      const { data: profs } = await supabase.from('profiles').select('id, nombre').in('id', ids);
+      alumnas = (profs || []).sort((a, b) => (a.nombre || '').localeCompare(b.nombre || '', 'es'));
+    }
+
+    async function cargarAccesos() {
+      accesos = new Map();
+      const secIds = bloques.filter(b => b.tipo === 'seccion').map(b => b.id);
+      if (!secIds.length) { accesoListo = true; return; }
+      const { data, error } = await supabase.from('seccion_accesos').select('seccion_id, user_id').in('seccion_id', secIds);
+      if (error) { accesoListo = false; return; }
+      accesoListo = true;
+      (data || []).forEach(r => {
+        if (!accesos.has(r.seccion_id)) accesos.set(r.seccion_id, new Set());
+        accesos.get(r.seccion_id).add(r.user_id);
+      });
+    }
+
     async function cargar() {
       const { data, error } = await supabase.from('curso_bloques').select('*').eq('curso_id', cursoId)
         .order('orden', { ascending: true }).order('created_at', { ascending: true });
@@ -264,6 +339,7 @@
         return;
       }
       bloques = data || [];
+      await Promise.all([cargarAlumnas(), cargarAccesos()]);
       render();
     }
 
@@ -274,16 +350,23 @@
       if (b.tipo === 'enlace') return b.url || '';
       return b.contenido || '';
     }
+    function textoAcceso(b) {
+      if (!b.restringida) return 'La ven todas';
+      const n = accesos.get(b.id)?.size || 0;
+      if (n === 0) return 'No la ve nadie';
+      return n === 1 ? 'Solo 1 alumna' : `Solo ${n} alumnas`;
+    }
     function blockLi(b) {
       const off = !b.visible;
       const isSec = b.tipo === 'seccion';
       return `<div class="blk blk--${b.tipo}${off ? ' is-hidden' : ''}">
           <button type="button" class="grip" aria-label="Mover. Arrástralo, o usa las flechas arriba y abajo del teclado" title="Arrastra para mover">${GRIP_SVG}</button>
           <div class="blk__main">
-            <div><span class="blk__tag">${TIPOS[b.tipo].label}</span><span class="blk__title">${esc(b.titulo || (b.tipo === 'texto' ? 'Texto' : 'Sin título'))}</span>${off ? '<span class="blk__off">Oculto</span>' : ''}</div>
+            <div><span class="blk__tag">${TIPOS[b.tipo].label}</span><span class="blk__title">${esc(b.titulo || (b.tipo === 'texto' ? 'Texto' : 'Sin título'))}</span>${off ? '<span class="blk__off">Oculto</span>' : ''}${isSec ? `<span class="blk__acc${b.restringida ? ' is-on' : ''}">${textoAcceso(b)}</span>` : ''}</div>
             ${resumen(b) ? `<div class="blk__sub">${esc(resumen(b))}</div>` : ''}
           </div>
           <div class="blk__actions">
+            ${isSec ? '<button class="ib" data-a="acc">Quién la ve</button>' : ''}
             <button class="ib" data-a="edit">Editar</button>
             <button class="ib" data-a="vis">${off ? 'Mostrar' : 'Ocultar'}</button>
             <button class="ib ib--danger" data-a="del">Borrar</button>
@@ -331,15 +414,28 @@
       if (a === 'edit') abrir(null, id);
       else if (a === 'vis') alternarVisible(id);
       else if (a === 'del') borrar(id);
+      else if (a === 'acc') abrirAcceso(id);
     });
 
     // ---------- Orden ----------
+    // Guarda el orden y, con él, a qué sección pertenece cada bloque.
+    // El vínculo se guarda de verdad en la base de datos porque es lo que
+    // decide quién puede ver cada cosa: deducirlo solo por la posición en
+    // pantalla dejaría el contenido reservado al alcance de cualquiera.
     async function guardarOrden() {
       const cambios = [];
+      let seccionActual = null;
       bloques.forEach((b, i) => {
-        if (b.orden !== i + 1) { b.orden = i + 1; cambios.push(b); }
+        const sec = b.tipo === 'seccion' ? null : seccionActual;
+        if (b.tipo === 'seccion') seccionActual = b.id;
+        if (b.orden !== i + 1 || (b.seccion_id || null) !== sec) {
+          b.orden = i + 1;
+          b.seccion_id = sec;
+          cambios.push(b);
+        }
       });
-      const res = await Promise.all(cambios.map(b => supabase.from('curso_bloques').update({ orden: b.orden }).eq('id', b.id)));
+      const res = await Promise.all(cambios.map(b => supabase.from('curso_bloques')
+        .update({ orden: b.orden, seccion_id: b.seccion_id }).eq('id', b.id)));
       if (res.some(r => r.error)) toast('No se ha podido guardar el orden. Recarga la página.', true);
     }
     // Una sección se mueve junto con todo lo que tiene debajo
@@ -359,7 +455,8 @@
 
     async function borrar(id) {
       const b = bloques.find(x => x.id === id);
-      const extra = b.tipo === 'seccion' ? '\n(Solo se borra el título de la sección; lo que hay debajo se queda.)' : '';
+      let extra = b.tipo === 'seccion' ? '\n(Solo se borra el título de la sección; lo que hay debajo se queda.)' : '';
+      if (b.tipo === 'seccion' && b.restringida) extra += '\n\nOJO: esta sección estaba reservada. Al borrarla, lo que tiene debajo pasará a verlo todo el mundo.';
       if (!confirm('¿Borrar "' + (b.titulo || TIPOS[b.tipo].label) + '"?' + extra + '\nNo se puede deshacer.')) return;
       if (b.archivo_path) await supabase.storage.from(BUCKET).remove([b.archivo_path]);
       const { error } = await supabase.from('curso_bloques').delete().eq('id', id);
@@ -467,6 +564,60 @@
         dlgError('No se ha podido guardar: ' + (err.message || err));
         $('dlgSave').disabled = false; $('dlgSave').textContent = 'Guardar';
       }
+    });
+
+    // ---------- Quién puede ver cada sección ----------
+    function abrirAcceso(id) {
+      if (!accesoListo) {
+        toast('Falta ejecutar supabase/secciones_acceso.sql en Supabase.', true);
+        return;
+      }
+      accSec = bloques.find(b => b.id === id);
+      $('accHint').textContent = 'Sección «' + (accSec.titulo || 'sin título') + '».';
+      $('accErr').classList.remove('visible');
+      const marcadas = accesos.get(accSec.id) || new Set();
+      document.querySelector(`input[name="accMode"][value="${accSec.restringida ? 'algunas' : 'todas'}"]`).checked = true;
+      $('accList').innerHTML = alumnas.length
+        ? alumnas.map(a => `<li><label><input type="checkbox" value="${a.id}"${marcadas.has(a.id) ? ' checked' : ''} /><span>${esc(a.nombre || 'Sin nombre')}</span></label></li>`).join('')
+        : '<li class="acc-empty">Todavía no hay ninguna alumna matriculada en este curso.</li>';
+      sincronizarModo();
+      $('accSave').disabled = false; $('accSave').textContent = 'Guardar';
+      $('accDlg').showModal();
+    }
+    function sincronizarModo() {
+      $('accPick').hidden = document.querySelector('input[name="accMode"]:checked')?.value !== 'algunas';
+    }
+    document.querySelectorAll('input[name="accMode"]').forEach(r => r.addEventListener('change', sincronizarModo));
+    $('accAll').addEventListener('click', () => $('accList').querySelectorAll('input[type=checkbox]').forEach(c => c.checked = true));
+    $('accNone').addEventListener('click', () => $('accList').querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false));
+    $('accCancel').addEventListener('click', () => $('accDlg').close());
+
+    $('accSave').addEventListener('click', async () => {
+      const restringida = document.querySelector('input[name="accMode"]:checked').value === 'algunas';
+      const marcadas = [...$('accList').querySelectorAll('input[type=checkbox]:checked')].map(c => c.value);
+      if (restringida && !marcadas.length &&
+          !confirm('No has marcado a ninguna alumna, así que nadie podrá ver esta sección.\n¿La dejamos así?')) return;
+      $('accSave').disabled = true; $('accSave').textContent = 'Guardando...';
+      try {
+        const r1 = await supabase.from('curso_bloques').update({ restringida }).eq('id', accSec.id);
+        if (r1.error) throw r1.error;
+        const r2 = await supabase.from('seccion_accesos').delete().eq('seccion_id', accSec.id);
+        if (r2.error) throw r2.error;
+        if (marcadas.length) {
+          const r3 = await supabase.from('seccion_accesos')
+            .insert(marcadas.map(u => ({ seccion_id: accSec.id, user_id: u })));
+          if (r3.error) throw r3.error;
+        }
+        accSec.restringida = restringida;
+        accesos.set(accSec.id, new Set(marcadas));
+        $('accDlg').close();
+        render();
+        toast(restringida ? 'Permisos guardados.' : 'Ahora la ven todas las alumnas.');
+      } catch (err) {
+        $('accErr').textContent = 'No se ha podido guardar: ' + (err.message || err);
+        $('accErr').classList.add('visible');
+      }
+      $('accSave').disabled = false; $('accSave').textContent = 'Guardar';
     });
 
     // ---------- Datos del curso ----------

@@ -161,28 +161,28 @@ html { scrollbar-color: var(--ink-3) var(--card); }
 .text-link:hover .icon { transform: translateX(4px); }
 
 /* ---------- Madeja (componente firma) ----------
-   Dibujo en images/madeja.svg: dos vueltas de hebras retorcidas y la faja en el centro.
-   El color sale de --c y el número va encima de la faja. */
+   Fotos reales en images/madeja-{NUM}.png con fondo transparente.
+   El número se superpone sobre la faja dorada de la foto. */
 .skein {
   --c: var(--t321);
   position: relative;
   display: block;
-  aspect-ratio: 240 / 110;
+  aspect-ratio: 204 / 110;
   container-type: inline-size;
 }
 .skein__art {
   display: block;
   width: 100%;
   height: 100%;
-  overflow: visible;
+  object-fit: contain;
   filter: drop-shadow(0 6px 6px rgba(24, 36, 26, .18));
 }
 .skein__band {
   position: absolute;
-  left: 42.1%;
-  width: 15.8%;
-  top: 25.4%;
-  height: 49.2%;
+  left: 40%;
+  width: 20%;
+  top: 27%;
+  height: 46%;
   display: grid;
   place-items: center;
   pointer-events: none;
@@ -493,6 +493,16 @@ html { scrollbar-color: var(--ink-3) var(--card); }
 .community .wrap { position: relative; }
 .community__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: start; }
 .community__title { font-size: clamp(2.375rem, 4.2vw, 3.75rem); font-weight: 800; font-stretch: 78%; letter-spacing: -.03em; color: var(--t699-deep); }
+/* Sello del grupo sobre el título, con un halo claro para despegarlo del verde del fondo */
+.community__logo {
+  display: block;
+  width: clamp(116px, 13vw, 164px);
+  height: auto;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .55);
+  box-shadow: 0 10px 26px -10px rgba(24, 36, 26, .45), 0 0 0 6px rgba(255, 255, 255, .45);
+}
 .community .lead { color: var(--ink-2); margin-top: 1.25rem; max-width: 40ch; }
 .community .btn--paper { --btn-bg: var(--t321); --btn-fg: #fff; }
 .community .btn--paper .btn__dot { background: rgba(255,255,255,.18); }
@@ -821,8 +831,6 @@ html { scrollbar-color: var(--ink-3) var(--card); }
 }
 @media (max-width: 860px) {
   body { font-size: 1.0625rem; }
-  .format__img--sq { aspect-ratio: 4 / 3; }
-  .format__img--poster { aspect-ratio: 4 / 3; }
   .intro__grid, .community__grid, .tutorials, .story, .closing__grid, .split, .contact-big, .moment { grid-template-columns: minmax(0, 1fr); }
   .intro { padding-top: 1.5rem; }
   .hero__text { max-width: none; }
@@ -980,9 +988,13 @@ html { scrollbar-color: var(--ink-3) var(--card); }
 
 /* ---------- Talleres: online y presenciales ---------- */
 .formats--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 0; gap: clamp(1.25rem, 3vw, 2rem); }
-.format__img--sq { aspect-ratio: 16 / 10; }
-.format__img--poster { aspect-ratio: 16 / 10; }
-.format__img--poster img { object-position: 50% 0%; }
+/* Las fotos de los talleres tienen formas distintas (cuadradas, apaisadas y
+   carteles verticales). Antes se metían todas en una caja 16:10 y se recortaban;
+   ahora cada una se enseña entera, con su proporción real. */
+.format__img--sq { aspect-ratio: auto; }
+.format__img--sq img { height: auto; }
+.format__img--poster { aspect-ratio: 2 / 3; }
+.format__img--poster img { object-position: 50% 50%; }
 .format__tag { justify-self: start; padding: .125rem .75rem; border-radius: var(--r-label); background: var(--ink); color: var(--paper); font-size: 1rem; font-weight: 700; }
 .format__tag--321 { background: var(--t321); }
 .format__body h3 { font-size: clamp(1.5rem, 2vw, 1.875rem); }
@@ -1097,7 +1109,36 @@ html { scrollbar-color: var(--ink-3) var(--card); }
 .inspo--wall { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); row-gap: clamp(1.5rem, 3vw, 2.25rem); }
 .inspo__item { display: grid; grid-template-rows: auto auto; align-content: start; height: 100%; margin: 0; }
 .inspo--bento > li:first-child .inspo__item { grid-template-rows: minmax(0, 1fr) auto; }
-.inspo__img { aspect-ratio: 1; overflow: hidden; border-radius: var(--r-card); background: var(--card-2); box-shadow: var(--shadow-soft); }
+/* La foto es un botón que abre el visor a pantalla completa */
+.inspo__img { position: relative; display: block; width: 100%; padding: 0; border: 0; font: inherit; color: inherit; cursor: zoom-in; aspect-ratio: 1; overflow: hidden; border-radius: var(--r-card); background: var(--card-2); box-shadow: var(--shadow-soft); }
+.inspo__img:focus-visible { outline: 3px solid var(--t704-deep, var(--ink)); outline-offset: 3px; }
+.inspo__zoom { position: absolute; right: 12px; bottom: 12px; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: rgba(24, 36, 26, .66); color: #fff; opacity: 0; transform: translateY(8px); transition: opacity .3s var(--ease-out), transform .3s var(--ease-out); }
+.inspo__zoom svg { width: 20px; height: 20px; }
+.inspo__img:hover .inspo__zoom, .inspo__img:focus-visible .inspo__zoom { opacity: 1; transform: none; }
+@media (hover: none) { .inspo__zoom { opacity: 1; transform: none; } }
+
+/* ---------- Visor a pantalla completa ---------- */
+.lb { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; padding: 0; border: 0; background: rgba(18, 24, 19, .94); overscroll-behavior: contain; }
+.lb::backdrop { background: rgba(18, 24, 19, .94); }
+.lb__fig { margin: 0; height: 100%; display: grid; grid-template-rows: minmax(0, 1fr) auto; align-items: center; justify-items: center; gap: 1rem; padding: clamp(3.5rem, 8vw, 5rem) clamp(1rem, 4vw, 4.5rem) clamp(1.25rem, 3vw, 2rem); }
+.lb__img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 6px; box-shadow: 0 30px 80px rgba(0, 0, 0, .55); }
+.lb__cap { display: grid; gap: .25rem; text-align: center; color: #fff; max-width: 60ch; }
+.lb__cap strong { font-family: var(--display); font-weight: 700; font-stretch: 85%; font-size: clamp(1.25rem, 2.6vw, 1.625rem); }
+.lb__cap span { color: rgba(255, 255, 255, .75); font-size: 1.0625rem; line-height: 1.45; }
+.lb__btn { position: absolute; display: grid; place-items: center; width: 52px; height: 52px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .14); color: #fff; cursor: pointer; transition: background-color .2s; }
+.lb__btn:hover { background: rgba(255, 255, 255, .28); }
+.lb__btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.lb__btn svg { width: 24px; height: 24px; }
+.lb__close { top: clamp(.75rem, 2vw, 1.25rem); right: clamp(.75rem, 2vw, 1.25rem); }
+.lb__nav { top: 50%; transform: translateY(-50%); }
+.lb__nav--prev { left: clamp(.5rem, 2vw, 1.25rem); }
+.lb__nav--next { right: clamp(.5rem, 2vw, 1.25rem); }
+.lb__nav[hidden] { display: none; }
+@media (max-width: 560px) {
+  .lb__btn { width: 46px; height: 46px; }
+  .lb__nav--prev { left: .5rem; }
+  .lb__nav--next { right: .5rem; }
+}
 .inspo--bento > li:first-child .inspo__img { aspect-ratio: auto; height: 100%; min-height: 0; }
 .inspo__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease-out); }
 .inspo__item:hover .inspo__img img { transform: scale(1.05); }

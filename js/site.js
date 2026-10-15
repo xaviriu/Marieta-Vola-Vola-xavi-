@@ -118,9 +118,14 @@
   document.querySelectorAll('[data-programme]').forEach(renderProgramme);
 
   /* ---------- Inspiraciones (creaciones de Cristina, sin precios) ---------- */
-  function inspoCard(p) {
+  var ZOOM_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>';
+
+  function inspoCard(p, i) {
     return '<li><figure class="inspo__item">' +
-      '<div class="inspo__img"><img src="' + esc(p.imagen) + '" alt="' + esc(p.nombre) + '" loading="lazy" width="640" height="640"></div>' +
+      '<button type="button" class="inspo__img" data-inspo-open="' + i + '" aria-label="Ver «' + esc(p.nombre) + '» a pantalla completa">' +
+        '<img src="' + esc(p.imagen) + '" alt="' + esc(p.nombre) + '" loading="lazy" width="640" height="640">' +
+        '<span class="inspo__zoom" aria-hidden="true">' + ZOOM_SVG + '</span>' +
+      '</button>' +
       '<figcaption><strong>' + esc(p.nombre) + '</strong>' + (p.descripcion ? '<span>' + esc(p.descripcion) + '</span>' : '') + '</figcaption>' +
       '</figure></li>';
   }
@@ -140,12 +145,88 @@
       })
       .catch(function () { return fallback; });
   }
+  /* ---------- Visor a pantalla completa de las inspiraciones ---------- */
+  var visor = null, visorLista = [], visorPos = 0;
+
+  function crearVisor() {
+    var d = document.createElement('dialog');
+    d.className = 'lb';
+    d.innerHTML =
+      '<button type="button" class="lb__btn lb__close" data-lb="cerrar" aria-label="Cerrar">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>' +
+      '<button type="button" class="lb__btn lb__nav lb__nav--prev" data-lb="prev" aria-label="Anterior">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>' +
+      '<button type="button" class="lb__btn lb__nav lb__nav--next" data-lb="next" aria-label="Siguiente">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>' +
+      '<figure class="lb__fig">' +
+        '<img class="lb__img" alt="">' +
+        '<figcaption class="lb__cap"><strong></strong><span></span></figcaption>' +
+      '</figure>';
+    document.body.appendChild(d);
+
+    d.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('[data-lb]') : null;
+      if (b) {
+        if (b.getAttribute('data-lb') === 'cerrar') d.close();
+        else mover(b.getAttribute('data-lb') === 'next' ? 1 : -1);
+        return;
+      }
+      // Clic fuera de la foto (sobre el fondo): cerrar
+      if (!e.target.closest('.lb__fig')) d.close();
+    });
+    d.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); mover(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); mover(-1); }
+    });
+    d.addEventListener('close', function () { document.body.style.overflow = ''; });
+    return d;
+  }
+
+  function pintarVisor() {
+    var p = visorLista[visorPos];
+    if (!p) return;
+    var img = visor.querySelector('.lb__img');
+    img.src = p.imagen;
+    img.alt = p.nombre || '';
+    visor.querySelector('.lb__cap strong').textContent = p.nombre || '';
+    var sub = visor.querySelector('.lb__cap span');
+    sub.textContent = p.descripcion || '';
+    sub.hidden = !p.descripcion;
+    var solaUna = visorLista.length < 2;
+    visor.querySelectorAll('.lb__nav').forEach(function (b) { b.hidden = solaUna; });
+  }
+
+  function mover(paso) {
+    if (visorLista.length < 2) return;
+    visorPos = (visorPos + paso + visorLista.length) % visorLista.length;
+    pintarVisor();
+  }
+
+  function abrirVisor(lista, pos) {
+    if (!lista || !lista.length) return;
+    if (!visor) visor = crearVisor();
+    visorLista = lista; visorPos = pos;
+    pintarVisor();
+    document.body.style.overflow = 'hidden';
+    if (visor.showModal) visor.showModal(); else visor.setAttribute('open', '');
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('[data-inspo-open]') : null;
+    if (!btn) return;
+    var cont = btn.closest('[data-inspo]');
+    if (!cont || !cont._inspoList) return;
+    abrirVisor(cont._inspoList, parseInt(btn.getAttribute('data-inspo-open'), 10) || 0);
+  });
+
   var inspoEls = document.querySelectorAll('[data-inspo]');
   if (inspoEls.length) {
     loadInspiraciones().then(function (list) {
       inspoEls.forEach(function (el) {
         var limit = parseInt(el.getAttribute('data-limit') || '99', 10);
-        el.innerHTML = list.slice(0, limit).map(inspoCard).join('');
+        var vistas = list.slice(0, limit);
+        el._inspoList = vistas;   // lo usa el visor a pantalla completa
+        el.innerHTML = vistas.map(inspoCard).join('');
         // Las fotos llegan después de cargar la página: se revelan al llegar a la pantalla, como el resto.
         if (motionOn) {
           var g = window.gsap, kids = Array.prototype.slice.call(el.children);
