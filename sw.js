@@ -14,7 +14,7 @@
    y eso no pasa por aquí.
    ================================================================ */
 
-const VERSION    = 'mvv-v1';
+const VERSION    = 'mvv-v2';
 const SHELL      = 'shell-' + VERSION;
 const RUNTIME    = 'runtime-' + VERSION;
 const OFFLINE    = '/sin-conexion.html';

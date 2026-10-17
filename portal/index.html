@@ -12,8 +12,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Marieta" />
   <link rel="icon" href="../images/web/comunidad-logo-256.png" type="image/png" />
-  <link rel="stylesheet" href="../css/fonts.css?v=20261015" />
-  <link rel="stylesheet" href="../css/app.css?v=20261015" />
+  <link rel="stylesheet" href="../css/fonts.css?v=20261018" />
+  <link rel="stylesheet" href="../css/app.css?v=20261018" />
   <style>
     [hidden] { display: none !important; }
     .remember { display: flex; gap: 12px; align-items: flex-start; margin: 4px 0 20px; padding: 14px 16px; border: 2px solid var(--crema-3); border-radius: 12px; background: var(--crema); cursor: pointer; }
@@ -47,7 +47,7 @@
           <input type="checkbox" id="remember" checked />
           <span>
             <strong>Recordar este dispositivo</strong>
-            <small>Así no tendrás que escribir la contraseña cada vez. No lo marques si este móvil u ordenador lo usa más gente.</small>
+            <small>No tendrás que escribir la contraseña cada vez.</small>
           </span>
         </label>
         <button type="submit" class="btn btn--primary btn--full btn--lg" id="submitBtn">
@@ -74,7 +74,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../js/supabase-config.js?v=20261015"></script>
+  <script src="../js/supabase-config.js?v=20261018"></script>
   <script>
     // Si ya hay sesión, redirigir
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -96,10 +96,20 @@
         : 'dashboard.html';
     }
 
+    // Si el navegador tiene guardada una copia vieja de supabase-config.js,
+    // estas funciones pueden no existir. En ese caso NO se rompe el login:
+    // simplemente se entra como si fuera un dispositivo de confianza.
+    const recuerda = (typeof window.mvvRecuerdaDispositivo === 'function')
+      ? window.mvvRecuerdaDispositivo : function () { return true; };
+    const recordar = (typeof window.mvvRecordarDispositivo === 'function')
+      ? window.mvvRecordarDispositivo : function () {};
+
     // La casilla aparece como la dejó la última vez en este dispositivo
-    document.getElementById('remember').checked = window.mvvRecuerdaDispositivo()
-      || !localStorage.getItem('mvv.login-visto');
-    try { localStorage.setItem('mvv.login-visto', '1'); } catch (e) { /* ignorar */ }
+    try {
+      document.getElementById('remember').checked = recuerda()
+        || !localStorage.getItem('mvv.login-visto');
+      localStorage.setItem('mvv.login-visto', '1');
+    } catch (e) { /* navegación privada: se queda marcada */ }
 
     const form     = document.getElementById('loginForm');
     const errorMsg = document.getElementById('errorMsg');
@@ -115,19 +125,31 @@
       const password = document.getElementById('password').value;
 
       // Decide dónde se guardará la sesión antes de crearla
-      window.mvvRecordarDispositivo(document.getElementById('remember').checked);
+      recordar(document.getElementById('remember').checked);
 
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      let data, error;
+      try {
+        ({ data, error } = await supabase.auth.signInWithPassword({ email, password }));
+      } catch (e) {
+        error = e;
+      }
 
       if (error) {
-        errorMsg.textContent = 'Email o contraseña incorrectos. Inténtalo de nuevo.';
+        errorMsg.textContent = (error.message && /fetch|network|NetworkError/i.test(error.message))
+          ? 'No he podido conectar. Comprueba tu internet y vuelve a intentarlo.'
+          : 'Email o contraseña incorrectos. Inténtalo de nuevo.';
         errorMsg.classList.add('visible');
         submitBtn.textContent = 'Iniciar sesión';
         submitBtn.disabled = false;
         return;
       }
 
-      await checkAdminAndRedirect(data.user.id);
+      try {
+        await checkAdminAndRedirect(data.user.id);
+      } catch (e) {
+        // Ha entrado bien pero algo ha fallado al mirar si es admin: a su zona
+        window.location.href = 'dashboard.html';
+      }
     });
 
     // Restablecer contraseña por email
@@ -158,6 +180,6 @@
       resetBtn.textContent = 'Enviarme el enlace';
     });
   </script>
-  <script src="../js/pwa.js?v=20261017" defer></script>
+  <script src="../js/pwa.js?v=20261018" defer></script>
 </body>
 </html>
