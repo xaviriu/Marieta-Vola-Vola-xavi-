@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panel Admin — Marieta Vola Vola</title>
   <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
-  <link rel="stylesheet" href="../css/fonts.css?v=20261018" />
-  <link rel="stylesheet" href="../css/app.css?v=20261018" />
+  <link rel="stylesheet" href="../css/fonts.css?v=20261019" />
+  <link rel="stylesheet" href="../css/app.css?v=20261019" />
   <script src="https://unpkg.com/feather-icons"></script>
   <style>
     .pago-filter {
@@ -535,6 +535,13 @@
           <button type="button" class="btn btn--primary" id="avEnviar">Enviar el aviso</button>
         </div>
 
+        <div class="admin-form-card" style="margin-bottom:28px">
+          <h3 class="admin-form-card__title">Quién recibe los avisos</h3>
+          <p style="color:var(--texto-suave);margin-bottom:16px">Las que ponen “No” es que aún no los han activado en su móvil. Se activan solas desde su zona privada, en <strong>Avisos</strong>.</p>
+          <p style="margin-bottom:16px"><button type="button" class="btn btn-sm btn--outline" id="avRecargar">Actualizar</button></p>
+          <div id="avQuien"></div>
+        </div>
+
         <div class="admin-form-card">
           <h3 class="admin-form-card__title">Lo último que has mandado</h3>
           <div id="avHistorial"></div>
@@ -742,15 +749,15 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../js/supabase-config.js?v=20261018"></script>
-  <script src="../js/sortable-lite.js?v=20261018"></script>
-  <script src="../js/data.js?v=20261018"></script>
-  <script src="../js/admin-tienda.js?v=20261018"></script>
-  <script src="../js/admin-cifras.js?v=20261018"></script>
-  <script src="../js/admin-seguimiento.js?v=20261018"></script>
-  <script src="../js/admin-labores.js?v=20261018"></script>
-  <script src="../js/admin-avisos.js?v=20261018"></script>
-  <script src="../js/admin-pagos.js?v=20261018"></script>
+  <script src="../js/supabase-config.js?v=20261019"></script>
+  <script src="../js/sortable-lite.js?v=20261019"></script>
+  <script src="../js/data.js?v=20261019"></script>
+  <script src="../js/admin-tienda.js?v=20261019"></script>
+  <script src="../js/admin-cifras.js?v=20261019"></script>
+  <script src="../js/admin-seguimiento.js?v=20261019"></script>
+  <script src="../js/admin-labores.js?v=20261019"></script>
+  <script src="../js/admin-avisos.js?v=20261019"></script>
+  <script src="../js/admin-pagos.js?v=20261019"></script>
   <script>
     // ============================================================
     // ESTADO

@@ -6,8 +6,8 @@
   <meta name="robots" content="noindex" />
   <title>Editar curso — Marieta Vola Vola</title>
   <link rel="icon" href="../images/web/mariquita.png" type="image/png" />
-  <link rel="stylesheet" href="../css/fonts.css?v=20261018" />
-  <link rel="stylesheet" href="../css/app.css?v=20261018" />
+  <link rel="stylesheet" href="../css/fonts.css?v=20261019" />
+  <link rel="stylesheet" href="../css/app.css?v=20261019" />
   <style>
     [hidden] { display: none !important; }
     .ed { max-width: 920px; margin: 0 auto; padding: 24px 16px 120px; }
@@ -77,7 +77,10 @@
     .mini-prev.has { border: 0; box-shadow: 0 1px 2px var(--shadow), 0 10px 26px -16px var(--shadow-md); }
     .avisar-opt { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border: 2px solid var(--crema-3); border-radius: 12px; cursor: pointer; }
     .avisar-opt:hover { background: var(--crema); }
-    .avisar-opt input { width: 24px; height: 24px; flex: none; margin-top: 2px; accent-color: #1F6B33; cursor: pointer; }
+    /* Sin este reset, el estilo general de .form-field input le pone fondo y
+       borde a la casilla, y el navegador deja de dibujar el tick. */
+    .avisar-opt input[type="checkbox"] { appearance: auto; -webkit-appearance: checkbox; width: 24px; height: 24px; min-height: 0; flex: none; margin-top: 2px; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; accent-color: #1F6B33; cursor: pointer; }
+    .avisar-opt input[type="checkbox"]:focus { outline: 3px solid #1F6B33; outline-offset: 2px; box-shadow: none; }
     .avisar-opt strong { display: block; font-size: 1.0625rem; }
     .avisar-opt small { display: block; margin-top: 2px; color: var(--texto-suave); font-size: .9375rem; line-height: 1.35; }
     dialog.dlg--crop { max-width: 520px; }
@@ -230,6 +233,14 @@
       </div>
       <ul class="acc-list" id="accList"></ul>
     </div>
+    <label class="avisar-opt" for="accAvisar" style="margin-top:16px">
+      <input type="checkbox" id="accAvisar" checked />
+      <span>
+        <strong>Avisar a quien acabe de entrar</strong>
+        <small>Solo a las alumnas que antes no veían esta sección y ahora sí. A las demás no se les manda nada.</small>
+      </span>
+    </label>
+
     <div class="dlg__row">
       <button type="button" class="btn btn--primary" id="accSave">Guardar</button>
       <button type="button" class="btn btn--outline" id="accCancel">Cancelar</button>
@@ -255,8 +266,8 @@
   </dialog>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../js/supabase-config.js?v=20261018"></script>
-  <script src="../js/sortable-lite.js?v=20261018"></script>
+  <script src="../js/supabase-config.js?v=20261019"></script>
+  <script src="../js/sortable-lite.js?v=20261019"></script>
   <script>
     const ADMIN_EMAIL = 'cristina@marietavolavola.com';
     const BUCKET = 'curso-archivos';
@@ -745,6 +756,34 @@
       }
     }
 
+    // Aviso a las alumnas que acaban de ganar acceso a una sección
+    async function avisarDeNuevoAcceso(seccion, userIds) {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) return;
+
+        const r = await fetch('/api/send-push', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+          body: JSON.stringify({
+            titulo: 'Ya puedes ver ' + (seccion.titulo || 'una parte nueva'),
+            cuerpo: 'En ' + (curso.nombre || 'tu curso') + '. Entra cuando quieras.',
+            url: '/portal/curso.html?id=' + encodeURIComponent(cursoId),
+            tipo: 'contenido',
+            destino: { tipo: 'alumnas', userIds: userIds },
+            destinoTexto: (seccion.titulo || 'Sección') + ' — ' + (curso.nombre || '')
+          })
+        });
+
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) return toast('Guardado, pero el aviso no salió: ' + (j.error || 'error'), true);
+        if (j.aviso) return toast(j.aviso);
+        toast('Avisadas ' + j.enviadas + ' alumna' + (j.enviadas === 1 ? '' : 's') + '.');
+      } catch (e) {
+        toast('Guardado, pero no he podido avisar.', true);
+      }
+    }
+
     // ---------- Quién puede ver cada sección ----------
     function abrirAcceso(id) {
       if (!accesoListo) {
@@ -760,6 +799,7 @@
         ? alumnas.map(a => `<li><label><input type="checkbox" value="${a.id}"${marcadas.has(a.id) ? ' checked' : ''} /><span>${esc(a.nombre || 'Sin nombre')}</span></label></li>`).join('')
         : '<li class="acc-empty">Todavía no hay ninguna alumna matriculada en este curso.</li>';
       sincronizarModo();
+      $('accAvisar').checked = true;
       $('accSave').disabled = false; $('accSave').textContent = 'Guardar';
       $('accDlg').showModal();
     }
@@ -774,6 +814,22 @@
     $('accSave').addEventListener('click', async () => {
       const restringida = document.querySelector('input[name="accMode"]:checked').value === 'algunas';
       const marcadas = [...$('accList').querySelectorAll('input[type=checkbox]:checked')].map(c => c.value);
+
+      // Quién ve esta sección AHORA, antes de guardar nada
+      const antes = accSec.restringida ? (accesos.get(accSec.id) || new Set()) : null;
+      // Y quién la verá después
+      const despues = restringida ? new Set(marcadas) : null;
+
+      let nuevas = [];
+      if (antes) {
+        // Estaba restringida: nuevas = las que ahora entran y antes no
+        nuevas = despues
+          ? marcadas.filter(u => !antes.has(u))
+          : alumnas.map(a => a.id).filter(u => !antes.has(u));  // se abre a todas
+      } else if (despues) {
+        // Antes la veían todas y ahora solo algunas: nadie gana acceso
+        nuevas = [];
+      }
       if (restringida && !marcadas.length &&
           !confirm('No has marcado a ninguna alumna, así que nadie podrá ver esta sección.\n¿La dejamos así?')) return;
       $('accSave').disabled = true; $('accSave').textContent = 'Guardando...';
@@ -792,6 +848,7 @@
         $('accDlg').close();
         render();
         toast(restringida ? 'Permisos guardados.' : 'Ahora la ven todas las alumnas.');
+        if ($('accAvisar').checked && nuevas.length) avisarDeNuevoAcceso(accSec, nuevas);
       } catch (err) {
         $('accErr').textContent = 'No se ha podido guardar: ' + (err.message || err);
         $('accErr').classList.add('visible');

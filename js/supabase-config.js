@@ -14,15 +14,17 @@ const SUPABASE_ANON_KEY = 'sb_publishable_IhvUuyPNSxm5Wl_-VwRt4A_ZEB9x5WR';
 const MVV_REMEMBER_KEY = 'mvv.recordar-dispositivo';
 
 window.mvvRecordarDispositivo = function (valor) {
-  try {
-    if (valor) window.localStorage.setItem(MVV_REMEMBER_KEY, '1');
-    else       window.localStorage.removeItem(MVV_REMEMBER_KEY);
-  } catch (e) { /* navegación privada: se queda en sessionStorage */ }
+  try { window.localStorage.setItem(MVV_REMEMBER_KEY, valor ? '1' : '0'); }
+  catch (e) { /* navegación privada: no se puede guardar la preferencia */ }
 };
 
+// Por defecto SÍ se recuerda. Solo se deja de recordar si la alumna
+// ha desmarcado la casilla a propósito (guardamos un '0').
+// Esto importa: si no, al abrir una pestaña nueva (por ejemplo
+// "Ver como alumna") la sesión no estaría y pediría entrar otra vez.
 window.mvvRecuerdaDispositivo = function () {
-  try { return window.localStorage.getItem(MVV_REMEMBER_KEY) === '1'; }
-  catch (e) { return false; }
+  try { return window.localStorage.getItem(MVV_REMEMBER_KEY) !== '0'; }
+  catch (e) { return true; }
 };
 
 // Almacén propio: elige localStorage o sessionStorage en cada escritura

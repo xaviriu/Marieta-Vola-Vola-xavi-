@@ -12,8 +12,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Marieta" />
   <link rel="icon" href="../images/web/comunidad-logo-256.png" type="image/png" />
-  <link rel="stylesheet" href="../css/fonts.css?v=20261018" />
-  <link rel="stylesheet" href="../css/app.css?v=20261018" />
+  <link rel="stylesheet" href="../css/fonts.css?v=20261019" />
+  <link rel="stylesheet" href="../css/app.css?v=20261019" />
   <style>
     [hidden] { display: none !important; }
     .remember { display: flex; gap: 12px; align-items: flex-start; margin: 4px 0 20px; padding: 14px 16px; border: 2px solid var(--crema-3); border-radius: 12px; background: var(--crema); cursor: pointer; }
@@ -74,7 +74,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../js/supabase-config.js?v=20261018"></script>
+  <script src="../js/supabase-config.js?v=20261019"></script>
   <script>
     // Si ya hay sesión, redirigir
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -106,9 +106,7 @@
 
     // La casilla aparece como la dejó la última vez en este dispositivo
     try {
-      document.getElementById('remember').checked = recuerda()
-        || !localStorage.getItem('mvv.login-visto');
-      localStorage.setItem('mvv.login-visto', '1');
+      document.getElementById('remember').checked = recuerda();
     } catch (e) { /* navegación privada: se queda marcada */ }
 
     const form     = document.getElementById('loginForm');
@@ -180,6 +178,6 @@
       resetBtn.textContent = 'Enviarme el enlace';
     });
   </script>
-  <script src="../js/pwa.js?v=20261018" defer></script>
+  <script src="../js/pwa.js?v=20261019" defer></script>
 </body>
 </html>

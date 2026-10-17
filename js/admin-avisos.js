@@ -150,6 +150,7 @@
       $('avCuerpo').value = '';
       cargarHistorial();
       cuantasPuedenRecibir();
+      cargarQuienRecibe();
     } catch (e) {
       estado('Error: ' + e.message, true);
     }
@@ -157,10 +158,73 @@
     btn.disabled = false; btn.textContent = 'Enviar el aviso';
   }
 
+  /** Lista de alumnas con un si o un no segun tengan los avisos puestos */
+  async function cargarQuienRecibe() {
+    const el = $('avQuien');
+    if (!el) return;
+    el.innerHTML = '<p style="color:var(--texto-suave)">Cargando...</p>';
+
+    const [perfiles, subs, prefs] = await Promise.all([
+      window.supabase.from('profiles').select('id, nombre').eq('es_admin', false).order('nombre'),
+      window.supabase.from('push_suscripciones').select('user_id'),
+      window.supabase.from('notificaciones_prefs').select('user_id, contenido, pagos, mensajes')
+    ]);
+
+    if (subs.error) {
+      el.innerHTML = '<p style="color:var(--texto-suave)">Falta ejecutar <strong>supabase/notificaciones.sql</strong> en Supabase.</p>';
+      return;
+    }
+
+    const alumnas = perfiles.data || [];
+    if (!alumnas.length) {
+      el.innerHTML = '<p style="color:var(--texto-suave)">Todavía no hay alumnas.</p>';
+      return;
+    }
+
+    // Cuántos móviles tiene cada una
+    const cuantos = {};
+    (subs.data || []).forEach((x) => { cuantos[x.user_id] = (cuantos[x.user_id] || 0) + 1; });
+
+    const prefsPorAlumna = {};
+    (prefs.data || []).forEach((x) => { prefsPorAlumna[x.user_id] = x; });
+
+    const con = alumnas.filter((a) => cuantos[a.id]).length;
+
+    const apagados = (p) => {
+      if (!p) return '';
+      const off = [];
+      if (p.contenido === false) off.push('vídeos');
+      if (p.mensajes === false) off.push('mensajes');
+      if (p.pagos === false) off.push('pagos');
+      return off.length ? `<br><small style="color:var(--t321-deep)">Ha apagado: ${off.join(', ')}</small>` : '';
+    };
+
+    el.innerHTML = `
+      <p style="margin-bottom:14px;color:var(--texto-medio)"><strong>${con}</strong> de <strong>${alumnas.length}</strong> alumnas tienen los avisos puestos.</p>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Alumna</th><th>¿Recibe avisos?</th><th>Móviles</th></tr></thead>
+          <tbody>${alumnas.map((a) => {
+            const n = cuantos[a.id] || 0;
+            return `
+            <tr>
+              <td><strong>${esc(a.nombre || 'Sin nombre')}</strong>${apagados(prefsPorAlumna[a.id])}</td>
+              <td>${n
+                ? '<span style="color:#1F6B33;font-weight:800">✓ Sí</span>'
+                : '<span style="color:var(--texto-suave)">✗ No las ha activado</span>'}</td>
+              <td>${n || '—'}</td>
+            </tr>`;
+          }).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  }
+
   window.loadAvisos = function () {
     cargarCursos();
     cargarHistorial();
     cuantasPuedenRecibir();
+    cargarQuienRecibe();
     pintarDestino();
   };
 
@@ -169,5 +233,6 @@
     $('avEnviar').addEventListener('click', enviar);
     $('avDestino').addEventListener('change', pintarDestino);
     $('avTipo').addEventListener('change', aplicarPlantilla);
+    if ($('avRecargar')) $('avRecargar').addEventListener('click', () => window.loadAvisos());
   });
 })();

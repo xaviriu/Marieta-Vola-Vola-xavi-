@@ -35,5 +35,21 @@
       || window.navigator.standalone === true;
   };
 
-  if (window.mvvEsApp()) document.documentElement.classList.add('is-app');
+  if (window.mvvEsApp()) {
+    document.documentElement.classList.add('is-app');
+
+    // Dentro de la app no se puede ampliar con los dedos, como en
+    // cualquier otra aplicacion. En la web normal si se puede, que
+    // hay quien lo necesita para leer.
+    var vp = document.querySelector('meta[name="viewport"]');
+    if (vp) {
+      vp.setAttribute('content',
+        'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+    }
+
+    // Safari en iPhone se salta lo anterior: hay que pararlo a mano
+    ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (ev) {
+      document.addEventListener(ev, function (e) { e.preventDefault(); }, { passive: false });
+    });
+  }
 })();

@@ -1169,8 +1169,34 @@ button { font: inherit; color: inherit; }
   .site-footer__legal { padding-bottom: env(safe-area-inset-bottom); }
 }
 
+/* ---------- La barra de arriba en pantallas estrechas ----------
+   Marieta, Avisos y Salir no caben en un movil. En vez de que se
+   salgan o se aplasten, el nombre de la alumna desaparece y los
+   botones se hacen compactos. */
+@media (max-width: 560px) {
+  .portal-navbar { padding: 0 12px; gap: 8px; height: 60px; }
+  .portal-navbar__name { font-size: 1.1875rem; }
+  .portal-navbar__logo { width: 34px; }
+  .portal-navbar__user { display: none; }
+  .portal-navbar__right { gap: 8px; }
+  .portal-navbar__logout { font-size: .9375rem; padding: 0 .75rem; min-height: 40px; border-width: 2px; white-space: nowrap; }
+}
+
+@media (max-width: 380px) {
+  .portal-navbar__name { display: none; }
+}
+
 /* Ya instalada: no insistir con el aviso de instalar */
 .is-app .app-cta { display: none !important; }
+
+/* ---------- Dentro de la app ----------
+   Nada de doble toque para ampliar ni de seleccionar texto sin
+   querer: se comporta como una aplicacion, no como una pagina. */
+.is-app, .is-app body { touch-action: manipulation; -webkit-text-size-adjust: 100%; }
+.is-app body { -webkit-tap-highlight-color: transparent; }
+.is-app .portal-navbar__brand,
+.is-app .portal-navbar__logout,
+.is-app .btn { -webkit-user-select: none; user-select: none; }
 
 /* ---------- Aviso "ponlo en tu móvil" dentro del portal ---------- */
 .app-cta {
