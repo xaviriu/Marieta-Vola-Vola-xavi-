@@ -202,6 +202,11 @@ Cuando el usuario diga "vamos a publicar / lanzar la web / deploy", recordarle e
 - [ ] Ejecutar `supabase/pagos_fichas.sql` en Supabase (fichas de alumnas con datos extra, rol Comunidad Marietas y libro de pagos).
 - [ ] Ejecutar `supabase/tienda.sql` en Supabase (Inspiraciones editables desde el panel: fotos, nombre y orden; antes era la tienda). Después, en Admin → Inspiraciones, pulsar "Traer las creaciones actuales de la web".
 - [ ] Ejecutar `supabase/cifras.sql` en Supabase (cifras de seguidores editables desde Admin → Cifras de redes). Sin esto la portada enseña las cifras de respaldo de `js/data.js`.
+- [ ] Ejecutar `supabase/notificaciones.sql` en Supabase (avisos al móvil: dispositivos suscritos, preferencias de cada alumna e historial de envíos).
+- [ ] **Vercel → Environment Variables:** añadir `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` y `VAPID_SUBJECT`. Están en `.env.local` (archivo local, en `.gitignore`, nunca se sube). La clave pública también está en `js/push-config.js`, y ahí es correcto que esté: la privada no.
+- [ ] Comprobar que Vercel instala `web-push` (está en `package.json`); lo necesita `api/send-push.js`.
+- [ ] Probar las notificaciones en un móvil de verdad: instalar la app, activar los avisos en el portal y mandarse uno desde Admin → Avisos. **En iPhone solo funcionan si la app está añadida a la pantalla de inicio** (iOS 16.4 o más).
+- [ ] Probar la app instalada (PWA): `manifest.webmanifest`, `sw.js` e iconos de `images/app/`. El service worker **solo funciona con HTTPS** (en local, solo con `localhost`).
 - [ ] Probar en el dominio real: login de alumna, login admin, cambio de contraseña provisional y restablecer por email.
 - [ ] Revisar HTTPS activo y pasar `/security-review` antes del deploy.
 - [ ] Opcional: ejecutar `gh auth login` una vez para que Claude pueda crear Pull Requests.

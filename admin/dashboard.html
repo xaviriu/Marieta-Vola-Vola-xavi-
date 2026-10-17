@@ -241,6 +241,10 @@
     .td-thumb { width: 84px; aspect-ratio: 1; border-radius: 10px; background: var(--crema-2); overflow: hidden; display: grid; place-items: center; color: var(--texto-suave); font-size: .875rem; text-align: center; }
     .td-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .td-thumb--big { width: 120px; }
+    .curso-mini { position: relative; display: block; width: 132px; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: var(--crema-2); box-shadow: 0 1px 2px var(--shadow), 0 8px 20px -14px var(--shadow-md); }
+    .curso-mini__bg { position: absolute; inset: 0; background-position: center; background-size: cover; background-repeat: no-repeat; filter: blur(14px) saturate(1.1); transform: scale(1.2); opacity: .6; }
+    .curso-mini img { position: absolute; inset: 0; margin: auto; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
+    .curso-mini--empty { display: grid; place-items: center; width: 132px; aspect-ratio: 4 / 3; border: 2px dashed var(--crema-3); background: var(--crema-2); color: var(--texto-suave); font-size: .8125rem; line-height: 1.2; text-align: center; border-radius: 10px; }
     .td-photo { display: flex; gap: 14px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
     .td-main { display: grid; gap: 2px; min-width: 0; }
     .td-main strong { font-size: 1.1875rem; }
@@ -302,6 +306,7 @@
       <option value="seguimiento">Seguimiento</option>
       <option value="labores">Labores</option>
       <option value="pagos">Pagos</option>
+      <option value="avisos">Avisos</option>
       <option value="contenidos">Contenidos</option>
     </select>
   </div>
@@ -334,6 +339,9 @@
       </button>
       <button class="admin-nav-link" data-panel="pagos">
         <i data-feather="credit-card"></i> Pagos
+      </button>
+      <button class="admin-nav-link" data-panel="avisos">
+        <i data-feather="bell"></i> Avisos
       </button>
       <button class="admin-nav-link" data-panel="contenidos">
         <i data-feather="film"></i> Contenidos
@@ -471,6 +479,66 @@
         <p style="color:var(--texto-suave);margin-bottom:16px">Mira cómo avanza cada alumna y cada curso, y quién lleva tiempo sin entrar para echarle un cable. Las notas personales de las alumnas son privadas y no aparecen aquí.</p>
         <p style="margin-bottom:20px"><button type="button" class="btn btn-sm btn--outline" id="segReload">Actualizar datos</button></p>
         <div id="segBody"></div>
+      </div>
+
+      <!-- PANEL: AVISOS -->
+      <div class="admin-panel" id="panel-avisos">
+        <h2 class="admin-panel__title">Avisos al móvil</h2>
+        <p style="color:var(--texto-suave);margin-bottom:6px">Manda una notificación al móvil de las alumnas que la hayan activado. Les suena aunque tengan la app cerrada.</p>
+        <p style="color:var(--texto-medio);margin-bottom:20px"><strong id="avCuantas">—</strong></p>
+
+        <div class="admin-form-card" style="margin-bottom:28px">
+          <h3 class="admin-form-card__title">Escribir un aviso</h3>
+
+          <div class="alert" id="avEstado"></div>
+
+          <div class="form-field">
+            <label for="avTipo">Tipo de aviso</label>
+            <select id="avTipo">
+              <option value="mensaje">Mensaje mío</option>
+              <option value="contenido">Vídeo o archivo nuevo</option>
+              <option value="pagos">Recordatorio de pago</option>
+            </select>
+            <small style="color:var(--texto-suave)">Cada alumna puede apagar los tipos que no quiera recibir. A esas no les llegará.</small>
+          </div>
+
+          <div class="form-field">
+            <label for="avTitulo">Título <span style="color:var(--texto-suave);font-weight:400">(lo que se lee en grande)</span></label>
+            <input type="text" id="avTitulo" maxlength="80" placeholder="Nuevo vídeo en el Anuario" />
+          </div>
+
+          <div class="form-field">
+            <label for="avCuerpo">Texto</label>
+            <textarea id="avCuerpo" rows="3" maxlength="180" placeholder="Ya está la flor de octubre. Entra a verla cuando quieras."></textarea>
+            <small style="color:var(--texto-suave)">Cuanto más corto, mejor: en el móvil se corta a las dos líneas.</small>
+          </div>
+
+          <div class="form-field">
+            <label for="avDestino">¿A quién?</label>
+            <select id="avDestino">
+              <option value="todas">A todas las alumnas</option>
+              <option value="curso">Solo a las de un curso</option>
+            </select>
+          </div>
+
+          <div class="form-field" id="avCursoWrap" hidden>
+            <label for="avCurso">¿Qué curso?</label>
+            <select id="avCurso"></select>
+          </div>
+
+          <div class="form-field">
+            <label for="avUrl">¿Dónde las lleva al tocarlo?</label>
+            <input type="text" id="avUrl" value="/portal/dashboard.html" placeholder="/portal/dashboard.html" />
+            <small style="color:var(--texto-suave)">Tiene que empezar por una barra. Solo páginas de esta web.</small>
+          </div>
+
+          <button type="button" class="btn btn--primary" id="avEnviar">Enviar el aviso</button>
+        </div>
+
+        <div class="admin-form-card">
+          <h3 class="admin-form-card__title">Lo último que has mandado</h3>
+          <div id="avHistorial"></div>
+        </div>
       </div>
 
       <!-- PANEL: LABORES -->
@@ -681,6 +749,7 @@
   <script src="../js/admin-cifras.js?v=20261015"></script>
   <script src="../js/admin-seguimiento.js?v=20261015"></script>
   <script src="../js/admin-labores.js?v=20261015"></script>
+  <script src="../js/admin-avisos.js?v=20261017"></script>
   <script src="../js/admin-pagos.js?v=20261015"></script>
   <script>
     // ============================================================
@@ -751,9 +820,14 @@
       el.innerHTML = `
         <div class="admin-table-wrap">
           <table class="admin-table">
-            <thead><tr><th>Nombre</th><th>Descripción</th><th>Creado</th><th>Acción</th></tr></thead>
+            <thead><tr><th>Miniatura</th><th>Nombre</th><th>Descripción</th><th>Creado</th><th>Acción</th></tr></thead>
             <tbody>${allCursos.map(c => `
               <tr>
+                <td style="width:152px">
+                  ${c.imagen_url
+                    ? `<span class="curso-mini"><span class="curso-mini__bg" style="background-image:url('${escHtml(c.imagen_url)}')" aria-hidden="true"></span><img src="${escHtml(c.imagen_url)}" alt="Miniatura de ${escHtml(c.nombre)}" loading="lazy" /></span>`
+                    : '<span class="curso-mini--empty">Sin<br>miniatura</span>'}
+                </td>
                 <td><strong>${escHtml(c.nombre)}</strong></td>
                 <td style="max-width:280px;color:var(--texto-suave);">${escHtml(c.descripcion) || '—'}</td>
                 <td>${formatDate(c.created_at)}</td>
@@ -1383,6 +1457,7 @@
       if (panel === 'cifras' && window.loadCifras) window.loadCifras();
       if (panel === 'labores' && window.loadLabores) window.loadLabores();
       if (panel === 'pagos' && window.loadPagosNuevo) window.loadPagosNuevo();
+      if (panel === 'avisos' && window.loadAvisos) window.loadAvisos();
     }
 
     document.querySelectorAll('.admin-nav-link').forEach(btn => {

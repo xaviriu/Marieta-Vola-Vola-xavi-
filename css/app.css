@@ -1140,3 +1140,54 @@ button { font: inherit; color: inherit; }
 }
 
 .portal-navbar__logo[src*="mariquita"] { width: 30px; }
+
+/* ================================================================
+   Modo aplicación
+   Cuando la Comunidad se abre desde el icono de la pantalla de
+   inicio, no hay barra del navegador: hay que dejar hueco para la
+   hora y la batería arriba y para la barra de gestos abajo.
+   ================================================================ */
+@media (display-mode: standalone), (display-mode: minimal-ui) {
+  .portal-navbar {
+    padding-top: env(safe-area-inset-top);
+    height: calc(62px + env(safe-area-inset-top));
+    padding-left: max(24px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
+  }
+
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+    /* Sin rebote elástico al llegar arriba: se nota menos "web" */
+    overscroll-behavior-y: none;
+  }
+
+  /* Dentro de la app ya se vuelve con el gesto del móvil */
+  .login-card__back,
+  .portal-navbar__web { display: none; }
+
+  /* El pie de la web pública sobra dentro de la app */
+  .site-footer__legal { padding-bottom: env(safe-area-inset-bottom); }
+}
+
+/* Ya instalada: no insistir con el aviso de instalar */
+.is-app .app-cta { display: none !important; }
+
+/* ---------- Aviso "ponlo en tu móvil" dentro del portal ---------- */
+.app-cta {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin: 0 0 26px;
+  padding: 16px 18px;
+  background: var(--tint-699);
+  border: 2px solid var(--t368);
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--texto);
+}
+.app-cta:hover { background: #d3e8c8; }
+.app-cta__ico { flex: none; width: 46px; height: 46px; border-radius: 12px; }
+.app-cta__txt { flex: 1; min-width: 0; }
+.app-cta__txt strong { display: block; font-size: 1.0625rem; }
+.app-cta__txt span { display: block; color: var(--texto-medio); font-size: .9375rem; margin-top: 2px; }
+.app-cta__go { flex: none; font-size: 1.5rem; color: var(--t699-deep); }

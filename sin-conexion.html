@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Sin conexión — Marieta Vola Vola</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#1F6B33" />
+  <link rel="stylesheet" href="/css/fonts.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <style>
+    .oc { min-height: 100svh; display: grid; place-items: center; padding: 24px; text-align: center; }
+    .oc__in { max-width: 30rem; display: grid; gap: 18px; justify-items: center; }
+    .oc img { width: 88px; height: 88px; border-radius: 20px; }
+    .oc h1 { font-family: var(--display); font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 700; }
+    .oc p { color: var(--texto-medio); font-size: 1.125rem; }
+  </style>
+</head>
+<body class="portal-body">
+  <main class="oc">
+    <div class="oc__in">
+      <img src="/images/app/icon-192.png" alt="" />
+      <h1>No hay conexión</h1>
+      <p>Parece que tu móvil se ha quedado sin internet. Comprueba el wifi o los datos y vuelve a intentarlo.</p>
+      <button type="button" class="btn btn--primary btn--lg" onclick="location.reload()">Volver a intentarlo</button>
+    </div>
+  </main>
+</body>
+</html>

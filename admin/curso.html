@@ -73,8 +73,22 @@
     .dlg__row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
     .form-field small { display: block; color: var(--texto-suave); margin-top: 6px; font-size: .9375rem; }
     .mini-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-    .mini-prev { width: 200px; aspect-ratio: 4 / 3; border-radius: 10px; background: var(--crema-2) center / cover no-repeat; display: grid; place-items: center; text-align: center; color: var(--texto-suave); font-size: 1rem; border: 2px dashed var(--crema-3); }
+    .mini-prev { width: 220px; aspect-ratio: 4 / 3; border-radius: 10px; background: var(--crema-2) center / contain no-repeat; display: grid; place-items: center; text-align: center; color: var(--texto-suave); font-size: 1rem; border: 2px dashed var(--crema-3); }
     .mini-prev.has { border: 0; box-shadow: 0 1px 2px var(--shadow), 0 10px 26px -16px var(--shadow-md); }
+    .avisar-opt { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border: 2px solid var(--crema-3); border-radius: 12px; cursor: pointer; }
+    .avisar-opt:hover { background: var(--crema); }
+    .avisar-opt input { width: 24px; height: 24px; flex: none; margin-top: 2px; accent-color: #1F6B33; cursor: pointer; }
+    .avisar-opt strong { display: block; font-size: 1.0625rem; }
+    .avisar-opt small { display: block; margin-top: 2px; color: var(--texto-suave); font-size: .9375rem; line-height: 1.35; }
+    dialog.dlg--crop { max-width: 520px; }
+    .crop-stage { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: var(--crema-2); touch-action: none; cursor: grab; user-select: none; }
+    .crop-stage.is-drag { cursor: grabbing; }
+    .crop-stage img { position: absolute; top: 0; left: 0; transform-origin: 0 0; max-width: none; max-height: none; -webkit-user-drag: none; }
+    .crop-grid { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(to right, rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.5) 1px, transparent 1px); background-size: 33.33% 33.33%; }
+    .crop-zoom { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+    .crop-zoom input[type=range] { flex: 1; min-height: 44px; accent-color: #1F6B33; }
+    .crop-zbtn { width: 52px; height: 52px; flex: none; border-radius: 50%; border: 2px solid var(--texto); background: #fff; color: var(--texto); font-size: 1.625rem; font-weight: 800; line-height: 1; cursor: pointer; }
+    .crop-zbtn:hover { background: var(--crema-2); }
     .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 50; background: var(--texto); color: #fff; padding: 12px 20px; border-radius: 999px; font-weight: 700; max-width: calc(100% - 32px); }
     .toast--err { background: var(--t321-deep); }
     @media (max-width: 560px) {
@@ -125,7 +139,7 @@
 
     <section class="ed-card" aria-labelledby="miniT">
       <h2 id="miniT">Miniatura del curso</h2>
-      <p class="ed-help">La imagen que verán las alumnas en su lista de cursos. Funciona mejor una foto apaisada (por ejemplo 1200 × 900) de máximo 5 MB.</p>
+      <p class="ed-help">La imagen que verán las alumnas en su lista de cursos. Elige una foto (máximo 5 MB) y después podrás moverla y acercarla para decidir qué parte se ve.</p>
       <div class="mini-row">
         <div class="mini-prev" id="miniPrev">Sin miniatura</div>
         <div class="dlg__row" style="margin:0">
@@ -179,6 +193,15 @@
         <select id="bPos"></select>
         <small>Después podrás arrastrarlo a otro sitio.</small>
       </div>
+      <div class="form-field" id="fAvisar">
+        <label class="avisar-opt" for="bAvisar">
+          <input type="checkbox" id="bAvisar" checked />
+          <span>
+            <strong>Avisar a las alumnas</strong>
+            <small>Les llegará una notificación al móvil a las que la tengan activada.</small>
+          </span>
+        </label>
+      </div>
       <div class="dlg__row">
         <button type="submit" class="btn btn--primary" id="dlgSave">Guardar</button>
         <button type="button" class="btn btn--outline" id="dlgCancel">Cancelar</button>
@@ -210,6 +233,24 @@
     <div class="dlg__row">
       <button type="button" class="btn btn--primary" id="accSave">Guardar</button>
       <button type="button" class="btn btn--outline" id="accCancel">Cancelar</button>
+    </div>
+  </dialog>
+
+  <dialog class="dlg dlg--crop" id="cropDlg" aria-labelledby="cropTitle">
+    <h2 id="cropTitle">Coloca la imagen</h2>
+    <p class="dlg__hint">Arrastra la foto con el rat&oacute;n (o con el dedo) para elegir qu&eacute; parte se ve, y usa los botones <strong>+</strong> y <strong>&minus;</strong> para acercarla o alejarla. Lo que quede dentro del recuadro es justo lo que ver&aacute;n las alumnas.</p>
+    <div class="crop-stage" id="cropStage">
+      <img id="cropImg" alt="" draggable="false" />
+      <div class="crop-grid" aria-hidden="true"></div>
+    </div>
+    <div class="crop-zoom">
+      <button type="button" class="crop-zbtn" id="cropOut" aria-label="Alejar la imagen">&minus;</button>
+      <input type="range" id="cropRange" min="100" max="400" step="1" value="100" aria-label="Acercar o alejar la imagen" />
+      <button type="button" class="crop-zbtn" id="cropIn" aria-label="Acercar la imagen">+</button>
+    </div>
+    <div class="dlg__row">
+      <button type="button" class="btn btn--primary" id="cropSave">Guardar miniatura</button>
+      <button type="button" class="btn btn--outline" id="cropCancel">Cancelar</button>
     </div>
   </dialog>
 
@@ -285,20 +326,123 @@
       else { el.style.backgroundImage = ''; el.textContent = 'Sin miniatura'; el.classList.remove('has'); $('miniDel').hidden = true; }
     }
     function miniPath(url) { const i = (url || '').indexOf('/' + MINI_BUCKET + '/'); return i < 0 ? null : decodeURIComponent(url.slice(i + MINI_BUCKET.length + 2).split('?')[0]); }
-    $('miniFile').addEventListener('change', async (e) => {
+    $('miniFile').addEventListener('change', (e) => {
       const f = e.target.files[0]; e.target.value = '';
       if (!f) return;
       if (!f.type.startsWith('image/')) return toast('Elige una imagen.', true);
       if (f.size > 5 * 1024 * 1024) return toast('La imagen pesa más de 5 MB.', true);
+      abrirCrop(f);
+    });
+
+    async function subirMini(blob) {
       toast('Subiendo...');
-      const path = cursoId + '/' + Date.now() + '-' + safeName(f.name);
-      const up = await supabase.storage.from(MINI_BUCKET).upload(path, f, { contentType: f.type });
+      const path = cursoId + '/' + Date.now() + '-miniatura.jpg';
+      const up = await supabase.storage.from(MINI_BUCKET).upload(path, blob, { contentType: 'image/jpeg' });
       if (up.error) return toast('Error: ' + up.error.message, true);
       const url = supabase.storage.from(MINI_BUCKET).getPublicUrl(path).data.publicUrl;
       const { error } = await supabase.from('cursos').update({ imagen_url: url }).eq('id', cursoId);
       if (error) return toast('Error: ' + error.message, true);
       const old = miniPath(curso.imagen_url); if (old) await supabase.storage.from(MINI_BUCKET).remove([old]);
       curso.imagen_url = url; pintarMini(); toast('Miniatura guardada.');
+    }
+
+    // ---------- Recortar la miniatura (4:3, sin huecos) ----------
+    const MINI_W = 1200, MINI_H = 900, CROP_MAX = 4;
+    const cropDlg = $('cropDlg'), cropStage = $('cropStage'), cropImg = $('cropImg'), cropRange = $('cropRange');
+    let crop = null, cropDrag = null;
+
+    function cropMedir() {
+      const r = cropStage.getBoundingClientRect();
+      crop.fw = r.width; crop.fh = r.height;
+      crop.base = Math.max(crop.fw / crop.nw, crop.fh / crop.nh);
+    }
+    function cropPintar() {
+      const s = crop.base * crop.zoom;
+      const dw = crop.nw * s, dh = crop.nh * s;
+      // Nunca se sale del recuadro: así no quedan espacios vacíos
+      crop.tx = Math.min(0, Math.max(crop.fw - dw, crop.tx));
+      crop.ty = Math.min(0, Math.max(crop.fh - dh, crop.ty));
+      cropImg.style.width = crop.nw + 'px';
+      cropImg.style.height = crop.nh + 'px';
+      cropImg.style.transform = 'translate(' + crop.tx + 'px,' + crop.ty + 'px) scale(' + s + ')';
+    }
+    function cropZoom(z) {
+      z = Math.min(CROP_MAX, Math.max(1, z));
+      const antes = crop.base * crop.zoom, ahora = crop.base * z;
+      const cx = crop.fw / 2, cy = crop.fh / 2;
+      crop.tx = cx - (cx - crop.tx) * (ahora / antes);
+      crop.ty = cy - (cy - crop.ty) * (ahora / antes);
+      crop.zoom = z;
+      cropRange.value = Math.round(z * 100);
+      cropPintar();
+    }
+    function abrirCrop(file) {
+      const url = URL.createObjectURL(file);
+      const im = new Image();
+      im.onload = () => {
+        if (!im.naturalWidth || !im.naturalHeight) { URL.revokeObjectURL(url); return toast('No he podido abrir esa imagen.', true); }
+        crop = { im: im, url: url, nw: im.naturalWidth, nh: im.naturalHeight, zoom: 1, tx: 0, ty: 0, fw: 1, fh: 1, base: 1 };
+        cropImg.src = url;
+        cropRange.value = 100;
+        cropDlg.showModal();
+        requestAnimationFrame(() => {
+          if (!crop) return;
+          cropMedir();
+          crop.tx = (crop.fw - crop.nw * crop.base) / 2;
+          crop.ty = (crop.fh - crop.nh * crop.base) / 2;
+          cropPintar();
+        });
+      };
+      im.onerror = () => { URL.revokeObjectURL(url); toast('No he podido abrir esa imagen.', true); };
+      im.src = url;
+    }
+    function cerrarCrop() {
+      if (crop && crop.url) URL.revokeObjectURL(crop.url);
+      crop = null; cropDrag = null;
+      cropImg.removeAttribute('src');
+      if (cropDlg.open) cropDlg.close();
+    }
+
+    cropStage.addEventListener('pointerdown', (e) => {
+      if (!crop) return;
+      cropDrag = { x: e.clientX, y: e.clientY, tx: crop.tx, ty: crop.ty };
+      cropStage.setPointerCapture(e.pointerId);
+      cropStage.classList.add('is-drag');
+    });
+    cropStage.addEventListener('pointermove', (e) => {
+      if (!crop || !cropDrag) return;
+      crop.tx = cropDrag.tx + (e.clientX - cropDrag.x);
+      crop.ty = cropDrag.ty + (e.clientY - cropDrag.y);
+      cropPintar();
+    });
+    ['pointerup', 'pointercancel'].forEach(function (ev) {
+      cropStage.addEventListener(ev, function () { cropDrag = null; cropStage.classList.remove('is-drag'); });
+    });
+    cropRange.addEventListener('input', () => { if (crop) cropZoom(cropRange.value / 100); });
+    $('cropIn').addEventListener('click', () => { if (crop) cropZoom(crop.zoom + 0.25); });
+    $('cropOut').addEventListener('click', () => { if (crop) cropZoom(crop.zoom - 0.25); });
+    $('cropCancel').addEventListener('click', cerrarCrop);
+    cropDlg.addEventListener('close', () => { if (crop) cerrarCrop(); });
+    window.addEventListener('resize', () => {
+      if (!crop || !cropDlg.open) return;
+      cropMedir(); cropZoom(crop.zoom);
+    });
+
+    $('cropSave').addEventListener('click', async () => {
+      if (!crop) return;
+      const s = crop.base * crop.zoom;
+      const sx = Math.max(0, -crop.tx / s), sy = Math.max(0, -crop.ty / s);
+      const sw = Math.min(crop.nw - sx, crop.fw / s), sh = Math.min(crop.nh - sy, crop.fh / s);
+      const cv = document.createElement('canvas');
+      cv.width = MINI_W; cv.height = MINI_H;
+      const ctx = cv.getContext('2d');
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, MINI_W, MINI_H);
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(crop.im, sx, sy, sw, sh, 0, 0, MINI_W, MINI_H);
+      const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.9));
+      cerrarCrop();
+      if (!blob) return toast('No he podido preparar la imagen.', true);
+      await subirMini(blob);
     });
     $('miniDel').addEventListener('click', async () => {
       if (!confirm('¿Quitar la miniatura?')) return;
@@ -498,6 +642,9 @@
       $('bCont').value = editing?.contenido || '';
       $('bFile').value = '';
       $('fPos').hidden = !!editing;
+      // Avisar solo tiene sentido al añadir contenido nuevo, no al editar ni en las secciones
+      $('fAvisar').hidden = !!editing || newTipo === 'seccion';
+      $('bAvisar').checked = true;
       $('bPos').innerHTML = opcionesPosicion();
       $('dlgErr').classList.remove('visible');
       $('dlgSave').disabled = false; $('dlgSave').textContent = 'Guardar';
@@ -557,6 +704,7 @@
           bloques.splice(idx, 0, data);
           await guardarOrden();
           toast('Añadido al curso.');
+          if ($('bAvisar').checked && newTipo !== 'seccion') avisarDeNuevoContenido(data);
         }
         $('dlg').close();
         render();
@@ -565,6 +713,37 @@
         $('dlgSave').disabled = false; $('dlgSave').textContent = 'Guardar';
       }
     });
+
+    // ---------- Aviso automático de contenido nuevo ----------
+    // Solo avisa a las alumnas matriculadas EN ESTE curso.
+    // El servidor vuelve a comprobar que quien llama es Cristina.
+    async function avisarDeNuevoContenido(bloque) {
+      const COMO = { video: 'Vídeo nuevo', archivo: 'Archivo nuevo', texto: 'Novedad', enlace: 'Enlace nuevo' };
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) return;
+
+        const r = await fetch('/api/send-push', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+          body: JSON.stringify({
+            titulo: (COMO[bloque.tipo] || 'Novedad') + ' en ' + (curso.nombre || 'tu curso'),
+            cuerpo: bloque.titulo || 'Entra a verlo cuando quieras.',
+            url: '/portal/curso.html?id=' + encodeURIComponent(cursoId),
+            tipo: 'contenido',
+            destino: { tipo: 'curso', cursoId: cursoId },
+            destinoTexto: curso.nombre || 'Un curso'
+          })
+        });
+
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) return toast('Guardado, pero el aviso no se ha enviado: ' + (j.error || 'error'), true);
+        if (j.aviso) return toast('Guardado. ' + j.aviso);
+        toast('Guardado y avisadas ' + j.enviadas + ' alumna' + (j.enviadas === 1 ? '' : 's') + '.');
+      } catch (e) {
+        toast('Guardado, pero no he podido avisar a las alumnas.', true);
+      }
+    }
 
     // ---------- Quién puede ver cada sección ----------
     function abrirAcceso(id) {

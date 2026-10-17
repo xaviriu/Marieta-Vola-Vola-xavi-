@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Tenerlo en el móvil — Comunidad Marieta</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#1F6B33" />
+  <link rel="manifest" href="../manifest.webmanifest" />
+  <link rel="icon" href="../images/web/comunidad-logo-256.png" type="image/png" />
+  <link rel="apple-touch-icon" href="../images/app/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Marieta" />
+  <link rel="stylesheet" href="../css/fonts.css?v=20261017" />
+  <link rel="stylesheet" href="../css/app.css?v=20261017" />
+  <style>
+    [hidden] { display: none !important; }
+
+    .app-wrap { max-width: 720px; margin: 0 auto; padding: 0 20px 64px; }
+    .app-intro { text-align: center; padding: 8px 0 28px; }
+    .app-intro img { width: 92px; height: 92px; border-radius: 22px; box-shadow: 0 10px 30px -12px var(--shadow-md); }
+    .app-intro h1 { font-family: var(--display); font-size: clamp(1.75rem, 5vw, 2.25rem); font-weight: 700; margin: 18px 0 8px; }
+    .app-intro p { color: var(--texto-medio); font-size: 1.125rem; max-width: 46ch; margin: 0 auto; }
+
+    .app-why { display: grid; gap: 10px; margin: 0 0 32px; padding: 20px 22px; background: var(--crema-2); border-radius: 16px; list-style: none; }
+    .app-why li { display: flex; gap: 12px; align-items: flex-start; font-size: 1.0625rem; }
+    .app-why li::before { content: '✓'; color: #1F6B33; font-weight: 800; font-size: 1.25rem; line-height: 1.2; flex: none; }
+
+    .app-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+    .app-pick button { min-height: 92px; display: grid; gap: 4px; place-items: center; padding: 16px; border: 3px solid var(--crema-3); border-radius: 16px; background: #fff; font: inherit; font-size: 1.125rem; font-weight: 800; color: var(--texto); cursor: pointer; }
+    .app-pick button:hover { border-color: var(--texto); }
+    .app-pick button[aria-pressed="true"] { border-color: #1F6B33; background: var(--tint-699); }
+    .app-pick small { font-weight: 600; font-size: .9375rem; color: var(--texto-suave); }
+    .app-pick button[aria-pressed="true"] small { color: var(--texto-medio); }
+    @media (max-width: 420px) { .app-pick { grid-template-columns: 1fr; } }
+
+    .steps { list-style: none; counter-reset: paso; display: grid; gap: 14px; margin: 0; padding: 0; }
+    .steps li { counter-increment: paso; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: start; padding: 18px; background: #fff; border: 2px solid var(--crema-3); border-radius: 14px; font-size: 1.0625rem; line-height: 1.5; }
+    .steps li::before { content: counter(paso); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #1F6B33; color: #fff; font-weight: 800; font-size: 1.1875rem; }
+    .steps strong { font-weight: 800; }
+    .steps .key { display: inline-block; padding: 1px 9px; border: 2px solid var(--crema-3); border-radius: 7px; background: var(--crema); font-weight: 800; white-space: nowrap; }
+
+    .app-note { margin-top: 20px; padding: 16px 18px; border-left: 5px solid var(--t368); background: var(--tint-704); border-radius: 0 12px 12px 0; font-size: 1.0625rem; }
+    .app-done { display: grid; gap: 12px; justify-items: center; text-align: center; padding: 28px 22px; background: var(--tint-699); border-radius: 16px; font-size: 1.125rem; }
+    .app-done span { font-size: 2.5rem; line-height: 1; }
+    h2.app-h2 { font-family: var(--display); font-size: 1.375rem; font-weight: 700; margin: 0 0 14px; }
+    .app-install { margin-bottom: 24px; }
+  </style>
+</head>
+<body class="portal-body">
+
+  <header class="portal-navbar">
+    <a href="dashboard.html" class="portal-navbar__brand">
+      <img src="../images/web/comunidad-logo.png" alt="" class="portal-navbar__logo" />
+      <span class="portal-navbar__name">Comunidad Marieta</span>
+    </a>
+    <div class="portal-navbar__right">
+      <a class="portal-navbar__logout" href="dashboard.html">Mis cursos</a>
+    </div>
+  </header>
+
+  <main class="app-wrap">
+
+    <div class="app-intro">
+      <img src="../images/app/icon-192.png" alt="" />
+      <h1>Tenlo en tu móvil como una app</h1>
+      <p>Puedes poner la Comunidad Marieta en la pantalla de inicio de tu móvil o tu tablet. No hay que descargar nada de ninguna tienda y no ocupa casi nada.</p>
+    </div>
+
+    <!-- Ya instalada -->
+    <div class="app-done" id="yaInstalada" hidden>
+      <span aria-hidden="true">🎉</span>
+      <strong>¡Ya la tienes instalada!</strong>
+      <p style="margin:0">Estás viendo la Comunidad como una aplicación. Búscala en tu pantalla de inicio con la mariquita.</p>
+    </div>
+
+    <div id="contenido">
+      <ul class="app-why">
+        <li>Se abre con un toque, como cualquier otra app.</li>
+        <li>Entra directa a tus cursos, sin escribir la dirección.</li>
+        <li>Se ve a pantalla completa, sin la barra del navegador.</li>
+        <li>No tendrás que poner la contraseña cada vez.</li>
+      </ul>
+
+      <!-- Android: instalación de verdad con un botón -->
+      <div class="app-install" id="instalarBox" hidden>
+        <h2 class="app-h2">Instalar ahora</h2>
+        <button type="button" class="btn btn--primary btn--full btn--lg" id="instalarBtn">Añadir a mi pantalla de inicio</button>
+        <p style="margin-top:10px;color:var(--texto-suave)">Tu móvil te pedirá que lo confirmes. Es seguro: no se descarga ningún programa.</p>
+      </div>
+
+      <h2 class="app-h2">¿Qué móvil o tablet tienes?</h2>
+      <div class="app-pick" role="group" aria-label="Elige tu tipo de dispositivo">
+        <button type="button" id="btnAndroid" aria-pressed="false" aria-controls="pasos">
+          Android
+          <small>Samsung, Xiaomi, Huawei…</small>
+        </button>
+        <button type="button" id="btnApple" aria-pressed="false" aria-controls="pasos">
+          iPhone o iPad
+          <small>Apple</small>
+        </button>
+      </div>
+
+      <div id="pasos" aria-live="polite"></div>
+    </div>
+
+  </main>
+
+  <script src="../js/pwa.js?v=20261017"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const PASOS = {
+      android: {
+        titulo: 'En Android',
+        pasos: [
+          'Abre esta página en <strong>Chrome</strong> (el icono de colores). Si la has abierto en otra app, como Instagram o WhatsApp, toca los tres puntitos y elige <span class="key">Abrir en Chrome</span>.',
+          'Toca los <strong>tres puntitos</strong> <span class="key">⋮</span> de arriba a la derecha.',
+          'Elige <span class="key">Añadir a pantalla de inicio</span> o <span class="key">Instalar aplicación</span>.',
+          'Toca <span class="key">Instalar</span> o <span class="key">Añadir</span> para confirmar.',
+          '¡Listo! Busca la <strong>mariquita</strong> en tu pantalla de inicio.'
+        ],
+        nota: 'Si no ves esas opciones, baja un poco en el menú: a veces están más abajo del todo.'
+      },
+      apple: {
+        titulo: 'En iPhone o iPad',
+        pasos: [
+          'Abre esta página en <strong>Safari</strong> (la brújula azul). En iPhone <em>solo funciona con Safari</em>, no con Chrome.',
+          'Toca el botón de <strong>compartir</strong>: el cuadradito con la flecha hacia arriba <span class="key">⬆︎</span>, abajo en el centro de la pantalla.',
+          'Desliza hacia abajo en la lista y toca <span class="key">Añadir a pantalla de inicio</span>.',
+          'Arriba a la derecha, toca <span class="key">Añadir</span>.',
+          '¡Listo! Busca la <strong>mariquita</strong> en tu pantalla de inicio.'
+        ],
+        nota: 'Si no encuentras “Añadir a pantalla de inicio”, baja del todo en la lista de opciones y toca “Editar acciones” para activarla.'
+      }
+    };
+
+    function pintarPasos(clave) {
+      const d = PASOS[clave];
+      $('pasos').innerHTML =
+        '<h2 class="app-h2" style="margin-top:26px">' + d.titulo + '</h2>' +
+        '<ol class="steps">' + d.pasos.map((p) => '<li><span>' + p + '</span></li>').join('') + '</ol>' +
+        '<p class="app-note">' + d.nota + '</p>';
+      $('btnAndroid').setAttribute('aria-pressed', String(clave === 'android'));
+      $('btnApple').setAttribute('aria-pressed', String(clave === 'apple'));
+    }
+
+    $('btnAndroid').addEventListener('click', () => pintarPasos('android'));
+    $('btnApple').addEventListener('click', () => pintarPasos('apple'));
+
+    // Adivinar el dispositivo para no hacerla elegir si no hace falta
+    const ua = navigator.userAgent || '';
+    const esApple = /iPad|iPhone|iPod/.test(ua)
+      || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    pintarPasos(esApple ? 'apple' : 'android');
+
+    // Botón real de instalar (Android/Chrome y Windows)
+    function mostrarInstalar() { $('instalarBox').hidden = !window.mvvInstalador; }
+    window.addEventListener('mvv:instalable', mostrarInstalar);
+    mostrarInstalar();
+
+    $('instalarBtn').addEventListener('click', async () => {
+      if (!window.mvvInstalador) return;
+      const prompt = window.mvvInstalador;
+      window.mvvInstalador = null;
+      $('instalarBox').hidden = true;
+      prompt.prompt();
+      await prompt.userChoice;
+    });
+
+    window.addEventListener('mvv:instalada', () => {
+      $('instalarBox').hidden = true;
+      $('yaInstalada').hidden = false;
+    });
+
+    if (window.mvvEsApp()) {
+      $('yaInstalada').hidden = false;
+      $('contenido').hidden = true;
+    }
+  </script>
+</body>
+</html>

@@ -2,12 +2,26 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Iniciar sesión — Marieta Vola Vola</title>
+  <link rel="manifest" href="../manifest.webmanifest" />
+  <meta name="theme-color" content="#1F6B33" />
+  <link rel="apple-touch-icon" href="../images/app/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Marieta" />
   <link rel="icon" href="../images/web/comunidad-logo-256.png" type="image/png" />
   <link rel="stylesheet" href="../css/fonts.css?v=20261015" />
   <link rel="stylesheet" href="../css/app.css?v=20261015" />
-  <style>[hidden] { display: none !important; }</style>
+  <style>
+    [hidden] { display: none !important; }
+    .remember { display: flex; gap: 12px; align-items: flex-start; margin: 4px 0 20px; padding: 14px 16px; border: 2px solid var(--crema-3); border-radius: 12px; background: var(--crema); cursor: pointer; }
+    .remember:hover { background: var(--crema-2); }
+    .remember input { width: 24px; height: 24px; flex: none; margin-top: 2px; accent-color: #1F6B33; cursor: pointer; }
+    .remember strong { display: block; font-size: 1.0625rem; }
+    .remember small { display: block; margin-top: 2px; color: var(--texto-suave); font-size: .9375rem; line-height: 1.35; }
+  </style>
 </head>
 <body class="portal-body">
 
@@ -29,6 +43,13 @@
           <label for="password">Contraseña</label>
           <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password" />
         </div>
+        <label class="remember" for="remember">
+          <input type="checkbox" id="remember" checked />
+          <span>
+            <strong>Recordar este dispositivo</strong>
+            <small>Así no tendrás que escribir la contraseña cada vez. No lo marques si este móvil u ordenador lo usa más gente.</small>
+          </span>
+        </label>
         <button type="submit" class="btn btn--primary btn--full btn--lg" id="submitBtn">
           Iniciar sesión
         </button>
@@ -75,6 +96,11 @@
         : 'dashboard.html';
     }
 
+    // La casilla aparece como la dejó la última vez en este dispositivo
+    document.getElementById('remember').checked = window.mvvRecuerdaDispositivo()
+      || !localStorage.getItem('mvv.login-visto');
+    try { localStorage.setItem('mvv.login-visto', '1'); } catch (e) { /* ignorar */ }
+
     const form     = document.getElementById('loginForm');
     const errorMsg = document.getElementById('errorMsg');
     const submitBtn = document.getElementById('submitBtn');
@@ -87,6 +113,9 @@
 
       const email    = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
+
+      // Decide dónde se guardará la sesión antes de crearla
+      window.mvvRecordarDispositivo(document.getElementById('remember').checked);
 
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
@@ -129,5 +158,6 @@
       resetBtn.textContent = 'Enviarme el enlace';
     });
   </script>
+  <script src="../js/pwa.js?v=20261017" defer></script>
 </body>
 </html>

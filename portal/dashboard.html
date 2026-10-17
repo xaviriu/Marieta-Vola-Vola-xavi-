@@ -2,15 +2,42 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Mis Cursos — Marieta Vola Vola</title>
+  <link rel="manifest" href="../manifest.webmanifest" />
+  <meta name="theme-color" content="#1F6B33" />
+  <link rel="apple-touch-icon" href="../images/app/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Marieta" />
   <link rel="icon" href="../images/web/comunidad-logo-256.png" type="image/png" />
   <link rel="stylesheet" href="../css/fonts.css?v=20261015" />
   <link rel="stylesheet" href="../css/app.css?v=20261015" />
   <style>
     [hidden] { display: none !important; }
+    .noti-card { display: grid; gap: 14px; margin: 0 0 26px; padding: 20px 22px; background: #fff; border: 2px solid var(--t368); border-radius: 16px; grid-template-columns: auto minmax(0, 1fr); align-items: start; }
+    .noti-card__ico { font-size: 1.75rem; line-height: 1; }
+    .noti-card__txt strong { display: block; font-size: 1.125rem; }
+    .noti-card__txt span { display: block; margin-top: 4px; color: var(--texto-medio); font-size: 1rem; line-height: 1.45; }
+    .noti-card__btns { grid-column: 2; display: flex; gap: 10px; flex-wrap: wrap; }
+    @media (max-width: 480px) { .noti-card { grid-template-columns: 1fr; } .noti-card__btns { grid-column: 1; } .noti-card__btns .btn { flex: 1 1 auto; } }
+    dialog.noti-dlg { border: 0; border-radius: 16px; padding: 24px; width: calc(100% - 24px); max-width: 480px; box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+    dialog.noti-dlg::backdrop { background: rgba(24, 36, 26, .55); }
+    .noti-dlg h2 { font-family: var(--display); font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+    .noti-dlg__hint { color: var(--texto-suave); margin-bottom: 16px; }
+    .noti-dlg__estado { margin: 14px 0 0; font-size: 1rem; color: var(--texto-medio); }
+    .noti-dlg__row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+    .noti-opt { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border: 2px solid var(--crema-3); border-radius: 12px; margin-bottom: 10px; cursor: pointer; }
+    .noti-opt:hover { background: var(--crema); }
+    .noti-opt input { width: 24px; height: 24px; flex: none; margin-top: 2px; accent-color: #1F6B33; cursor: pointer; }
+    .noti-opt strong { display: block; font-size: 1.0625rem; }
+    .noti-opt small { display: block; margin-top: 2px; color: var(--texto-suave); font-size: .9375rem; }
     .portal-course-card.is-done { opacity: .55; filter: saturate(.6); transition: opacity .3s, filter .3s; }
     .portal-course-card.is-done:hover { opacity: 1; filter: none; }
+    .pc-img-bg { position: absolute; inset: 0; background-position: center; background-size: cover; background-repeat: no-repeat; filter: blur(22px) saturate(1.15); transform: scale(1.18); opacity: .6; }
+    .portal-course-card__image .pc-img { position: absolute; inset: 0; margin: auto; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
+    .portal-course-card__image.has-photo { background: var(--crema-2); padding-top: 75%; }
     .pc-done { position: absolute; top: 12px; right: 12px; padding: 4px 12px; border-radius: 999px; background: var(--t699); color: #fff; font-weight: 700; font-size: 1rem; }
     .portal-course-card__image { position: relative; }
     .pc-bar { height: 10px; margin-top: 12px; border-radius: 999px; background: var(--crema-3); overflow: hidden; }
@@ -28,9 +55,29 @@
     <div class="portal-navbar__right">
       <span class="portal-navbar__user" id="userGreeting">Hola</span>
       <button class="portal-navbar__logout" id="passLink" type="button" hidden>Cambiar contraseña provisional</button>
+      <button class="portal-navbar__logout" id="notiLink" type="button" hidden>Avisos</button>
       <button class="portal-navbar__logout" id="logoutBtn">Salir</button>
     </div>
   </header>
+
+  <dialog class="noti-dlg" id="notiDlg" aria-labelledby="notiDlgT">
+    <h2 id="notiDlgT">Tus avisos</h2>
+    <p class="noti-dlg__hint" id="notiDlgHint">Elige de qué quieres que te avise. Puedes cambiarlo cuando quieras.</p>
+
+    <div id="notiPrefs" hidden>
+      <label class="noti-opt"><input type="checkbox" id="prefContenido" /><span><strong>Vídeos y archivos nuevos</strong><small>Cuando Cristina sube algo a un curso tuyo.</small></span></label>
+      <label class="noti-opt"><input type="checkbox" id="prefMensajes" /><span><strong>Mensajes de Cristina</strong><small>Avisos de talleres, directos y novedades.</small></span></label>
+      <label class="noti-opt"><input type="checkbox" id="prefPagos" /><span><strong>Recordatorios de pago</strong><small>Cuando toca la cuota del mes.</small></span></label>
+    </div>
+
+    <p class="noti-dlg__estado" id="notiEstado" role="status"></p>
+
+    <div class="noti-dlg__row">
+      <button type="button" class="btn btn--primary" id="notiActivar" hidden>Activar los avisos</button>
+      <button type="button" class="btn btn--outline" id="notiDesactivar" hidden>Desactivar en este móvil</button>
+      <button type="button" class="btn btn--outline" id="notiCerrar">Cerrar</button>
+    </div>
+  </dialog>
 
   <main class="portal-main">
 
@@ -39,6 +86,27 @@
       <h1 class="portal-header__title" id="pageTitle">Mis cursos</h1>
       <p class="portal-header__sub" id="pageSubtitle">Aquí encontrarás los videos de los talleres en los que estás inscrita.</p>
     </div>
+
+    <div class="noti-card" id="notiCard" hidden>
+      <span class="noti-card__ico" aria-hidden="true">🔔</span>
+      <div class="noti-card__txt">
+        <strong>¿Te aviso cuando suba algo nuevo?</strong>
+        <span id="notiSub">Te llegará un aviso al móvil cuando haya un vídeo nuevo en tus cursos o cuando Cristina tenga algo que contarte.</span>
+      </div>
+      <div class="noti-card__btns">
+        <button type="button" class="btn btn--primary" id="notiOn">Sí, avísame</button>
+        <button type="button" class="btn btn--outline" id="notiNo">Ahora no</button>
+      </div>
+    </div>
+
+    <a class="app-cta" href="app.html" id="appCta" hidden>
+      <img class="app-cta__ico" src="../images/app/icon-192.png" alt="" />
+      <span class="app-cta__txt">
+        <strong>Ténlo en tu móvil como una app</strong>
+        <span>Un toque y entras a tus cursos. Te explico cómo, paso a paso.</span>
+      </span>
+      <span class="app-cta__go" aria-hidden="true">→</span>
+    </a>
 
     <div id="content">
       <div class="loading">
@@ -77,7 +145,10 @@
   </dialog>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../js/supabase-config.js?v=20261015"></script>
+  <script src="../js/supabase-config.js?v=20261017"></script>
+  <script src="../js/pwa.js?v=20261017"></script>
+  <script src="../js/push-config.js?v=20261017"></script>
+  <script src="../js/push.js?v=20261017"></script>
   <script>
     const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const COURSE_ICONS = ['needle', 'scissors', 'play', 'gift', 'box', 'needle'];
@@ -166,8 +237,10 @@
             : (count ? `${done} de ${count} hechos` : 'Próximamente');
           return `
             <a href="curso.html?id=${encodeURIComponent(c.id)}" class="portal-course-card${fin ? ' is-done' : ''}">
-              <div class="portal-course-card__image portal-course-card__image${imgClass}"${c.imagen_url ? ` style="background:url('${esc(c.imagen_url)}') center / cover no-repeat"` : ''}>
-                ${c.imagen_url ? '' : `<div class="portal-course-card__image-label"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#${icon}"></use></svg></div>`}
+              <div class="portal-course-card__image portal-course-card__image${imgClass}${c.imagen_url ? ' has-photo' : ''}">
+                ${c.imagen_url
+                  ? `<span class="pc-img-bg" style="background-image:url('${esc(c.imagen_url)}')" aria-hidden="true"></span><img class="pc-img" src="${esc(c.imagen_url)}" alt="" loading="lazy" />`
+                  : `<div class="portal-course-card__image-label"><svg class="icon" aria-hidden="true"><use href="../images/icons.svg#${icon}"></use></svg></div>`}
                 ${fin ? '<span class="pc-done">Terminado</span>' : ''}
               </div>
               <div class="portal-course-card__body">
@@ -184,6 +257,16 @@
         }).join('')
       }</div>`;
     }
+
+    // Aviso de "ponlo en tu móvil": solo si aún no la tiene instalada
+    (function () {
+      const cta = document.getElementById('appCta');
+      if (!cta) return;
+      const esApp = window.mvvEsApp ? window.mvvEsApp() : false;
+      const tactil = window.matchMedia('(pointer: coarse)').matches;
+      if (!esApp && tactil) cta.hidden = false;
+      window.addEventListener('mvv:instalada', () => { cta.hidden = true; });
+    })();
 
     const passLink   = document.getElementById('passLink');
     const passDialog = document.getElementById('passDialog');
@@ -235,11 +318,124 @@
     });
 
     document.getElementById('logoutBtn').addEventListener('click', async () => {
+      // Al salir, este móvil deja de recibir avisos de esta alumna
+      try { await window.mvvPush.desactivar(); } catch (e) { /* da igual */ }
       await supabase.auth.signOut();
       window.location.href = 'index.html';
     });
 
-    init();
+    // ================= AVISOS AL MÓVIL =================
+    const NOTI_OCULTA = 'mvv.aviso-noti-no';
+
+    async function pintarAvisos() {
+      const est = window.mvvPush.estado();
+      const link = document.getElementById('notiLink');
+      const card = document.getElementById('notiCard');
+
+      if (est === 'no-soportado') { link.hidden = true; card.hidden = true; return; }
+      link.hidden = false;
+
+      const yaActivas = await window.mvvPush.activas();
+      const dijoQueNo = (() => { try { return localStorage.getItem(NOTI_OCULTA) === '1'; } catch (e) { return false; } })();
+
+      if (est === 'instalar-primero') {
+        card.hidden = true;   // primero que la instale; se lo pide la otra tarjeta
+        return;
+      }
+      card.hidden = yaActivas || dijoQueNo || est === 'bloqueado';
+    }
+
+    document.getElementById('notiNo').addEventListener('click', () => {
+      try { localStorage.setItem(NOTI_OCULTA, '1'); } catch (e) { /* ignorar */ }
+      document.getElementById('notiCard').hidden = true;
+    });
+
+    document.getElementById('notiOn').addEventListener('click', async () => {
+      const btn = document.getElementById('notiOn');
+      btn.disabled = true; btn.textContent = 'Un momento...';
+      const r = await window.mvvPush.activar();
+      btn.disabled = false; btn.textContent = 'Sí, avísame';
+      if (r === 'ok') {
+        document.getElementById('notiCard').hidden = true;
+      } else {
+        document.getElementById('notiSub').textContent = textoDeError(r);
+      }
+      pintarAvisos();
+    });
+
+    function textoDeError(r) {
+      if (r === 'bloqueado') return 'Tu móvil tiene los avisos bloqueados para esta página. Puedes volver a permitirlos desde los ajustes del navegador.';
+      if (r === 'instalar-primero') return 'En iPhone primero hay que añadir la Comunidad a la pantalla de inicio. Te lo explico aquí abajo.';
+      if (r === 'no-soportado') return 'Este navegador no admite avisos. Prueba con Chrome o Safari.';
+      if (r === 'sin-sesion') return 'Vuelve a entrar con tu email y lo intentamos otra vez.';
+      return 'No he podido activarlos. Inténtalo en un rato.';
+    }
+
+    // ---- Diálogo de ajustes ----
+    const notiDlg = document.getElementById('notiDlg');
+
+    document.getElementById('notiLink').addEventListener('click', async () => {
+      const est = window.mvvPush.estado();
+      const yaActivas = await window.mvvPush.activas();
+
+      document.getElementById('notiPrefs').hidden = !yaActivas;
+      document.getElementById('notiActivar').hidden = yaActivas || est === 'bloqueado' || est === 'instalar-primero';
+      document.getElementById('notiDesactivar').hidden = !yaActivas;
+
+      const estadoEl = document.getElementById('notiEstado');
+      if (yaActivas) estadoEl.textContent = 'Los avisos están activados en este móvil.';
+      else if (est === 'bloqueado') estadoEl.textContent = textoDeError('bloqueado');
+      else if (est === 'instalar-primero') estadoEl.textContent = 'En iPhone, primero añade la Comunidad a tu pantalla de inicio y vuelve aquí.';
+      else estadoEl.textContent = 'Aún no los has activado en este móvil.';
+
+      if (yaActivas) {
+        const p = await window.mvvPush.leerPrefs();
+        document.getElementById('prefContenido').checked = p.contenido !== false;
+        document.getElementById('prefMensajes').checked  = p.mensajes !== false;
+        document.getElementById('prefPagos').checked     = p.pagos !== false;
+      }
+      notiDlg.showModal();
+    });
+
+    document.getElementById('notiCerrar').addEventListener('click', () => notiDlg.close());
+
+    document.getElementById('notiActivar').addEventListener('click', async () => {
+      const r = await window.mvvPush.activar();
+      document.getElementById('notiEstado').textContent =
+        r === 'ok' ? 'Listo. Ya te avisaré cuando haya novedades.' : textoDeError(r);
+      if (r === 'ok') {
+        document.getElementById('notiPrefs').hidden = false;
+        document.getElementById('notiActivar').hidden = true;
+        document.getElementById('notiDesactivar').hidden = false;
+        const p = await window.mvvPush.leerPrefs();
+        document.getElementById('prefContenido').checked = p.contenido !== false;
+        document.getElementById('prefMensajes').checked  = p.mensajes !== false;
+        document.getElementById('prefPagos').checked     = p.pagos !== false;
+      }
+      pintarAvisos();
+    });
+
+    document.getElementById('notiDesactivar').addEventListener('click', async () => {
+      await window.mvvPush.desactivar();
+      document.getElementById('notiEstado').textContent = 'Desactivados. En este móvil ya no te llegará nada.';
+      document.getElementById('notiPrefs').hidden = true;
+      document.getElementById('notiDesactivar').hidden = true;
+      document.getElementById('notiActivar').hidden = false;
+      pintarAvisos();
+    });
+
+    ['prefContenido', 'prefMensajes', 'prefPagos'].forEach((id) => {
+      document.getElementById(id).addEventListener('change', async () => {
+        const ok = await window.mvvPush.guardarPrefs({
+          contenido: document.getElementById('prefContenido').checked,
+          mensajes:  document.getElementById('prefMensajes').checked,
+          pagos:     document.getElementById('prefPagos').checked
+        });
+        document.getElementById('notiEstado').textContent = ok ? 'Guardado.' : 'No he podido guardarlo.';
+      });
+    });
+
+    init().then(() => pintarAvisos()).catch(() => {});
   </script>
 </body>
 </html>
